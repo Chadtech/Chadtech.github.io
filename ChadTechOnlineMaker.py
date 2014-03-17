@@ -2,6 +2,9 @@ import os
 import PIL
 from PIL import Image
 
+
+numOfPages=len(os.listdir(os.getcwd()+'//images'))
+
 chadTechOnline =  '''
 
 <html>
@@ -11,11 +14,15 @@ chadTechOnline =  '''
 	<body>
 	<body bgcolor=#"000000">
 	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
-	<img src="chadtechonline.PNG" style= "position:absolute; top: 4px;left: 4px;"/>
+	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
 	<img src="twobar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
-	<img src="nextbutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
+	<img src="emptybutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
+	<a href="'''+str(numOfPages-1)+'''.html">
 	<img src="prevbutton.PNG" style= "position:absolute; top: 206px; left: 1010px;"/>
+	</a>
+	<a href="archive.html">
 	<img src="archivebutton.PNG" style= "position:absolute; top: 252px; left: 1010px;"/>
+	</a>
 
 '''
 
@@ -30,6 +37,7 @@ for directoryNumber in range(len(os.listdir(os.getcwd()))):
 
 	for imageInDir in os.listdir(os.getcwd()):
 		if imageInDir.endswith('.PNG'):
+			if imageInDir!='title.PNG':
 				chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 				im = Image.open(imageInDir)
 				imX,imY = im.size
