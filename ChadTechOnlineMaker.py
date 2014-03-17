@@ -11,7 +11,7 @@ chadTechOnline =  '''
 	<body>
 	<body bgcolor=#"000000">
 	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
-	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
+	<img src="chadtechonline.PNG" style= "position:absolute; top: 4px;left: 6px;"/>
 	<img src="twobar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
 	<a href=""
 	<img src="nextbutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
