@@ -18,7 +18,7 @@ chadTechOnline =  '''
 
 os.chdir(os.getcwd()+'//images')
 
-nextXPos, nextYPos = 0,164
+nextXPos, nextYPos = 0,160
 
 for directoryNumber in range(len(os.listdir(os.getcwd()))):
 	beginin = '<img src='+'"./images/'+str(len(os.listdir(os.getcwd()))-1-directoryNumber)
