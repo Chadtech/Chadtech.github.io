@@ -31,22 +31,36 @@ os.chdir(os.getcwd()+'//images')
 
 nextXPos, nextYPos = 0,160
 
-for directoryNumber in range(len(os.listdir(os.getcwd()))):
-	beginin = '<img src='+'"./images/'+str(len(os.listdir(os.getcwd()))-1-directoryNumber)
-	os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1-directoryNumber))
-	imX,imY=0,0
+beginin = '<img src='+'"./images/'+str(len(os.listdir(os.getcwd()))-1)
+os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1))
+imX,imY=0,0
 
-	for imageInDir in os.listdir(os.getcwd()):
-		if imageInDir.endswith('.PNG'):
-			if imageInDir!='title.PNG':
-				chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
-				im = Image.open(imageInDir)
-				imX,imY = im.size
-				nextYPos+=imY
-				chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
-				nextYPos+=4
+for imageInDir in os.listdir(os.getcwd()):
+	if imageInDir.endswith('.PNG'):
+		if imageInDir!='title.PNG':
+			chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+			im = Image.open(imageInDir)
+			imX,imY = im.size
+			nextYPos+=imY
+			chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+			nextYPos+=4
 
-	os.chdir(os.path.dirname(os.getcwd()))
+#for directoryNumber in range(len(os.listdir(os.getcwd()))):
+#	beginin = '<img src='+'"./images/'+str(len(os.listdir(os.getcwd()))-1-directoryNumber)
+#	os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1-directoryNumber))
+#	imX,imY=0,0
+#
+#	for imageInDir in os.listdir(os.getcwd()):
+#		if imageInDir.endswith('.PNG'):
+#			if imageInDir!='title.PNG':
+#				chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+#				im = Image.open(imageInDir)
+#				imX,imY = im.size
+#				nextYPos+=imY
+#				chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+#				nextYPos+=4
+
+os.chdir(os.path.dirname(os.getcwd()))
 
 for yit in range(nextYPos-4):
 	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
