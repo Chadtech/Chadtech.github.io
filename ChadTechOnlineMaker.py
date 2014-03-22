@@ -13,6 +13,7 @@ chadTechOnline =  '''
 	</head>
 	<body>
 	<body bgcolor=#"000000">
+	<p>ChadTech Online</p>
 	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
 	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
 	<img src="twobar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
