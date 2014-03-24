@@ -9,7 +9,7 @@ chadTechOnline =  '''
 
 <html>
 	<head>
-		<title>ChadTech Online</title>
+		<title>Chadtech Online</title>
 	</head>
 	<body>
 	<body bgcolor=#"000000">
@@ -88,7 +88,7 @@ for directoryNumber in range(numberOfEntries):
 
 	<html>
 		<head>
-			<title>ChadTech Online</title>
+			<title>Chadtech Online</title>
 		</head>
 		<body>
 		<body bgcolor=#"000000">
