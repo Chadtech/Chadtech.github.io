@@ -131,7 +131,6 @@ for directoryNumber in range(numberOfEntries):
 
 	nextXPos, nextYPos = 0,160
 
-	print thisEntryNumber
 	beginin = '<img src='+'"./images/'+str(str(thisEntryNumber))
 	imX,imY=0,0
 
@@ -140,7 +139,6 @@ for directoryNumber in range(numberOfEntries):
 			if imageInDir!='title.PNG':
 				thisPage+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 				im = Image.open('images\\'+str(thisEntryNumber)+'\\'+imageInDir)
-				print beginin, thisEntryNumber
 				imX,imY = im.size
 				nextYPos+=imY
 				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
@@ -153,7 +151,6 @@ for directoryNumber in range(numberOfEntries):
 
 	thisPage+='''</body></html>'''
 
-	print 
 	anEntry =open(str(thisEntryNumber)+'.html','w')
 	anEntry.write(thisPage)
 	anEntry.close()
