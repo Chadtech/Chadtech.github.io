@@ -34,7 +34,7 @@ os.chdir(os.getcwd()+'//images')
 
 nextXPos, nextYPos = 0,160
 
-beginin = '<img src='+'"./images/'+str(len(os.listdir(os.getcwd()))-1)
+beginin = '<img src='+'"/images/'+str(len(os.listdir(os.getcwd()))-1)
 os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1))
 imX,imY=0,0
 
@@ -161,7 +161,7 @@ for directoryNumber in range(numberOfEntries):
 
 				if not link.startswith('http'):
 
-					thisPage+='<a href="'+os.getcwd()+'\\images\\'+str(thisEntryNumber)+'\\'+link+'"">'
+					thisPage+='<a href="'+'\\images\\'+str(thisEntryNumber)+'\\'+link+'"">'
 					thisPage+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 					thisPage+='</a>'
 
