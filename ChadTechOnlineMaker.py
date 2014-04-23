@@ -20,19 +20,20 @@ chadTechOnline =  '''
 	<p>ChadTech Online</p>
 	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
 	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
-	<img src="twobar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
-	<img src="emptybutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
+	<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
+	<img src="emptybutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
+	<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
 	<a href="'''+str(numOfPages-2)+'''.html">
-	<img src="prevbutton.PNG" style= "position:absolute; top: 206px; left: 1010px;"/>
+	<img src="prevbutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 	</a>
 	<a href="archive.html">
-	<img src="archivebutton.PNG" style= "position:absolute; top: 252px; left: 1010px;"/>
+	<img src="archivebutton.PNG" style= "position:absolute; top: 156px; left: 326px;"/>
 	</a>
 	'''
 
 os.chdir(os.getcwd()+'//images')
 
-nextXPos, nextYPos = 0,160
+nextXPos, nextYPos = 0,208
 
 beginin = '<img src='+'"/images/'+str(len(os.listdir(os.getcwd()))-1)
 os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1))
@@ -86,11 +87,11 @@ mainpage = open('index.html','w')
 mainpage.write(chadTechOnline)
 mainpage.close()
 
-###############################################################################
-###############################################################################
+#########################################################################################################
+#########################################################################################################
 ##### For every entry (every numbered folder in the images folder), generate a page called  [number].html
-###############################################################################
-###############################################################################
+#########################################################################################################
+#########################################################################################################
 
 numberOfEntries = len(os.listdir(os.getcwd()+'\\images'))
 
@@ -107,38 +108,39 @@ for directoryNumber in range(numberOfEntries):
 		<p>ChadTech Online</p>
 		<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
 		<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
-		<img src="twobar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
+		<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
+		<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
 		'''
 
 	if thisEntryNumber!=(numberOfEntries-1):
 		thisPage+=	'''
 		<a href="'''+str(thisEntryNumber+1)+ '''.html">
-		<img src="nextbutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
+		<img src="nextbutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
 		</a>
 		 '''
 	else:
 		thisPage+='''
-		<img src="emptybutton.PNG" style= "position:absolute; top: 160px; left: 1010px;"/>
+		<img src="emptybutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
 		'''
 
 	if thisEntryNumber==0:
 		thisPage+= '''
-		<img src="emptybutton.PNG" style= "position:absolute; top: 206px; left: 1010px;"/>
+		<img src="emptybutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 		'''
 	else:
 		thisPage+=	'''
 		<a href="'''+str(thisEntryNumber-1)+'''.html">
-		<img src="prevbutton.PNG" style= "position:absolute; top: 206px; left: 1010px;"/>
+		<img src="prevbutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 		</a>
 		'''
 
 	thisPage+='''
 		<a href="archive.html">
-		<img src="archivebutton.PNG" style= "position:absolute; top: 252px; left: 1010px;"/>
+		<img src="archivebutton.PNG" style= "position:absolute; top: 156px; left: 326px;"/>
 		</a>
 		'''
 
-	nextXPos, nextYPos = 0,160
+	nextXPos, nextYPos = 0,208
 
 	beginin = '<img src='+'"./images/'+str(str(thisEntryNumber))
 	imX,imY=0,0
