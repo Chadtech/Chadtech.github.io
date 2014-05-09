@@ -23,6 +23,7 @@ chadTechOnline =  '''
 	<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
 	<img src="emptybutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
 	<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
+
 	<a href="'''+str(numOfPages-2)+'''.html">
 	<img src="prevbutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 	</a>
