@@ -13,6 +13,18 @@ numOfPages=len(os.listdir(os.getcwd()+'//entries'))
 chadTechOnline =  '''
 	<html>
 	<head>
+	<style type="text/css">
+	@font-face {
+    font-family: "My Custom Font";
+    src: url(Command-Prompt-12x16.ttf) format("truetype");
+	}
+	a.customfont { 
+    font-family: "My Custom Font", Verdana, Tahoma;
+    top: 200px;
+    color: #C0C0C0;
+    underline: none;
+	}
+	</style>
 	<title>Chadtech Online</title>
 	</head>
 	<body>
@@ -24,14 +36,30 @@ chadTechOnline =  '''
 	<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
 	<img src="emptybutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
 	<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
-
 	<a href="'''+str(numOfPages-2)+'''.html">
 	<img src="prevbutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 	</a>
 	<a href="archive.html">
 	<img src="archivebutton.PNG" style= "position:absolute; top: 156px; left: 326px;"/>
 	</a>
+	<img src="archivesign.PNG" style= "position:absolute; left: 1008px;"/>
+
+
 	'''
+chadTechOnline+='<div style="position:absolute; left:1008px; top:54px;">'
+
+numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
+for directoryNumber in range(numberOfEntries):
+	thisEntryNumber = numberOfEntries-directoryNumber-1
+	thisTitle = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\title.txt','r')
+	thisTitle = thisTitle.read()
+
+
+	chadTechOnline+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" style="position:relative; top:20px;" > '''+'#'+str(numberOfEntries-directoryNumber-1)+' '+str(thisTitle)+'''</a>
+	<br>'''
+
+chadTechOnline+='</div>'
+
 
 os.chdir(os.getcwd()+'//entries')
 
