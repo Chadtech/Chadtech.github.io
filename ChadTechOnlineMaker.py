@@ -8,7 +8,7 @@ from PIL import Image
 ###############################################################################
 ###############################################################################
 
-numOfPages=len(os.listdir(os.getcwd()+'//images'))
+numOfPages=len(os.listdir(os.getcwd()+'//entries'))
 
 chadTechOnline =  '''
 	<html>
@@ -17,9 +17,10 @@ chadTechOnline =  '''
 	</head>
 	<body>
 	<body bgcolor=#"000000">
-	<p>ChadTech Online</p>
 	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
+	<a href="http://www.chadtech.us">
 	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
+	</a>
 	<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
 	<img src="emptybutton.PNG" style= "position:absolute; top: 156px;left: 6px;"/>
 	<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
@@ -32,26 +33,26 @@ chadTechOnline =  '''
 	</a>
 	'''
 
-os.chdir(os.getcwd()+'//images')
+os.chdir(os.getcwd()+'//entries')
 
 nextXPos, nextYPos = 0,208
 
-beginin = '<img src='+'"/images/'+str(len(os.listdir(os.getcwd()))-1)
+beginin = '<img src='+'"/entries/'+str(len(os.listdir(os.getcwd()))-1)
 os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1))
 imX,imY=0,0
 
-for imageInDir in os.listdir(os.getcwd()):
-	if imageInDir.endswith('.PNG'):
-		if imageInDir!='title.PNG' and not imageInDir.startswith('zfile'):
-			chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
-			im = Image.open(imageInDir)
+for entryInDir in os.listdir(os.getcwd()):
+	if entryInDir.endswith('.PNG'):
+		if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
+			chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+			im = Image.open(entryInDir)
 			imX,imY = im.size
 			nextYPos+=imY
 			chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
 			nextYPos+=4
 
-		if imageInDir.startswith('zfile') and imageInDir.endswith('.PNG'):
-			fileNumber = ord(imageInDir[5])-48
+		if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
+			fileNumber = ord(entryInDir[5])-48
 
 			linkFile = open(os.getcwd()+'\\zfile'+str(fileNumber)+'.txt','r')
 			link = linkFile.read()
@@ -59,16 +60,16 @@ for imageInDir in os.listdir(os.getcwd()):
 			if not link.startswith('http'):
 
 				chadTechOnline+='<a href="'+os.getcwd()+'\\'+link+'"">'
-				chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 				chadTechOnline+='</a>'
 
 			else:
 
 				chadTechOnline+='<a href="'+link+'">'
-				chadTechOnline+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 				chadTechOnline+='</a>'
 
-			im = Image.open(imageInDir)
+			im = Image.open(entryInDir)
 			imX,imY = im.size
 			nextYPos+=imY
 			chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
@@ -90,11 +91,11 @@ mainpage.close()
 
 #########################################################################################################
 #########################################################################################################
-##### For every entry (every numbered folder in the images folder), generate a page called  [number].html
+##### For every entry (every numbered folder in the entries folder), generate a page called  [number].html
 #########################################################################################################
 #########################################################################################################
 
-numberOfEntries = len(os.listdir(os.getcwd()+'\\images'))
+numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
 
 for directoryNumber in range(numberOfEntries):
 
@@ -143,38 +144,37 @@ for directoryNumber in range(numberOfEntries):
 
 	nextXPos, nextYPos = 0,208
 
-	beginin = '<img src='+'"./images/'+str(str(thisEntryNumber))
+	beginin = '<img src='+'"./entries/'+str(str(thisEntryNumber))
 	imX,imY=0,0
 
-	for imageInDir in os.listdir(os.getcwd()+'\\images\\'+str(thisEntryNumber)):
-		if imageInDir.endswith('.PNG'):
-			if imageInDir!='title.PNG' and not imageInDir.startswith('zfile'):
-				thisPage+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
-				im = Image.open('images\\'+str(thisEntryNumber)+'\\'+imageInDir)
+	for entryInDir in os.listdir(os.getcwd()+'\\entries\\'+str(thisEntryNumber)):
+		if entryInDir.endswith('.PNG'):
+			if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
+				thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
 				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
 				nextYPos+=4
 
-			if imageInDir.startswith('zfile') and imageInDir.endswith('.PNG'):
-				fileNumber = ord(imageInDir[5])-48
+			if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
+				fileNumber = ord(entryInDir[5])-48
 
-				linkFile = open(os.getcwd()+'\\images\\'+str(thisEntryNumber)+'\\zfile'+str(fileNumber)+'.txt','r')
+				linkFile = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\zfile'+str(fileNumber)+'.txt','r')
 				link = linkFile.read()
 
 				if not link.startswith('http'):
 
-					thisPage+='<a href="'+'\\images\\'+str(thisEntryNumber)+'\\'+link+'"">'
-					thisPage+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+					thisPage+='<a href="'+'\\entries\\'+str(thisEntryNumber)+'\\'+link+'"">'
+					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 					thisPage+='</a>'
 
 				else:
-
 					thisPage+='<a href="'+link+'">'
-					thisPage+=beginin+'/'+imageInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 					thisPage+='</a>'
 
-				im = Image.open('images\\'+str(thisEntryNumber)+'\\'+imageInDir)
+				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
 				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
@@ -192,3 +192,48 @@ for directoryNumber in range(numberOfEntries):
 	anEntry =open(str(thisEntryNumber)+'.html','w')
 	anEntry.write(thisPage)
 	anEntry.close()
+
+archiveHTML = '''	
+	<html>
+	<head>
+	<style type="text/css">
+	@font-face {
+    font-family: "My Custom Font";
+    src: url(Command-Prompt-12x16.ttf) format("truetype");
+	}
+	a.customfont { 
+    font-family: "My Custom Font", Verdana, Tahoma;
+    top: 200px;
+    color: #C0C0C0;
+    underline: none;
+	}
+	</style>
+	<title>Chadtech Online</title>
+	</head>
+	<body>
+	<body bgcolor=#"000000">
+	<img src="onebar.PNG" style= "position:absolute; top: 2px;left: 4px;"/>
+	<a href="http://www.chadtech.us">
+	<img src="chadtechonline.PNG" style= "position:absolute; top: 6px;left: 4px;"/>
+	</a>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	'''
+
+
+for directoryNumber in range(numberOfEntries):
+	thisEntryNumber = numberOfEntries-directoryNumber-1
+	thisTitle = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\title.txt','r')
+	thisTitle = thisTitle.read()
+
+	archiveHTML+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" > '''+'#'+str(numberOfEntries-directoryNumber-1)+' '+str(thisTitle)+'''</a><br>'''
+
+archivePage =open('archive.html','w')
+archivePage.write(archiveHTML)
+archivePage.close()
