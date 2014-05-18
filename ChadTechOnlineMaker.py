@@ -55,7 +55,7 @@ for directoryNumber in range(numberOfEntries):
 	thisTitle = thisTitle.read()
 
 
-	chadTechOnline+='''<a href="'''+str(numberOfEntries-directoryNumber-1).zfill(2)+'''.html" class="customfont" style="position:relative; top:20px;" > '''+'#'+str(numberOfEntries-directoryNumber-1)+' '+str(thisTitle)+'''</a>
+	chadTechOnline+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" style="position:relative; top:20px;" > '''+'#'+str(numberOfEntries-directoryNumber-1).zfill(2)+' '+str(thisTitle)+'''</a>
 	<br>'''
 
 chadTechOnline+='</div>'
