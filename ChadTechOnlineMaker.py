@@ -46,7 +46,8 @@ chadTechOnline =  '''
 
 
 	'''
-chadTechOnline+='<div style="position:absolute; left:1008px; top:54px;">'
+archiveSideBar=''
+archiveSideBar+='<div style="position:absolute; left:1008px; top:54px;">'
 
 numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
 for directoryNumber in range(numberOfEntries):
@@ -55,10 +56,12 @@ for directoryNumber in range(numberOfEntries):
 	thisTitle = thisTitle.read()
 
 
-	chadTechOnline+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" style="position:relative; top:20px;" > '''+'#'+str(numberOfEntries-directoryNumber-1).zfill(2)+' '+str(thisTitle)+'''</a>
+	archiveSideBar+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" style="position:relative; top:20px;" > '''+'#'+str(numberOfEntries-directoryNumber-1).zfill(2)+' '+str(thisTitle)+'''</a>
 	<br>'''
 
-chadTechOnline+='</div>'
+archiveSideBar+='</div>'
+
+chadTechOnline+=archiveSideBar
 
 
 os.chdir(os.getcwd()+'//entries')
@@ -131,6 +134,18 @@ for directoryNumber in range(numberOfEntries):
 	thisPage = '''
 		<html>
 		<head>
+		<style type="text/css">
+		@font-face {
+	    font-family: "My Custom Font";
+	    src: url(Command-Prompt-12x16.ttf) format("truetype");
+		}
+		a.customfont { 
+	    font-family: "My Custom Font", Verdana, Tahoma;
+	    top: 200px;
+	    color: #C0C0C0;
+	    underline: none;
+		}
+		</style>
 		<title>Chadtech Online</title>
 		</head>
 		<body>
@@ -143,6 +158,8 @@ for directoryNumber in range(numberOfEntries):
 		<img src="onebar.PNG" style= "position:absolute; top: 152px;left: 4px;"/>
 		<img src="onebar.PNG" style= "position:absolute; top: 202px; left: 4px;"/>
 		'''
+
+	thisPage+=archiveSideBar
 
 	if thisEntryNumber!=(numberOfEntries-1):
 		thisPage+=	'''
