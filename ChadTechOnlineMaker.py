@@ -108,10 +108,10 @@ for entryInDir in os.listdir(os.getcwd()):
 
 os.chdir(os.path.dirname(os.getcwd()))
 
-for yit in range(nextYPos-4):
-	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
-for yit in range(nextYPos-4):
-	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
+#for yit in range(nextYPos-4):
+#	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
+#for yit in range(nextYPos-4):
+#	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
 
 os.chdir(os.path.dirname(os.getcwd()))
 chadTechOnline+='''	</body></html>'''
@@ -229,10 +229,10 @@ for directoryNumber in range(numberOfEntries):
 				nextYPos+=4
 
 
-	for yit in range(nextYPos-4):
-		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
-	for yit in range(nextYPos-4):
-		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
+#	for yit in range(nextYPos-4):
+#		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
+#	for yit in range(nextYPos-4):
+#		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
 
 	thisPage+='''</body></html>'''
 
