@@ -197,11 +197,11 @@ for directoryNumber in range(numberOfEntries):
 	for entryInDir in os.listdir(os.getcwd()+'\\entries\\'+str(thisEntryNumber)):
 		if entryInDir.endswith('.PNG'):
 			if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
-				thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
 				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
-				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>\n'
 				nextYPos+=4
 
 			if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
@@ -213,24 +213,24 @@ for directoryNumber in range(numberOfEntries):
 				if not link.startswith('http'):
 
 					thisPage+='<a href="'+'\\entries\\'+str(thisEntryNumber)+'\\'+link+'"">'
-					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
 					thisPage+='</a>'
 
 				else:
 					thisPage+='<a href="'+link+'">'
-					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
 					thisPage+='</a>'
 
 				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
-				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>\n'
 
 				nextYPos+=4
 
 	nextYPos-=6
-	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:2px; top:2px; border:1px solid #C0C0C0;"/>'
-	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:1002px; top:-1px; border:1px solid #C0C0C0;"/>'
+	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:2px; top:2px; border:1px solid #C0C0C0;"></div>\n'
+	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:1006px; top:2px; border:1px solid #C0C0C0;"></div>\n'
 
 
 	thisPage+='''</body></html>'''
