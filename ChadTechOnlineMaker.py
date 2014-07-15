@@ -10,7 +10,7 @@ from PIL import Image
 
 numOfPages=len(os.listdir(os.getcwd()+'//entries'))
 
-chadTechOnline =  '''
+chadtechOnline =  '''
 	<html>
 	<head>
 	<style type="text/css">
@@ -61,7 +61,7 @@ for directoryNumber in range(numberOfEntries):
 
 archiveSideBar+='</div>'
 
-chadTechOnline+=archiveSideBar
+chadtechOnline+=archiveSideBar
 
 
 os.chdir(os.getcwd()+'//entries')
@@ -75,11 +75,11 @@ imX,imY=0,0
 for entryInDir in os.listdir(os.getcwd()):
 	if entryInDir.endswith('.PNG'):
 		if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
-			chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+			chadtechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 			im = Image.open(entryInDir)
 			imX,imY = im.size
 			nextYPos+=imY
-			chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+			chadtechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
 			nextYPos+=4
 
 		if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
@@ -90,34 +90,33 @@ for entryInDir in os.listdir(os.getcwd()):
 
 			if not link.startswith('http'):
 
-				chadTechOnline+='<a href="'+os.getcwd()+'\\'+link+'"">'
-				chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
-				chadTechOnline+='</a>'
+				chadtechOnline+='<a href="'+os.getcwd()+'\\'+link+'"">'
+				chadtechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				chadtechOnline+='</a>'
 
 			else:
 
-				chadTechOnline+='<a href="'+link+'">'
-				chadTechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
-				chadTechOnline+='</a>'
+				chadtechOnline+='<a href="'+link+'">'
+				chadtechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
+				chadtechOnline+='</a>'
 
 			im = Image.open(entryInDir)
 			imX,imY = im.size
 			nextYPos+=imY
-			chadTechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
+			chadtechOnline+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>'
 			nextYPos+=4
 
 os.chdir(os.path.dirname(os.getcwd()))
 
-#for yit in range(nextYPos-4):
-#	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
-#for yit in range(nextYPos-4):
-#	chadTechOnline+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
+nextYPos-=6
+chadtechOnline+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:2px; top:2px; border:1px solid #C0C0C0;"></div>\n'
+chadtechOnline+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:1006px; top:2px; border:1px solid #C0C0C0;"></div>\n'
 
 os.chdir(os.path.dirname(os.getcwd()))
-chadTechOnline+='''	</body></html>'''
+chadtechOnline+='''	</body></html>'''
 
 mainpage = open('index.html','w')
-mainpage.write(chadTechOnline)
+mainpage.write(chadtechOnline)
 mainpage.close()
 
 #########################################################################################################
