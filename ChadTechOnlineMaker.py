@@ -47,7 +47,7 @@ chadTechOnline =  '''
 
 	'''
 archiveSideBar=''
-archiveSideBar+='<div style="position:absolute; left:1008px; top:54px;">'
+archiveSideBar+='<div style="position:absolute; left:1008px; top:54px;">\n'
 
 numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
 for directoryNumber in range(numberOfEntries):
