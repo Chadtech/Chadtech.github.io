@@ -228,11 +228,10 @@ for directoryNumber in range(numberOfEntries):
 
 				nextYPos+=4
 
+	nextYPos-=6
+	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:2px; top:2px; border:1px solid #C0C0C0;"/>'
+	thisPage+='<div style="width:0px; height:'+str(nextYPos)+'px; position:absolute; left:1002px; top:-1px; border:1px solid #C0C0C0;"/>'
 
-#	for yit in range(nextYPos-4):
-#		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 1006px;"/>'
-#	for yit in range(nextYPos-4):
-#		thisPage+='<img src="vbar.PNG" style= "position:absolute;  top:'+str(yit+2)+ 'px; left: 2px;"/>'
 
 	thisPage+='''</body></html>'''
 
