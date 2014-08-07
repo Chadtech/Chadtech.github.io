@@ -594,52 +594,52 @@
 							var imageToPaste = new Image();
 							imageToPaste.src = e.target.result;
 							chadtechContext.drawImage(imageToPaste,0,0);
-							console.log(chadtechContext.getImageData(0,0,1,1).data);
 
+							var authenticChadtechDocument=false;
+							if ( chadtechContext.getImageData(0,0,1,1).data[0]==2 && chadtechContext.getImageData(0,0,1,1).data[1]==1 && chadtechContext.getImageData(0,0,1,1).data[2]==3){
+								authenticChadtechDocument=true;
+							}
+
+							if (authenticChadtechDocument){
+								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
+								(chadtechContext.getImageData(0,1,1,1).data[2]);
+								var newDocument = [];
+								var rawPixelData = [];
+								var reconstructedDocumentData = [];
+
+								for (var pixel = 2; pixel < documentLength; pixel++){
+									var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
+									rawPixelData.push(thisPixel[0]);
+									rawPixelData.push(thisPixel[1]);
+									rawPixelData.push(thisPixel[2]);
+								}
+
+								var ze;
+								var on;
+								for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
+									if (pixelDatum%2==0){
+										console.log('FIRST',pixelDatum);
+										ze = rawPixelData[pixelDatum]*256;
+									}
+									else{
+										on = rawPixelData[pixelDatum];
+										console.log('SECOND',ze,on,ze+on);
+										reconstructedDocumentData.push(ze+on);
+									}
+								}
+								console.log('RAW DOCUMENT', rawDocument);
+								console.log('NEW DOCUMENT', reconstructedDocumentData);
+								//var rawDocument=reconstructedDocumentData;
+							}
+							else{
+								draw();
+							}
 						};
 					})(event.dataTransfer.files[0]);
 					imageReader.readAsDataURL(event.dataTransfer.files[0]);
 				}
 
-				var authenticChadtechDocument=false;
-				if ( chadtechContext.getImageData(0,0,1,1).data[0]==2 && chadtechContext.getImageData(0,0,1,1).data[1]==1 && chadtechContext.getImageData(0,0,1,1).data[2]==3){
-					authenticChadtechDocument=true;
-				}
 
-				if (authenticChadtechDocument){
-					var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
-					(chadtechContext.getImageData(0,1,1,1).data[2]);
-					var newDocument = [];
-					var rawPixelData = [];
-					var reconstructedDocumentData = [];
-
-					for (var pixel = 2; pixel < documentLength; pixel++){
-						var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
-						rawPixelData.push(thisPixel[0]);
-						rawPixelData.push(thisPixel[1]);
-						rawPixelData.push(thisPixel[2]);
-					}
-
-					var ze;
-					var on;
-					for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
-						if (pixelDatum%2==0){
-							console.log('FIRST',pixelDatum);
-							ze = rawPixelData[pixelDatum]*256;
-						}
-						else{
-							on = rawPixelData[pixelDatum];
-							console.log('SECOND',ze,on,ze+on);
-							reconstructedDocumentData.push(ze+on);
-						}
-					}
-					console.log('RAW DOCUMENT', rawDocument);
-					console.log('NEW DOCUMENT', reconstructedDocumentData);
-					//var rawDocument=reconstructedDocumentData;
-				}
-				else{
-					draw();
-				}
 			}
 
 		</script>
