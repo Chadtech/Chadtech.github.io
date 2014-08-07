@@ -613,7 +613,10 @@
 					var reconstructedDocumentData = [];
 
 					for (var pixel = 2; pixel < documentLength; pixel++){
-						var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.height),pixel%window.height,1,1).data;
+						console.log('PIXEL',pixel);
+						console.log('PIXEL / WINDOW HEIGHT',pixel/window.height);
+						console.log('MATH DOT FLOOR OF PIXEL OVER WINDOW HEIGHT',Math.floor(pixel/window.height));
+						var thisPixel = chadtechContext.getImageData(Math.floor(0,pixel%window.height,1,1).data;
 						console.log('THIS IS THISPIXEL',thisPixel);
 						rawPixelData.push(thisPixel[0]);
 						rawPixelData.push(thisPixel[1]);
