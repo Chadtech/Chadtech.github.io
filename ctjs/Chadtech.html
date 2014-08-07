@@ -525,8 +525,8 @@
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				documentAsData=[];
 				for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
-					ze=Math.floor((rawDocument[documentItem]+1)/256);
-					on=(rawDocument[documentItem]+1)%256;
+					ze=Math.floor(rawDocument[documentItem]/256);
+					on=rawDocument[documentItem]%256;
 					documentAsData.push(ze);
 					documentAsData.push(on);
 				}
@@ -584,6 +584,7 @@
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5");
 				var chadtechContext = chadtechCanvas.getContext("2d");
 				event.preventDefault();
+
 				if (event.dataTransfer.files[0].type.slice(0,5) == 'image'){
 					var imageReader = new FileReader();
 					imageReader.onloadend = (function(theFile) {
@@ -591,8 +592,6 @@
 						return function(e){
 							var imageToPaste = new Image();
 							imageToPaste.src = e.target.result;
-							console.log('IMAGE ITSELF',imageToPaste);
-							console.log('IMAGE DATA',imageToPaste.data);
 							chadtechContext.drawImage(imageToPaste,0,0);
 							console.log(chadtechContext.getImageData(0,0,1,1).data);
 
@@ -600,43 +599,38 @@
 					})(event.dataTransfer.files[0]);
 					imageReader.readAsDataURL(event.dataTransfer.files[0]);
 				}
+
 				var authenticChadtechDocument=false;
 				if ( chadtechContext.getImageData(0,0,1,1).data == [2,1,3,255] ){
 					authenticChadtechDocument=true;
 				}
-				if (authenticChadtechDocument){
 
-					//documentLength = chadtechContext.get
+				if (authenticChadtechDocument){
+					var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
+					(chadtechContext.getImageData(0,1,1,1).data[2]);
 					var newDocument = [];
 					var rawPixelData = [];
 					var reconstructedDocumentData = [];
 
-					var keepCheckinPixels = true;
-					for (var pixel = 0; pixel < (96*window.height) && keepCheckinPixels; pixel++){
+					for (var pixel = 2; pixel < documentLength; pixel++){
 						var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.height),pixel%window.height,1,1).data;
-						if (thisPixel[0]>0 && thisPixel[1]>0 && thisPixel[2]>0){
-							rawPixelData.push(thisPixel[0]);
-							rawPixelData.push(thisPixel[1]);
-							rawPixelData.push(thisPixel[2]);
-						}
-						else{
-							keepCheckinPixels = false;
-						}
+						rawPixelData.push(thisPixel[0]);
+						rawPixelData.push(thisPixel[1]);
+						rawPixelData.push(thisPixel[2]);
 					}
+
 					var ze;
 					var on;
 					for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
 						if (!pixelDatum%2){
 							ze = rawPixelData[pixelDatum]*256;
-							ze-=1;
 						}
 						else{
 							on = rawPixelData[pixelDatum];
-							on-=1;
-							reconstructedDocumentData.push(ze);
-							reconstructedDocumentData.push(on);
+							reconstructedDocumentData.push(ze+on);
 						}
 					}
+					rawDocument=reconstructedDocumentData;
 				}
 				else{
 					draw();
