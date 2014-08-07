@@ -605,7 +605,7 @@
 					authenticChadtechDocument=true;
 				}
 
-				console.log('DID IT AUTHENTICATE?',authenticChadtechDocument);
+				console.log('DID IT AUTHENTICATE?',authenticChadtechDocument, 'WHAT IT IS',chadtechContext.getImageData(0,0,1,1).data);
 				if (authenticChadtechDocument){
 					var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
 					(chadtechContext.getImageData(0,1,1,1).data[2]);
