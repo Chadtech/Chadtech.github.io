@@ -605,7 +605,6 @@
 					authenticChadtechDocument=true;
 				}
 
-				console.log('DID IT AUTHENTICATE?',authenticChadtechDocument);
 				if (authenticChadtechDocument){
 					var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
 					(chadtechContext.getImageData(0,1,1,1).data[2]);
@@ -615,6 +614,7 @@
 
 					for (var pixel = 2; pixel < documentLength; pixel++){
 						var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.height),pixel%window.height,1,1).data;
+						console.log('THIS IS THISPIXEL',thisPixel);
 						rawPixelData.push(thisPixel[0]);
 						rawPixelData.push(thisPixel[1]);
 						rawPixelData.push(thisPixel[2]);
