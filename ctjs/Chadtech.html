@@ -616,7 +616,7 @@
 						console.log('PIXEL',pixel);
 						console.log('PIXEL / WINDOW HEIGHT',pixel/window.innerHeight);
 						console.log('MATH DOT FLOOR OF PIXEL OVER WINDOW HEIGHT',Math.floor(pixel/window.innerHeight));
-						var thisPixel = chadtechContext.getImageData(Math.floor(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1)).data;
+						var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
 						console.log('THIS IS THISPIXEL',thisPixel);
 						rawPixelData.push(thisPixel[0]);
 						rawPixelData.push(thisPixel[1]);
