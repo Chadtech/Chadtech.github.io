@@ -594,7 +594,7 @@
 							console.log('IMAGE ITSELF',imageToPaste);
 							console.log('IMAGE DATA',imageToPaste.data);
 							chadtechContext.drawImage(imageToPaste,0,0);
-							console.log(imageToPaste.data);
+							console.log(imageToPaste.getImageData(0,0,1,1).data);
 
 						};
 					})(event.dataTransfer.files[0]);
