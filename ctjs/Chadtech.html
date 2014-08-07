@@ -622,10 +622,12 @@
 					var ze;
 					var on;
 					for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
-						if (!pixelDatum%2){
+						if (pixelDatum%2==0){
+							console.log('FIRST',pixelDatum);
 							ze = rawPixelData[pixelDatum]*256;
 						}
 						else{
+							console.log('SECOND');
 							on = rawPixelData[pixelDatum];
 							reconstructedDocumentData.push(ze+on);
 						}
