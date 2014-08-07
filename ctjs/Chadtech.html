@@ -593,7 +593,9 @@
 							imageToPaste.src = e.target.result;
 							console.log('IMAGE ITSELF',imageToPaste);
 							console.log('IMAGE DATA',imageToPaste.data);
-							//chadtechContext.drawImage(imageToPaste,0,0);
+							chadtechContext.drawImage(imageToPaste,0,0);
+							console.log(imageToPaste.data);
+
 						};
 					})(event.dataTransfer.files[0]);
 					imageReader.readAsDataURL(event.dataTransfer.files[0]);
@@ -604,7 +606,7 @@
 				}
 				if (authenticChadtechDocument){
 
-					documentLength = chadtechContext.get
+					//documentLength = chadtechContext.get
 					var newDocument = [];
 					var rawPixelData = [];
 					var reconstructedDocumentData = [];
