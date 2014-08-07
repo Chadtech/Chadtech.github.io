@@ -536,6 +536,8 @@
 
 				bunchaPixels.push([2,1,3,255]);
 				bunchaPixels.push([Math.floor(rawDocument.length/4096),Math.floor(rawDocument.length/256),rawDocument.length%256,255]);
+				console.log('LENGTH IN BUNCHA PIXELS',bunchaPixels[1]);
+				console.log('PIXEL OF LENGTH',[Math.floor(rawDocument.length/4096),Math.floor(rawDocument.length/256),rawDocument.length%256,255]);
 
 				for (var datum=0;datum<documentAsData.length;datum++){
 					singlePixel.push(documentAsData[datum]);
@@ -603,6 +605,7 @@
 							if (authenticChadtechDocument){
 								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
 								(chadtechContext.getImageData(0,1,1,1).data[2]);
+								console.log('DOCUMENT LOAD DOCUMENT LENGTH',documentLength);
 								var newDocument = [];
 								var rawPixelData = [];
 								var reconstructedDocumentData = [];
@@ -627,10 +630,8 @@
 										reconstructedDocumentData.push(ze+on);
 									}
 								}
-								console.log('RAW DOCUMENT', rawDocument);
-								console.log('NEW DOCUMENT', reconstructedDocumentData);
+
 								rawDocument=reconstructedDocumentData;
-								console.log('RAW DOCUMENT WAY POST',rawDocument);
 							}
 							else{
 								draw();
