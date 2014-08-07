@@ -600,6 +600,8 @@
 					imageReader.readAsDataURL(event.dataTransfer.files[0]);
 				}
 
+				console.log('WHAT IT IS PRE', chadtechContext.getImageData(0,0,1,1).data);
+				console.log('ALTERNATIVE CONDITION',chadtechContext.getImageData(0,0,1,1).data === [2,1,3,255]);
 				var authenticChadtechDocument=false;
 				if ( chadtechContext.getImageData(0,0,1,1).data == [2,1,3,255] ){
 					authenticChadtechDocument=true;
