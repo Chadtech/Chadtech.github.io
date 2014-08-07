@@ -627,14 +627,14 @@
 							ze = rawPixelData[pixelDatum]*256;
 						}
 						else{
-							console.log('SECOND',ze,on,ze+on);
 							on = rawPixelData[pixelDatum];
+							console.log('SECOND',ze,on,ze+on);
 							reconstructedDocumentData.push(ze+on);
 						}
 					}
 					console.log('RAW DOCUMENT', rawDocument);
 					console.log('NEW DOCUMENT', reconstructedDocumentData);
-					var rawDocument=reconstructedDocumentData;
+					//var rawDocument=reconstructedDocumentData;
 				}
 				else{
 					draw();
