@@ -1,0 +1,1 @@
+var badFunction = function () {console.log('NOTHING HERE');};
