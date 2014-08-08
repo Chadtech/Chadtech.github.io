@@ -535,9 +535,7 @@
 				var singlePixelMeter=0;
 
 				bunchaPixels.push([2,1,3,255]);
-				bunchaPixels.push([Math.floor(rawDocument.length/4096),Math.floor(rawDocument.length/256),rawDocument.length%256,255]);
-				console.log('LENGTH IN BUNCHA PIXELS',rawDocument.length);
-				console.log('PIXEL OF LENGTH',[Math.floor(rawDocument.length/4096),Math.floor(rawDocument.length/256),rawDocument.length%256,255]);
+				bunchaPixels.push([0,0,0,255]);
 
 				for (var datum=0;datum<documentAsData.length;datum++){
 					singlePixel.push(documentAsData[datum]);
@@ -545,7 +543,7 @@
 						bunchaPixels.push(singlePixel);
 						singlePixel=[];
 					}
-
+				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)]%256,255]
 				}
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
 					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
@@ -556,6 +554,7 @@
 					colorValues[3]=255;
 					chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
 				}
+
 			}
 
 			function onMouseDown(event){
@@ -602,7 +601,7 @@
 							}
 
 							if (authenticChadtechDocument){
-								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*4096)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
+								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*65536)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
 								(chadtechContext.getImageData(0,1,1,1).data[2]);
 								console.log('DOCUMENT LOAD DOCUMENT LENGTH',documentLength);
 								var newDocument = [];
@@ -627,6 +626,7 @@
 										reconstructedDocumentData.push(ze+on);
 									}
 								}
+
 								console.log('POST READING DOCUMENT LENGTH',reconstructedDocumentData.length);
 								rawDocument=reconstructedDocumentData;
 							}
