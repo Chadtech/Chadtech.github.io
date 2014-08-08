@@ -522,6 +522,7 @@
 			}
 
 			function writeData(){
+				console.log('WRITE DATA RAW DOCUMENT',rawDocument);
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				documentAsData=[];
 				for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
@@ -555,6 +556,7 @@
 					colorValues[3]=255;
 					chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
 				}
+				console.log('THE LAST PIXEL CHARACTER',bunchaPixels[bunchaPixels.length-1]);
 			}
 
 			function onMouseDown(event){
@@ -627,6 +629,7 @@
 								}
 
 								console.log('POST READING DOCUMENT LENGTH',reconstructedDocumentData.length);
+								console.log('RECONSTRUCTED DOCUMENT',reconstructedDocumentData);
 								rawDocument=reconstructedDocumentData;
 							}
 							else{
