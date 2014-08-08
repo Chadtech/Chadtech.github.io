@@ -543,9 +543,9 @@
 						bunchaPixels.push(singlePixel);
 						singlePixel=[];
 					}
+				}
 				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
 				console.log('BUNCHA PIXELS LENGTH',bunchaPixels.length);
-				}
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
 					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
 					var colorValues=singleCanvasSpot.data;
@@ -607,7 +607,7 @@
 								var rawPixelData = [];
 								var reconstructedDocumentData = [];
 
-								for (var pixel = 2; pixel < documentLength+3; pixel++){
+								for (var pixel = 2; pixel < documentLength+2; pixel++){
 									var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
 									rawPixelData.push(thisPixel[0]);
 									rawPixelData.push(thisPixel[1]);
