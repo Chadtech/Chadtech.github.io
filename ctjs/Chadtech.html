@@ -453,6 +453,10 @@
 			}
 
 			function draw(){
+				if ( currentCursorSpot < 0){
+					currentCursorSpot = 0;
+				}
+
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				chadtechCanvas.canvas.width = window.innerWidth;
 				if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
@@ -468,7 +472,7 @@
 				}
 				organizeWords();
 				chadtechCanvas.fillStyle="#000000";
-				chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight);
+				chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight+window.pageYOffset);
 				for (var line=0; line<arrayOfLines.length; line++){
 					for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
 						chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
