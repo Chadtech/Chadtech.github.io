@@ -242,6 +242,9 @@
 			characters.push(new character([],[keyToKeyCodeDictionaries[0]['8']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
 			characters.push(new character([],[keyToKeyCodeDictionaries[0]['9']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
 
+			// Dummy Character
+			characters.push(new character([keyToKeyCodeDictionaries[0]['escape']],[],[keyToKeyCodeDictionaries[0]['escape']],'',''));
+
 			function zeroPadder(number,zerosToFill){
 				var numberAsString = number+'';
 				while (numberAsString.length<zerosToFill){
@@ -547,7 +550,12 @@
 						singlePixel=[];
 					}
 				}
-				while (singlePixel)
+				if (singlePixel.length>0 && 3>singlePixel.length){
+					while (3>singlePixel.length){
+						singlePixel.push(83);
+					}
+				}
+				bunchaPixels.push(singlePixel);
 				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
 				console.log('BUNCHA PIXELS LENGTH',bunchaPixels.length);
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
@@ -612,10 +620,18 @@
 								var rawPixelData = [];
 								var reconstructedDocumentData = [];
 
-								for (var pixel = 2; pixel < documentLength+2; pixel++){
+								for (var pixel = 2; pixel < documentLength+1; pixel++){
 									var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
 									rawPixelData.push(thisPixel[0]);
 									rawPixelData.push(thisPixel[1]);
+									rawPixelData.push(thisPixel[2]);
+								}
+								var thisPixel = chadtechContext.getImageData(Math.floor((documentLength+2)/window.innerHeight),(documentLength+2)%window.innerHeight,1,1).data;
+								rawPixelData.push(thisPixel[0]);
+								if (thisPixel[1]!=83){
+									rawPixelData.push(thisPixel[1]);	
+								}
+								if (thisPixel[2]!=83){
 									rawPixelData.push(thisPixel[2]);
 								}
 
