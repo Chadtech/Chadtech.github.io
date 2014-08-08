@@ -543,8 +543,8 @@
 						bunchaPixels.push(singlePixel);
 						singlePixel=[];
 					}
-				bunchaPixels[1]=[Math.floor((bunchaPixels.length+1)/65536),Math.floor((bunchaPixels.length+1)/256)%256,(bunchaPixels.length+1)%256,255];
-				console.log('BUNCHA PIXELS LENGTH',bunchaPixels[1]);
+				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
+				console.log('BUNCHA PIXELS LENGTH',bunchaPixels.length);
 				}
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
 					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
@@ -555,7 +555,6 @@
 					colorValues[3]=255;
 					chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
 				}
-
 			}
 
 			function onMouseDown(event){
@@ -602,8 +601,7 @@
 							}
 
 							if (authenticChadtechDocument){
-								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*65536)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+
-								(chadtechContext.getImageData(0,1,1,1).data[2]);
+								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*65536)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+(chadtechContext.getImageData(0,1,1,1).data[2]);
 								console.log('DOCUMENT LOAD DOCUMENT LENGTH',documentLength);
 								var newDocument = [];
 								var rawPixelData = [];
