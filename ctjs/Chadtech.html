@@ -525,7 +525,6 @@
 			}
 
 			function writeData(){
-				console.log('WRITE DATA RAW DOCUMENT',rawDocument);
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				documentAsData=[];
 				for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
@@ -534,14 +533,11 @@
 					documentAsData.push(ze);
 					documentAsData.push(on);
 				}
-				console.log('DOCUMENT AS DATA',documentAsData);
 
 				var bunchaPixels=[];
 				var singlePixel=[];
-				var singlePixelMeter=0;
 
 				bunchaPixels.push([2,1,3,255]);
-				bunchaPixels.push([0,0,0,255]);
 
 				for (var datum=0;datum<documentAsData.length;datum++){
 					singlePixel.push(documentAsData[datum]);
@@ -555,9 +551,11 @@
 						singlePixel.push(83);
 					}
 				}
+				else{
+					singlePixel=[83,83,83];
+				}
 				bunchaPixels.push(singlePixel);
-				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
-				console.log('BUNCHA PIXELS LENGTH',bunchaPixels.length);
+
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
 					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
 					var colorValues=singleCanvasSpot.data;
@@ -567,7 +565,6 @@
 					colorValues[3]=255;
 					chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
 				}
-				console.log('THE LAST PIXEL CHARACTER',bunchaPixels[bunchaPixels.length-1]);
 			}
 
 			function onMouseDown(event){
@@ -614,25 +611,22 @@
 							}
 
 							if (authenticChadtechDocument){
-								var documentLength = (chadtechContext.getImageData(0,1,1,1).data[0]*65536)+(chadtechContext.getImageData(0,1,1,1).data[1]*256)+(chadtechContext.getImageData(0,1,1,1).data[2]);
-								console.log('DOCUMENT LOAD DOCUMENT LENGTH',documentLength);
-								var newDocument = [];
 								var rawPixelData = [];
 								var reconstructedDocumentData = [];
 
-								for (var pixel = 0; pixel < (documentLength-1); pixel++){
-									var thisPixel = chadtechContext.getImageData(Math.floor((pixel+2)/window.innerHeight),(pixel+2)%window.innerHeight,1,1).data;
-									rawPixelData.push(thisPixel[0]);
-									rawPixelData.push(thisPixel[1]);
-									rawPixelData.push(thisPixel[2]);
-								}
-								var thisPixel = chadtechContext.getImageData(Math.floor((documentLength+2)/window.innerHeight),(documentLength+2)%window.innerHeight,1,1).data;
-								rawPixelData.push(thisPixel[0]);
-								if (thisPixel[1]!=83){
-									rawPixelData.push(thisPixel[1]);	
-								}
-								if (thisPixel[2]!=83){
-									rawPixelData.push(thisPixel[2]);
+								var grabbingThisPixel=1;
+								var keepGrabbing=true;
+								while(keepGrabbing){
+									var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/window.innerHeight),grabbingThisPixel%window.innerHeight,1,1).data;
+									for (var colorType=0; colorType<3 && keepGrabbing; colorType++){
+										if (thisPixel[colorType]==83){
+											keepGrabbing=false;
+										}
+										else{
+											rawPixelData.push(thisPixel[colorType]);
+										}
+									}
+									grabbingThisPixel+=1;
 								}
 
 								var ze;
@@ -646,9 +640,6 @@
 										reconstructedDocumentData.push(ze+on);
 									}
 								}
-
-								console.log('POST READING DOCUMENT LENGTH',reconstructedDocumentData.length);
-								console.log('RECONSTRUCTED DOCUMENT',reconstructedDocumentData);
 								rawDocument=reconstructedDocumentData;
 							}
 							else{
