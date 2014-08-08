@@ -543,7 +543,7 @@
 						bunchaPixels.push(singlePixel);
 						singlePixel=[];
 					}
-				bunchaPixels[1]=[Math.floor((bunchaPixels.length)/65536),Math.floor((bunchaPixels.length)/256)%256,(bunchaPixels.length)%256,255];
+				bunchaPixels[1]=[Math.floor((bunchaPixels.length+1)/65536),Math.floor((bunchaPixels.length+1)/256)%256,(bunchaPixels.length+1)%256,255];
 				console.log('BUNCHA PIXELS LENGTH',bunchaPixels[1]);
 				}
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
