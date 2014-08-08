@@ -544,6 +544,7 @@
 						singlePixel=[];
 					}
 				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
+				console.log('BUNCHA PIXELS LENGTH',bunchaPixels[1]);
 				}
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
 					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
