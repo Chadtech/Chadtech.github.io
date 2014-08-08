@@ -531,6 +531,8 @@
 					documentAsData.push(ze);
 					documentAsData.push(on);
 				}
+				console.log('DOCUMENT AS DATA',documentAsData);
+
 				var bunchaPixels=[];
 				var singlePixel=[];
 				var singlePixelMeter=0;
@@ -545,6 +547,7 @@
 						singlePixel=[];
 					}
 				}
+				while (singlePixel)
 				bunchaPixels[1]=[Math.floor((bunchaPixels.length-2)/65536),Math.floor((bunchaPixels.length-2)/256)%256,(bunchaPixels.length-2)%256,255];
 				console.log('BUNCHA PIXELS LENGTH',bunchaPixels.length);
 				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
