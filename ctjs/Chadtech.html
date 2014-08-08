@@ -620,13 +620,13 @@
 								var rawPixelData = [];
 								var reconstructedDocumentData = [];
 
-								for (var pixel = 2; pixel < documentLength+1; pixel++){
+								for (var pixel = 2; pixel < documentLength-1; pixel++){
 									var thisPixel = chadtechContext.getImageData(Math.floor(pixel/window.innerHeight),pixel%window.innerHeight,1,1).data;
 									rawPixelData.push(thisPixel[0]);
 									rawPixelData.push(thisPixel[1]);
 									rawPixelData.push(thisPixel[2]);
 								}
-								var thisPixel = chadtechContext.getImageData(Math.floor((documentLength+2)/window.innerHeight),(documentLength+2)%window.innerHeight,1,1).data;
+								var thisPixel = chadtechContext.getImageData(Math.floor((documentLength)/window.innerHeight),(documentLength)%window.innerHeight,1,1).data;
 								rawPixelData.push(thisPixel[0]);
 								if (thisPixel[1]!=83){
 									rawPixelData.push(thisPixel[1]);	
