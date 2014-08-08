@@ -245,6 +245,15 @@
 			// Dummy Character
 			characters.push(new character([keyToKeyCodeDictionaries[0]['escape']],[],[keyToKeyCodeDictionaries[0]['escape']],'',''));
 
+			// Those symbols above the number keys when you hold shift and hits keys that are numbers
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['2']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['3']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['4']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['5']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['6']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['7']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['8']],[],'',''));
+
 			function zeroPadder(number,zerosToFill){
 				var numberAsString = number+'';
 				while (numberAsString.length<zerosToFill){
@@ -649,8 +658,6 @@
 					})(event.dataTransfer.files[0]);
 					imageReader.readAsDataURL(event.dataTransfer.files[0]);
 				}
-
-
 			}
 
 		</script>
