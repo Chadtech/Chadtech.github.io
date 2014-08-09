@@ -105,7 +105,9 @@
 				'left bracket':219,
 				'back slash':220,
 				'right bracket':221,
-				'single quote':222
+				'single quote':222,
+
+				'greek':250
 			};
 
 			var keyCodesToKeys = {};
@@ -135,7 +137,7 @@
 			// Without precluding conditions for example pressing shift and 
 			// then a would add to the documnet 'Aa'
 
-			function character(necessaryConditions,triggers,precludingConditions,bigImage,lilImage){
+			function character(necessaryConditions,triggers,precludingConditions,bigImage,greekImage,lilImage){
 				this.necessaryConditions = necessaryConditions;
 				this.triggers = triggers;
 				this.precludingConditions = precludingConditions;
@@ -146,60 +148,60 @@
 			var characters = [];
 
 			// lowercase a requires a, then nothing, and not shift
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['a']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['b']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['c']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['d']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['e']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['f']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['g']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['h']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['i']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['j']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['k']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['l']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['m']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['alt']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['n']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['o']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['p']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['q']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['r']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['t']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['u']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['v']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['w']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['x']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['y']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
-			characters.push(new character([],[keyToKeyCodeDictionaries[0]['z']],[keyToKeyCodeDictionaries[0]['shift']], '', '' ));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['a']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['b']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['c']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['d']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['e']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['f']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['g']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['alt'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['h']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['i']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['j']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['k']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['l']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['m']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['alt'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['n']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['o']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['p']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['q']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['r']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['t']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['u']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['v']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['w']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['x']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['y']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
+			characters.push(new character([],[keyToKeyCodeDictionaries[0]['z']],[keyToKeyCodeDictionaries[0]['shift'],keyToKeyCodeDictionaries[0]['greek']], '',''));
 
 			// capital A, requires shift, then a, and not nothing (anything)
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['a']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['b']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['c']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['d']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['e']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['f']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['g']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['h']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['i']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['j']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['k']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['l']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['m']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['n']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['o']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['p']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['q']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['r']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['s']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['t']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['u']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['v']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['w']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['x']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['y']],[], '', '' )); 
-			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['z']],[], '', '' )); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['a']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['b']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['c']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['d']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['e']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['f']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['g']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['h']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['i']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['j']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['k']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['l']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['m']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['n']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['o']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['p']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['q']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['r']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['t']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['u']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['v']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['w']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['x']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['y']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
+			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['z']],[keyToKeyCodeDictionaries[0]['greek']], '','')); 
 
 			characters.push(new character([],[keyToKeyCodeDictionaries[0]['space']],[],'','')); // Space only requires the space bar
 			characters.push(new character([],[keyToKeyCodeDictionaries[0]['enter']],[],'','')); // Enter only requires the enter key
@@ -253,6 +255,59 @@
 			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['6']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['7']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['8']],[],'',''));
+
+			// Greek Lowercase
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['a']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['b']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['g']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['d']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['e']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['z']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['h']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['u']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['i']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['k']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['l']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['m']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['n']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['c']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['o']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['p']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['r']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['t']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['y']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['f']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['x']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['q']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek']],[keyToKeyCodeDictionaries[0]['w']],[keyToKeyCodeDictionaries[0]['shift']],'',''));
+
+			// Greek Uppercase
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['a']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['b']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['g']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['d']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['e']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['z']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['h']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['u']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['i']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['k']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['l']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['m']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['n']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['c']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['o']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['p']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['r']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['s']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['t']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['y']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['f']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['x']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['q']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['greek'],keyToKeyCodeDictionaries[0]['shift']],[keyToKeyCodeDictionaries[0]['w']],[],'',''));
+
 
 			function zeroPadder(number,zerosToFill){
 				var numberAsString = number+'';
@@ -381,6 +436,17 @@
 					megaMagnitude-=1;
 			}));
 
+			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['g']],[], function setGreek(){
+				if (currentlyPressedKeys.indexOf(keyToKeyCodeDictionaries[0]['greek']) == -1){
+					currentlyPressedKeys.push(keyToKeyCodeDictionaries[0]['greek']);	
+				}
+				else{
+					currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(keyToKeyCodeDictionaries[0]['greek']),1);
+				}
+			}));
+
+			var greekMode = false;
+
 			var rawDocument = [];
 			var justPressedKey;
 			var currentCursorSpot = 0;
@@ -475,7 +541,13 @@
 				chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight+window.pageYOffset);
 				for (var line=0; line<arrayOfLines.length; line++){
 					for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
-						chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+						if (!greekMode){
+							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+						}
+						else{
+							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance]].greekImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+						}
+
 					}
 				}
 				chadtechCanvas.drawImage(cursorImage,(cursorInLine*12)+96,(cursorsLine*(16+lineSpace))+32);
@@ -586,6 +658,7 @@
 			}
 
 			function keyEventDown(event){
+				console.log('currentlyPressedKeys',currentlyPressedKeys);
 				justPressedKey=event.keyCode;
 				if (currentlyPressedKeys.indexOf(event.keyCode)== -1){
 					currentlyPressedKeys.push(event.keyCode);
