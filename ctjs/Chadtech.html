@@ -323,7 +323,7 @@
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['o']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['f']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['n']],[],'',''));
-			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['g']],[],'',''));
+			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['l']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['r']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['i']],[],'',''));
 			characters.push(new character([keyToKeyCodeDictionaries[0]['equals'],keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['c']],[],'',''));
@@ -445,11 +445,11 @@
 				}
 			}));
 
-			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['equals']],[keyToKeyCodeDictionaries[0]['m']],function increaseLineSpace(){
+			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['equals']],function increaseLineSpace(){
 				lineSpace+=1;
 			}));
 
-			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['minus']],[keyToKeyCodeDictionaries[0]['m']],function decreaseLineSpace(){
+			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['s']],[keyToKeyCodeDictionaries[0]['minus']],function decreaseLineSpace(){
 				lineSpace-=1;
 			}));
 
@@ -461,7 +461,7 @@
 					megaMagnitude-=1;
 			}));
 
-			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['g']],[keyToKeyCodeDictionaries[0]['alt']], function setGreek(){
+			commands.push(new command([keyToKeyCodeDictionaries[0]['alt']],[keyToKeyCodeDictionaries[0]['g']],[], function setGreek(){
 				if (currentlyPressedKeys.indexOf(keyToKeyCodeDictionaries[0]['greek']) == -1){
 					currentlyPressedKeys.push(keyToKeyCodeDictionaries[0]['greek']);	
 				}
