@@ -4,6 +4,7 @@
 		<script type="text/javascript">
 		var context;
 		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+		context = new AudioContext();
 
 		function loadSuperBlastSound(url){
 			var request = new XMLHttpRequest();
