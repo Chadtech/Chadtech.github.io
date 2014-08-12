@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>Webaudio Prac</title>
+		<script type="text/javascript">
+		var context;
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+		function loadSuperBlastSound(url){
+			var request = new XMLHttpRequest();
+			request.open('GET',URL,true);
+			request.responseType = 'arrayBuffer';
+
+			request.onload = function(){
+				context.decodeAudioData(request.response, function(buffer){
+					dogBarkingBuffer=buffer;
+				}, onError);
+			}
+			request.send();
+		}
+
+		superBlast = loadSuperBlastSound('chadcs.github.io/superBlast.mp3');
+
+		function playSound(buffer){
+			var source = context.createBufferSource();
+			source.buffer = buffer;
+			source.connect(context.destination);
+			source.start(0);
+		}
+
+		playSound(superBlast);
+		playSound(superBlast);
+
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
