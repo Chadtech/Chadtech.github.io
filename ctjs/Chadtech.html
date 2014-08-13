@@ -108,7 +108,9 @@
 				'single quote':222,
 
 				'greek':250,
-				'slanty':251
+				'slanty':251,
+				'superscript':252,
+				'subscript':253,
 			};
 
 			var keyCodesToKeys = {};
@@ -309,15 +311,15 @@
 			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
 
 			// Math
-			characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+			characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
 			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['period']],[ktkc[0]['alt']],'',''));
 			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['comma']],[ktkc[0]['alt']],'',''));
 			characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['period']],[],'',''));
 			characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['comma']],[],'',''));
 			characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['d']],[],'',''));
 			characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[],'',''));
-			characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift']],'',''));
+			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
+			characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
 			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['m']],[],'',''));
 			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['q']],[],'',''));
 			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
@@ -420,7 +422,8 @@
 			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
 			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
 
-
+			// Underscore
+			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['minus']],[],'',''));
 
 			function zeroPadder(number,zerosToFill){
 				var numberAsString = number+'';
@@ -432,7 +435,9 @@
 
 			for (var characterItem = 0; characterItem<characters.length; characterItem++){
 				characters[characterItem].bigImage = new Image();
-				characters[characterItem].bigImage.src='w'+zeroPadder(characterItem,4)+'.PNG';
+				characters[characterItem].bigImage.src = 'w'+zeroPadder(characterItem,4)+'.PNG';
+				characters[characterItem].lilImage = new Image();
+				characters[characterItem].lilImage.src = 'x'+zeroPadder(characterItem,4)+'.PNG';
 			}
 
 			var commands = [];
@@ -475,7 +480,7 @@
 				}
 			}));
 
-			commands.push(new command([],[ktkc[0]['up']],[ktkc[0]['alt']],function upOver(){
+			commands.push(new command([],[ktkc[0]['up']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function upOver(){
 				if (cursorsLine==0){
 					currentCursorSpot=0;
 				}
@@ -492,7 +497,7 @@
 				}
 			}));
 
-			commands.push(new command([],[ktkc[0]['down']],[ktkc[0]['alt']],function downOver(){
+			commands.push(new command([],[ktkc[0]['down']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function downOver(){
 				if ((cursorsLine+1)==arrayOfLines.length){
 					currentCursorSpot=rawDocument.length;
 				}
@@ -533,19 +538,19 @@
 				}
 			}));
 
-			//commands.push(new command([ktkc[0]['alt']],[ktkc[0]['s']],[ktkc[0]['equals']],function increaseLineSpace(){
-			//	lineSpace+=1;
-			//}));
+			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['up']],[],function increaseLineSpace(){
+				lineSpace+=1;
+			}));
 
-			//commands.push(new command([ktkc[0]['alt']],[ktkc[0]['s']],[ktkc[0]['minus']],function decreaseLineSpace(){
-			//	lineSpace-=1;
-			//}));
+			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['down']],[],function decreaseLineSpace(){
+				lineSpace-=1;
+			}));
 
-			commands.push(new command([ktkc[0]['alt'],ktkc[0]['m']],[ktkc[0]['equals']],[], function megaIncrease(){
+			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['equals']],[], function megaIncrease(){
 					megaMagnitude+=1;
 			}));
 
-			commands.push(new command([ktkc[0]['alt'],ktkc[0]['m']],[ktkc[0]['minus']],[], function megaIncrease(){
+			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['minus']],[], function megaIncrease(){
 					megaMagnitude-=1;
 			}));
 
@@ -555,6 +560,7 @@
 				}
 				else{
 					currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['greek']),1);
+					commands[0].execution();
 				}
 			}));
 
@@ -564,10 +570,31 @@
 				}
 				else{
 					currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['slanty']),1);
+					commands[0].execution();
 				}
 			}));
 
-			var greekMode = false;
+			commands.push(new command([ktkc[0]['tab']],[ktkc[0]['up']],[], function superScriptMode(){
+				if (scriptVariety[0]==true){
+					scriptVariety[0]=false;
+					scriptVariety[1]=true;
+				}
+				else{
+					scriptVariety[0]=true;
+				}
+			}));
+
+			commands.push(new command([ktkc[0]['tab']],[ktkc[0]['down']],[], function subScriptMode(){
+				if (scriptVariety[0]==true){
+					scriptVariety[0]=false;
+					scriptVariety[1]=false;
+				}
+				else{
+					scriptVariety[0]=true;
+				}
+			}));
+
+			var scriptVariety = [true,true];
 
 			var rawDocument = [];
 			var justPressedKey;
@@ -585,13 +612,13 @@
 			function organizeWords(){
 				arrayOfWords = [[]];
 				for (var documentCharacter=0; documentCharacter<rawDocument.length; documentCharacter++){
-					switch(rawDocument[documentCharacter]){
+					switch(rawDocument[documentCharacter][0]){
 						case 52:
 							arrayOfWords[arrayOfWords.length-1].push(rawDocument[documentCharacter]);
 							arrayOfWords.push([]);
 							break;
 						case 53:
-							arrayOfWords.push([53]);
+							arrayOfWords.push([[53,[],[]]]);
 							arrayOfWords.push([]);
 							break;
 						default:
@@ -608,25 +635,27 @@
 				arrayOfLines = [[]];
 				lineLengthInCharacters = 0;
 				for (var word = 0; word<arrayOfWords.length; word++){
-					if (arrayOfWords[word][0]==53){
-						arrayOfLines.push([]);
-						lineLengthInCharacters=0;
-					}
-					else{
-						if ((lineLengthInCharacters+arrayOfWords[word].length)<(Math.floor((window.innerWidth-(96*2))/12))){
-							arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
-							lineLengthInCharacters+=arrayOfWords[word].length;
-						}
-						else{
+					if (arrayOfWords[word].length){
+						if (arrayOfWords[word][0][0]==53){
 							arrayOfLines.push([]);
-							arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
-							lineLengthInCharacters=arrayOfWords[word].length;
-						}
+							lineLengthInCharacters=0;
+						}	
+						else{
+							if ((lineLengthInCharacters+arrayOfWords[word].length)<(Math.floor((window.innerWidth-(96*2))/12))){
+								arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
+								lineLengthInCharacters+=arrayOfWords[word].length;
+							}
+							else{
+								arrayOfLines.push([]);
+								arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
+								lineLengthInCharacters=arrayOfWords[word].length;
+							}
+						}				
 					}
 					if (wordCursorIsIn==word){
 						cursorsLine = arrayOfLines.length-1;
 						cursorInLine = lineLengthInCharacters - (arrayOfWords[word].length-characterInWord-1);
-					}
+					}	
 				}
 				var differentArrayOfLines=[];
 				for (var line = 0; line < arrayOfLines.length; line++){
@@ -644,7 +673,6 @@
 				if ( currentCursorSpot < 0){
 					currentCursorSpot = 0;
 				}
-
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				chadtechCanvas.canvas.width = window.innerWidth;
 				if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
@@ -663,7 +691,13 @@
 				chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight+window.pageYOffset);
 				for (var line=0; line<arrayOfLines.length; line++){
 					for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
-						chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+						chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][0]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+						for (var superscriptCharacterItem=0; superscriptCharacterItem<arrayOfLines[line][characterInstance][1].length; superscriptCharacterItem++){
+							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][1][superscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(superscriptCharacterItem*6),((16+lineSpace)*line)+24);
+						}
+						for (var subscriptCharacterItem=0; subscriptCharacterItem<arrayOfLines[line][characterInstance][2].length; subscriptCharacterItem++){
+							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][2][subscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(subscriptCharacterItem*6),((16+lineSpace)*line)+48);
+						}
 					}
 				}
 				chadtechCanvas.drawImage(cursorImage,(cursorInLine*12)+96,(cursorsLine*(16+lineSpace))+32);
@@ -688,9 +722,19 @@
 								}
 							}
 							if (passedPrecludingConditions && passedNecessaryConditions){
-								keepGoingThroughCharacters=false;
-								rawDocument.splice(currentCursorSpot,0,characterItem);
-								currentCursorSpot+=1;
+								if (scriptVariety[0]){
+									keepGoingThroughCharacters=false;
+									rawDocument.splice(currentCursorSpot,0,[characterItem,[],[]]);
+									currentCursorSpot+=1;
+								}
+								else{
+									if (scriptVariety[1]){
+										rawDocument[currentCursorSpot-1][1].push(characterItem);
+									}
+									else{
+										rawDocument[currentCursorSpot-1][2].push(characterItem);
+									}
+								}
 							}
 						}
 					}
@@ -727,8 +771,8 @@
 				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 				documentAsData=[];
 				for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
-					ze=Math.floor(rawDocument[documentItem]/256);
-					on=rawDocument[documentItem]%256;
+					ze=Math.floor(rawDocument[documentItem][0]/256);
+					on=rawDocument[documentItem][0]%256;
 					documentAsData.push(ze);
 					documentAsData.push(on);
 				}
@@ -778,7 +822,6 @@
 				}
 				documentUpdate();
 				event.preventDefault();
-				console.log('CURRENTLY PRESSED KEYS',currentlyPressedKeys);
 			}
 
 			function keyEventUp(event){
@@ -837,7 +880,7 @@
 									}
 									else{
 										on = rawPixelData[pixelDatum];
-										reconstructedDocumentData.push(ze+on);
+										reconstructedDocumentData.push([ze+on,[],[]]);
 									}
 								}
 								rawDocument=reconstructedDocumentData;
