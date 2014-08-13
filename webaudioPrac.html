@@ -14,7 +14,7 @@
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					dogBarkingBuffer=buffer;
-				}, false);
+				}, function(){ console.log('IT DID THE BREAK THING');});
 			}
 			request.send();
 		}
