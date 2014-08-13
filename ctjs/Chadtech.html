@@ -3,896 +3,908 @@
 		<title>Chadtech v0.5</title>
 		<script type="text/javascript">
 
-			var xMargin = 96;
-			var yMargin = 32;
-			var lineSpace = 8;
-			var keysToKeyCodes = {
-				'backspace':8,
-				'tab':9,
+var xMargin = 96;
+var yMargin = 32;
+var lineSpace = 8;
 
-				'enter':13,
+var keysToKeyCodes = {
+	'backspace':8,
+	'tab':9,
+	'enter':13,
+	'shift':16,
+	'ctrl':17,
+	'alt':18,
+	'caps lock':20,
+	'escape':27,
+	'space':32,
+	'left':37,
+	'up':38,
+	'right':39,
+	'down':40,
+	'delete':46,
+	'0':48,
+	'1':49,
+	'2':50,
+	'3':51,
+	'4':52,
+	'5':53,
+	'6':54,
+	'7':55,
+	'8':56,
+	'9':57,
+	'a':65,
+	'b':66,
+	'c':67,
+	'd':68,
+	'e':69,
+	'f':70,
+	'g':71,
+	'h':72,
+	'i':73,
+	'j':74,
+	'k':75,
+	'l':76,
+	'm':77,
+	'n':78,
+	'o':79,
+	'p':80,
+	'q':81,
+	'r':82,
+	's':83,
+	't':84,
+	'u':85,
+	'v':86,
+	'w':87,
+	'x':88,
+	'y':89,
+	'z':90,
+	'left command':91,
+	'right command':93,
+	'numpad0':96,
+	'numpad1':97,
+	'numpad2':98,
+	'numpad3':99,
+	'numpad4':100,
+	'numpad5':101,
+	'numpad6':102,
+	'numpad7':103,
+	'numpad8':104,
+	'numpad9':105,
+	'f1':112,
+	'f2':113,
+	'f3':114,
+	'f4':115,
+	'f5':116,
+	'f6':117,
+	'f7':118,
+	'f8':119,
+	'f9':120,
+	'f10':121,
+	'f11':122,
+	'f12':123,
+	'semicolon':186,
+	'equals':187,
+	'comma':188,
+	'minus':189,
+	'period':190,
+	'forward slash':191,
+	'tilda':192,
+	'left bracket':219,
+	'back slash':220,
+	'right bracket':221,
+	'single quote':222,
+	'greek':250,
+	'slanty':251,
+	'superscript':252,
+	'subscript':253,
+};
 
-				'shift':16,
-				'ctrl':17,
-				'alt':18,
+var keyCodesToKeys = {};
+for (var property in keysToKeyCodes){
+	keyCodesToKeys[keysToKeyCodes[property]] = property;
+}
 
-				'caps lock':20,
+var ktkc = [keysToKeyCodes,keyCodesToKeys];
 
-				'escape':27,
+var cursorImage = new Image();
+cursorImage.src = 'c0000.PNG';
 
-				'space':32,
+// Each character is invoked by a series of combinations of key strokes.
+// Chadtech will run through each character type, and check, in this order:
+// (0) If the latest key pressed, was a trigger key for that character.;
+// (1) If there are necessary conditions, and if so, that at all are 
+// met. For example, capital A and lowercase are both triggered by the a key,
+// but shift is a necessary condition for capital A.;
+// (2) That there are no precluding conditions met. For example,
+// shift being currently pressed is a precudling condition
+// for lower case a.
+// Specifying both precluding and necessary conditions is necessary.
+// Without precluding conditions for example pressing shift and 
+// then a would add to the documnet 'Aa'
 
-				'left':37,
-				'up':38,
-				'right':39,
-				'down':40,
+function character(necessaryConditions,triggers,precludingConditions,bigImage,lilImage){
+	this.necessaryConditions = necessaryConditions;
+	this.triggers = triggers;
+	this.precludingConditions = precludingConditions;
+	this.bigImage = bigImage;
+	this.lilImage = lilImage;
+}
 
-				'delete':46,
+var characters = [];
 
-				'0':48,
-				'1':49,
-				'2':50,
-				'3':51,
-				'4':52,
-				'5':53,
-				'6':54,
-				'7':55,
-				'8':56,
-				'9':57,
+// lowercase a requires a, then nothing, and not shift
+characters.push(new character([],[ktkc[0]['a']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
+characters.push(new character([],[ktkc[0]['b']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['c']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3']], '',''));
+characters.push(new character([],[ktkc[0]['d']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['e']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['f']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
+characters.push(new character([],[ktkc[0]['g']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['h']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
+characters.push(new character([],[ktkc[0]['i']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['j']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
+characters.push(new character([],[ktkc[0]['k']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
+characters.push(new character([],[ktkc[0]['l']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3']], '',''));
+characters.push(new character([],[ktkc[0]['m']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['n']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['2'],ktkc[0]['1'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['o']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
+characters.push(new character([],[ktkc[0]['p']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['2']], '',''));
+characters.push(new character([],[ktkc[0]['q']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
+characters.push(new character([],[ktkc[0]['r']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
+characters.push(new character([],[ktkc[0]['s']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['t']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['u']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['v']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['w']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['x']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['y']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
+characters.push(new character([],[ktkc[0]['z']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
 
-				'a':65,
-				'b':66,
-				'c':67,
-				'd':68,
-				'e':69,
-				'f':70,
-				'g':71,
-				'h':72,
-				'i':73,
-				'j':74,
-				'k':75,
-				'l':76,
-				'm':77,
-				'n':78,
-				'o':79,
-				'p':80,
-				'q':81,
-				'r':82,
-				's':83,
-				't':84,
-				'u':85,
-				'v':86,
-				'w':87,
-				'x':88,
-				'y':89,
-				'z':90,
+// capital A, requires shift, then a, and not nothing (anything)
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['a']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['b']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['c']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['d']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['e']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['f']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['g']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['h']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['i']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['j']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['k']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['l']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['m']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['n']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['o']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['p']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['q']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['r']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['s']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['t']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['u']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['v']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['w']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['x']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['y']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['z']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
 
-				'left command':91,
-				'right command':93,
+characters.push(new character([],[ktkc[0]['space']],[],'','')); // Space only requires the space bar
+characters.push(new character([],[ktkc[0]['enter']],[],'','')); // Enter only requires the enter key
 
-				'numpad0':96,
-				'numpad1':97,
-				'numpad2':98,
-				'numpad3':99,
-				'numpad4':100,
-				'numpad5':101,
-				'numpad6':102,
-				'numpad7':103,
-				'numpad8':104,
-				'numpad9':105,
+// Punctuation
+characters.push(new character([],[ktkc[0]['period']],[ktkc[0]['shift']],'','')); 
+characters.push(new character([],[ktkc[0]['comma']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['semicolon']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['semicolon']],[],'',''));
+characters.push(new character([],[ktkc[0]['single quote']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['single quote']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['forward slash']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['1']],[],'',''));
 
-				'f1':112,
-				'f2':113,
-				'f3':114,
-				'f4':115,
-				'f5':116,
-				'f6':117,
-				'f7':118,
-				'f8':119,
-				'f9':120,
-				'f10':121,
-				'f11':122,
-				'f12':123,
+// Brackets
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['9']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['0']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['left bracket']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['right bracket']],[],'',''));
+characters.push(new character([],[ktkc[0]['left bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([],[ktkc[0]['right bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([ktkc[0]['alt']],[ktkc[0]['left bracket']],[],'',''));
+characters.push(new character([ktkc[0]['alt']],[ktkc[0]['right bracket']],[],'',''));
 
-				'semicolon':186,
-				'equals':187,
-				'comma':188,
-				'minus':189,
-				'period':190,
-				'forward slash':191,
-				'tilda':192,
+// Slashes
+characters.push(new character([],[ktkc[0]['forward slash']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['back slash']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['back slash']],[],'',''));
 
-				'left bracket':219,
-				'back slash':220,
-				'right bracket':221,
-				'single quote':222,
+// Numbers
+characters.push(new character([],[ktkc[0]['0']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['1']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([],[ktkc[0]['2']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([],[ktkc[0]['3']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([],[ktkc[0]['4']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([],[ktkc[0]['5']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['6']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['7']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['8']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['9']],[ktkc[0]['shift']],'',''));
 
-				'greek':250,
-				'slanty':251,
-				'superscript':252,
-				'subscript':253,
-			};
+// Dummy Character
+characters.push(new character([ktkc[0]['escape']],[],[ktkc[0]['escape']],'',''));
 
-			var keyCodesToKeys = {};
-			for (var property in keysToKeyCodes){
-				keyCodesToKeys[keysToKeyCodes[property]] = property;
-			}
+// Those symbols above the number keys when you hold shift and hit keys that are numbers
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['2']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['3']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['4']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['5']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['6']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['7']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['8']],[],'',''));
 
-			var ktkc = [keysToKeyCodes,keyCodesToKeys];
+// Greek Lowercase
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
 
-			var cursorImage = new Image();
-			cursorImage.src = 'c0000.PNG';
+// Greek Uppercase
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
 
-			// Each character is invoked by a series of combinations of key strokes.
-			// Chadtech will run through each character type, and check, in this order:
+// Math
+characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['period']],[ktkc[0]['alt']],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['comma']],[ktkc[0]['alt']],'',''));
+characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['period']],[],'',''));
+characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['comma']],[],'',''));
+characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['a']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
+characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['m']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['q']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['o']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['r']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['j']],[],'',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['k']],[],'',''));
 
-			// (0) If the latest key pressed, was a trigger key for that character.;
+// Modal 
+characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['p']],[],'',''));
+characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
 
-			// (1) If there are necessary conditions, and if so, that at all are 
-			// met. For example, capital A and lowercase are both triggered by the a key,
-			// but shift is a necessary condition for capital A.;
+// First Order
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['h']],[],'',''));
 
-			// (2) That there are no precluding conditions met. For example,
-			// shift being currently pressed is a precudling condition
-			// for lower case a.
+// Proof Theory
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
 
-			// Specifying both precluding and necessary conditions is necessary.
-			// Without precluding conditions for example pressing shift and 
-			// then a would add to the documnet 'Aa'
+// Set Theory
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['u']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['z']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
 
-			function character(necessaryConditions,triggers,precludingConditions,bigImage,lilImage){
-				this.necessaryConditions = necessaryConditions;
-				this.triggers = triggers;
-				this.precludingConditions = precludingConditions;
-				this.bigImage = bigImage;
-				this.lilImage = lilImage;
-			}
+// Slanty Lower case
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['j']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['v']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
 
-			var characters = [];
+// Slanty Upper Case
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['j']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['v']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
 
-			// lowercase a requires a, then nothing, and not shift
-			characters.push(new character([],[ktkc[0]['a']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-			characters.push(new character([],[ktkc[0]['b']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['c']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3']], '',''));
-			characters.push(new character([],[ktkc[0]['d']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['e']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['f']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-			characters.push(new character([],[ktkc[0]['g']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['h']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-			characters.push(new character([],[ktkc[0]['i']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['j']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-			characters.push(new character([],[ktkc[0]['k']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-			characters.push(new character([],[ktkc[0]['l']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3']], '',''));
-			characters.push(new character([],[ktkc[0]['m']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['n']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['2'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['o']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-			characters.push(new character([],[ktkc[0]['p']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['2']], '',''));
-			characters.push(new character([],[ktkc[0]['q']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-			characters.push(new character([],[ktkc[0]['r']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-			characters.push(new character([],[ktkc[0]['s']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['t']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['u']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['v']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['w']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['x']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-			characters.push(new character([],[ktkc[0]['y']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-			characters.push(new character([],[ktkc[0]['z']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
+// Underscore
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['minus']],[],'',''));
 
-			// capital A, requires shift, then a, and not nothing (anything)
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['a']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['b']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['c']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['d']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['e']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['f']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['g']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['h']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['i']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['j']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['k']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['l']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['m']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['n']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['o']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['p']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['q']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['r']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['s']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['t']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['u']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['v']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['w']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['x']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['y']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['z']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+function zeroPadder(number,zerosToFill){
+	var numberAsString = number+'';
+	while (numberAsString.length<zerosToFill){
+		numberAsString = '0'+numberAsString;
+	}
+	return numberAsString;
+}
 
-			characters.push(new character([],[ktkc[0]['space']],[],'','')); // Space only requires the space bar
-			characters.push(new character([],[ktkc[0]['enter']],[],'','')); // Enter only requires the enter key
+for (var characterItem = 0; characterItem<characters.length; characterItem++){
+	characters[characterItem].bigImage = new Image();
+	characters[characterItem].bigImage.src = 'w'+zeroPadder(characterItem,4)+'.PNG';
+	characters[characterItem].lilImage = new Image();
+	characters[characterItem].lilImage.src = 'x'+zeroPadder(characterItem,4)+'.PNG';
+}
 
-			// Punctuation
-			characters.push(new character([],[ktkc[0]['period']],[ktkc[0]['shift']],'','')); 
-			characters.push(new character([],[ktkc[0]['comma']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['semicolon']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['semicolon']],[],'',''));
-			characters.push(new character([],[ktkc[0]['single quote']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['single quote']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['forward slash']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['1']],[],'',''));
+var commands = [];
+var megaMagnitude = 3;
 
-			// Brackets
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['9']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['0']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['left bracket']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['right bracket']],[],'',''));
-			characters.push(new character([],[ktkc[0]['left bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([],[ktkc[0]['right bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([ktkc[0]['alt']],[ktkc[0]['left bracket']],[],'',''));
-			characters.push(new character([ktkc[0]['alt']],[ktkc[0]['right bracket']],[],'',''));
+function command(necessaryConditions,triggers,precludingConditions,execution){
+	this.necessaryConditions=necessaryConditions;
+	this.triggers=triggers;
+	this.precludingConditions=precludingConditions;
+	this.execution=execution;
+}
 
-			// Slashes
-			characters.push(new character([],[ktkc[0]['forward slash']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['back slash']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['back slash']],[],'',''));
+commands.push(new command([],[ktkc[0]['backspace']],[ktkc[0]['ctrl'],ktkc[0]['shift']],function backspace(){ 
+	rawDocument.splice(currentCursorSpot-1,1);
+	currentCursorSpot-=1;
+}));
 
-			// Numbers
-			characters.push(new character([],[ktkc[0]['0']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['1']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([],[ktkc[0]['2']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([],[ktkc[0]['3']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([],[ktkc[0]['4']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([],[ktkc[0]['5']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['6']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['7']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['8']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([],[ktkc[0]['9']],[ktkc[0]['shift']],'',''));
+commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['backspace']],[],function megaBackSpace(){
+	for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
+		commands[0].execution();				
+	}
+}));
 
-			// Dummy Character
-			characters.push(new character([ktkc[0]['escape']],[],[ktkc[0]['escape']],'',''));
+// Naming a function 'delete' returns an error. So I named it 'reverse backspace' instead. This command is fn + backspace on mac
+// and delete on PC
 
-			// Those symbols above the number keys when you hold shift and hit keys that are numbers
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['2']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['3']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['4']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['5']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['6']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['7']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['8']],[],'',''));
+commands.push(new command([],[ktkc[0]['delete']],[],function reverseBackspace(){
+	rawDocument.splice(currentCursorSpot,1);
+}));
 
-			// Greek Lowercase
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['greek']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
+commands.push(new command([],[ktkc[0]['left']],[ktkc[0]['ctrl']],function leftOver(){
+	if (currentCursorSpot>0){
+		currentCursorSpot-=1;
+	}
+}));
 
-			// Greek Uppercase
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
-			characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
+commands.push(new command([],[ktkc[0]['right']],[ktkc[0]['ctrl']],function rightOver(){
+	if (currentCursorSpot<rawDocument.length){
+		currentCursorSpot+=1;
+	}
+}));
 
-			// Math
-			characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['period']],[ktkc[0]['alt']],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['comma']],[ktkc[0]['alt']],'',''));
-			characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['period']],[],'',''));
-			characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['comma']],[],'',''));
-			characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
-			characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['m']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['q']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['o']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['r']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['j']],[],'',''));
-			characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['k']],[],'',''));
+commands.push(new command([],[ktkc[0]['up']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function upOver(){
+	if (cursorsLine==0){
+		currentCursorSpot=0;
+	}
+	else{
+		if (arrayOfLines[cursorsLine-1].length > cursorInLine){
+			currentCursorSpot-=arrayOfLines[cursorsLine-1].length+1;
+		}
+		else{
+			currentCursorSpot-=cursorInLine+1
+		}
+	}
+	if (currentCursorSpot < 0){
+		currentCursorSpot=0;
+	}
+}));
 
-			// Modal 
-			characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['p']],[],'',''));
-			characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
+commands.push(new command([],[ktkc[0]['down']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function downOver(){
+	if ((cursorsLine+1)==arrayOfLines.length){
+		currentCursorSpot=rawDocument.length;
+	}
+	else{
+		if (arrayOfLines[cursorsLine+1].length < cursorInLine){
+			currentCursorSpot+=(arrayOfLines[cursorsLine].length-cursorInLine)+arrayOfLines[cursorsLine+1].length+1;
+		}
+		else{
+			currentCursorSpot+=arrayOfLines[cursorsLine].length+1;
+		}
+	}
+	if (currentCursorSpot > rawDocument.length){
+		currentCursorSpot = rawDocument.length;
+	}
+}));
 
-			// First Order
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-			characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['h']],[],'',''));
+commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['left']],[],function megaLeftOver(){
+	for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
+		commands[3].execution();
+	}
+}));
 
-			// Proof Theory
-			characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-			characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
-			characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-			characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
+commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['right']],[],function megaRightOver(){
+	for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
+		commands[4].execution();
+	}
+}));
 
-			// Set Theory
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['u']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['z']],[],'',''));
-			characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
+commands.push(new command([ktkc[0]['alt']],[ktkc[0]['up']],[],function megaUpOver(){
+	for (var time=0; time < Math.pow(2,megaMagnitude); time++){
+		commands[5].execution();
+	}
+}));
 
-			// Slanty Lower case
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['j']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['v']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
-			characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
+commands.push(new command([ktkc[0]['alt']],[ktkc[0]['down']],[],function megaDownOver(){
+	for (var time=0; time<Math.pow(2,megaMagnitude); time++){
+		commands[6].execution();
+	}
+}));
 
-			// Slanty Upper Case
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['j']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['v']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
-			characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
+commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['up']],[],function increaseLineSpace(){
+	lineSpace+=1;
+}));
 
-			// Underscore
-			characters.push(new character([ktkc[0]['shift']],[ktkc[0]['minus']],[],'',''));
+commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['down']],[],function decreaseLineSpace(){
+	lineSpace-=1;
+}));
 
-			function zeroPadder(number,zerosToFill){
-				var numberAsString = number+'';
-				while (numberAsString.length<zerosToFill){
-					numberAsString = '0'+numberAsString;
-				}
-				return numberAsString;
-			}
+commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['equals']],[], function megaIncrease(){
+		megaMagnitude+=1;
+}));
 
-			for (var characterItem = 0; characterItem<characters.length; characterItem++){
-				characters[characterItem].bigImage = new Image();
-				characters[characterItem].bigImage.src = 'w'+zeroPadder(characterItem,4)+'.PNG';
-				characters[characterItem].lilImage = new Image();
-				characters[characterItem].lilImage.src = 'x'+zeroPadder(characterItem,4)+'.PNG';
-			}
+commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['minus']],[], function megaIncrease(){
+		megaMagnitude-=1;
+}));
 
-			var commands = [];
-			var megaMagnitude = 3;
+commands.push(new command([ktkc[0]['alt']],[ktkc[0]['g']],[], function setGreek(){
+	if (currentlyPressedKeys.indexOf(ktkc[0]['greek']) == -1){
+		currentlyPressedKeys.push(ktkc[0]['greek']);	
+	}
+	else{
+		currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['greek']),1);
+		commands[0].execution();
+	}
+}));
 
-			function command(necessaryConditions,triggers,precludingConditions,execution){
-				this.necessaryConditions=necessaryConditions;
-				this.triggers=triggers;
-				this.precludingConditions=precludingConditions;
-				this.execution=execution;
-			}
+commands.push(new command([ktkc[0]['alt']],[ktkc[0]['s']],[], function setSlanty(){
+	if (currentlyPressedKeys.indexOf(ktkc[0]['slanty']) == -1){
+		currentlyPressedKeys.push(ktkc[0]['slanty']);	
+	}
+	else{
+		currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['slanty']),1);
+		commands[0].execution();
+	}
+}));
 
-			commands.push(new command([],[ktkc[0]['backspace']],[ktkc[0]['ctrl'],ktkc[0]['shift']],function backspace(){ 
-				rawDocument.splice(currentCursorSpot-1,1);
-				currentCursorSpot-=1;
-			}));
+commands.push(new command([ktkc[0]['tab']],[ktkc[0]['up']],[], function superScriptMode(){
+	if (scriptVariety[0]==true){
+		scriptVariety[0]=false;
+		scriptVariety[1]=true;
+	}
+	else{
+		scriptVariety[0]=true;
+	}
+}));
 
-			commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['backspace']],[],function megaBackSpace(){
-				for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
-					commands[0].execution();				
-				}
-			}));
+commands.push(new command([ktkc[0]['tab']],[ktkc[0]['down']],[], function subScriptMode(){
+	if (scriptVariety[0]==true){
+		scriptVariety[0]=false;
+		scriptVariety[1]=false;
+	}
+	else{
+		scriptVariety[0]=true;
+	}
+}));
 
-			// Naming a function 'delete' returns an error. So I named it 'reverse backspace' instead. This command is fn + backspace on mac
-			// and delete on PC
+var scriptVariety = [true,true];
+var rawDocument = [];
+var currentCursorSpot = 0;
+var justPressedKey;
+var currentlyPressedKeys=[];
+var arrayOfWords = [];
+var arrayOfLines = [];
+var arrayOfPages = [];
+var cursorsLine = 0;
+var cursorInLine = 0;
+var lineLengthInCharacters = 0;
+var lineLength = Math.floor((window.innerWidth-(96*2))/12);
 
-			commands.push(new command([],[ktkc[0]['delete']],[],function reverseBackspace(){
-				rawDocument.splice(currentCursorSpot,1);
-			}));
+function organizeWords(){
+	arrayOfWords = [[]];
+	for (var documentCharacter=0; documentCharacter<rawDocument.length; documentCharacter++){
+		switch(rawDocument[documentCharacter][0]){
+			case 52:
+				arrayOfWords[arrayOfWords.length-1].push(rawDocument[documentCharacter]);
+				arrayOfWords.push([]);
+				break;
+			case 53:
+				arrayOfWords.push([[53,[],[]]]);
+				arrayOfWords.push([]);
+				break;
+			default:
+				arrayOfWords[arrayOfWords.length-1].push(rawDocument[documentCharacter]);
+		}
+		if (documentCharacter==(currentCursorSpot-1)){
+			var wordCursorIsIn = arrayOfWords.length-1;
+			var characterInWord = arrayOfWords[arrayOfWords.length-1].length-1;
+		}
+		if (currentCursorSpot==0){
+			cursorInLine=0;
+		}
+	}
 
-			commands.push(new command([],[ktkc[0]['left']],[ktkc[0]['ctrl']],function leftOver(){
-				if (currentCursorSpot>0){
-					currentCursorSpot-=1;
-				}
-			}));
-
-			commands.push(new command([],[ktkc[0]['right']],[ktkc[0]['ctrl']],function rightOver(){
-				if (currentCursorSpot<rawDocument.length){
-					currentCursorSpot+=1;
-				}
-			}));
-
-			commands.push(new command([],[ktkc[0]['up']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function upOver(){
-				if (cursorsLine==0){
-					currentCursorSpot=0;
+	arrayOfLines = [[]];
+	lineLengthInCharacters = 0;
+	for (var word = 0; word<arrayOfWords.length; word++){
+		if (arrayOfWords[word].length){
+			if (arrayOfWords[word][0][0]==53){
+				arrayOfLines.push([]);
+				lineLengthInCharacters=0;
+			}	
+			else{
+				if ((lineLengthInCharacters+arrayOfWords[word].length)<lineLength){
+					arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
+					lineLengthInCharacters+=arrayOfWords[word].length;
 				}
 				else{
-					if (arrayOfLines[cursorsLine-1].length > cursorInLine){
-						currentCursorSpot-=arrayOfLines[cursorsLine-1].length+1;
+					arrayOfLines.push([]);
+					arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
+					lineLengthInCharacters=arrayOfWords[word].length;
+				}
+			}				
+		}
+
+		if (wordCursorIsIn==word){
+			cursorsLine = arrayOfLines.length-1;
+			cursorInLine = lineLengthInCharacters - (arrayOfWords[word].length-characterInWord-1);
+		}	
+	}
+
+	var differentArrayOfLines=[];
+	for (var line = 0; line < arrayOfLines.length; line++){
+		differentArrayOfLines.push([]);
+		for (var word = 0; word<arrayOfLines[line].length; word++){
+			for (var characterInstance = 0; characterInstance < arrayOfLines[line][word].length; characterInstance++){
+				differentArrayOfLines[differentArrayOfLines.length-1].push(arrayOfLines[line][word][characterInstance]);
+			}
+		}
+	}
+	arrayOfLines = differentArrayOfLines;
+}
+
+function draw(){
+	if ( currentCursorSpot < 0){
+		currentCursorSpot = 0;
+	}
+
+	var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
+	chadtechCanvas.canvas.width = window.innerWidth;
+	if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
+		chadtechCanvas.canvas.height = (arrayOfLines.length*(16+lineSpace))+64
+	}
+	else{
+		chadtechCanvas.canvas.height = window.innerHeight;
+	}
+	if (window.innerHeight-(cursorsLine*(16+lineSpace)+96+window.pageYOffset) < 124){
+		if (currentlyPressedKeys.length){
+			window.scrollBy(0,16+lineSpace);					
+		}
+	}
+
+	organizeWords();
+	chadtechCanvas.fillStyle="#000000";
+	chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight+window.pageYOffset);
+
+	for (var line=0; line<arrayOfLines.length; line++){
+		for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
+			chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][0]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
+			for (var superscriptCharacterItem=0; superscriptCharacterItem<arrayOfLines[line][characterInstance][1].length; superscriptCharacterItem++){
+				chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][1][superscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(superscriptCharacterItem*6),((16+lineSpace)*line)+24);
+			}
+
+			for (var subscriptCharacterItem=0; subscriptCharacterItem<arrayOfLines[line][characterInstance][2].length; subscriptCharacterItem++){
+				chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][2][subscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(subscriptCharacterItem*6),((16+lineSpace)*line)+48);
+			}
+		}
+	}
+
+	chadtechCanvas.drawImage(cursorImage,(cursorInLine*12)+96,(cursorsLine*(16+lineSpace))+32);
+	writeData();
+}
+
+function documentUpdate(){
+	var keepGoingThroughCharacters=true;
+	for (var characterItem=0; characterItem<characters.length && keepGoingThroughCharacters; characterItem++){
+		for (var aTrigger=0; aTrigger<characters[characterItem].triggers.length; aTrigger++){
+			if (characters[characterItem].triggers[aTrigger]==justPressedKey){
+				var passedNecessaryConditions=true;
+				for (var aNecessaryCondition=0; aNecessaryCondition<characters[characterItem].necessaryConditions.length; aNecessaryCondition++){
+					if (currentlyPressedKeys.indexOf(characters[characterItem].necessaryConditions[aNecessaryCondition])== -1){
+						passedNecessaryConditions=false;
+					}
+				}
+
+				var passedPrecludingConditions = true;
+				for (var aPrecludingCondition=0; aPrecludingCondition<characters[characterItem].precludingConditions.length;aPrecludingCondition++){
+					if(currentlyPressedKeys.indexOf(characters[characterItem].precludingConditions[aPrecludingCondition]) != -1){
+						passedPrecludingConditions=false;
+					}
+				}
+
+				if (passedPrecludingConditions && passedNecessaryConditions){
+					if (scriptVariety[0]){
+						keepGoingThroughCharacters=false;
+						rawDocument.splice(currentCursorSpot,0,[characterItem,[],[]]);
+						currentCursorSpot+=1;
 					}
 					else{
-						currentCursorSpot-=cursorInLine+1
-					}
-				}
-				if (currentCursorSpot < 0){
-					currentCursorSpot=0;
-				}
-			}));
-
-			commands.push(new command([],[ktkc[0]['down']],[ktkc[0]['alt'],ktkc[0]['tab'],ktkc[0]['tilda']],function downOver(){
-				if ((cursorsLine+1)==arrayOfLines.length){
-					currentCursorSpot=rawDocument.length;
-				}
-				else{
-					if (arrayOfLines[cursorsLine+1].length < cursorInLine){
-						currentCursorSpot+=(arrayOfLines[cursorsLine].length-cursorInLine)+arrayOfLines[cursorsLine+1].length+1;
-					}
-					else{
-						currentCursorSpot+=arrayOfLines[cursorsLine].length+1;
-					}
-				}
-				if (currentCursorSpot > rawDocument.length){
-					currentCursorSpot = rawDocument.length;
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['left']],[],function megaLeftOver(){
-				for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
-					commands[3].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['ctrl']],[ktkc[0]['right']],[],function megaRightOver(){
-				for (var time = 0; time < Math.pow(2,megaMagnitude); time++){
-					commands[4].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['alt']],[ktkc[0]['up']],[],function megaUpOver(){
-				for (var time=0; time < Math.pow(2,megaMagnitude); time++){
-					commands[5].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['alt']],[ktkc[0]['down']],[],function megaDownOver(){
-				for (var time=0; time<Math.pow(2,megaMagnitude); time++){
-					commands[6].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['up']],[],function increaseLineSpace(){
-				lineSpace+=1;
-			}));
-
-			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['down']],[],function decreaseLineSpace(){
-				lineSpace-=1;
-			}));
-
-			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['equals']],[], function megaIncrease(){
-					megaMagnitude+=1;
-			}));
-
-			commands.push(new command([ktkc[0]['tilda']],[ktkc[0]['minus']],[], function megaIncrease(){
-					megaMagnitude-=1;
-			}));
-
-			commands.push(new command([ktkc[0]['alt']],[ktkc[0]['g']],[], function setGreek(){
-				if (currentlyPressedKeys.indexOf(ktkc[0]['greek']) == -1){
-					currentlyPressedKeys.push(ktkc[0]['greek']);	
-				}
-				else{
-					currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['greek']),1);
-					commands[0].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['alt']],[ktkc[0]['s']],[], function setSlanty(){
-				if (currentlyPressedKeys.indexOf(ktkc[0]['slanty']) == -1){
-					currentlyPressedKeys.push(ktkc[0]['slanty']);	
-				}
-				else{
-					currentlyPressedKeys.splice(currentlyPressedKeys.indexOf(ktkc[0]['slanty']),1);
-					commands[0].execution();
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['tab']],[ktkc[0]['up']],[], function superScriptMode(){
-				if (scriptVariety[0]==true){
-					scriptVariety[0]=false;
-					scriptVariety[1]=true;
-				}
-				else{
-					scriptVariety[0]=true;
-				}
-			}));
-
-			commands.push(new command([ktkc[0]['tab']],[ktkc[0]['down']],[], function subScriptMode(){
-				if (scriptVariety[0]==true){
-					scriptVariety[0]=false;
-					scriptVariety[1]=false;
-				}
-				else{
-					scriptVariety[0]=true;
-				}
-			}));
-
-			var scriptVariety = [true,true];
-
-			var rawDocument = [];
-			var justPressedKey;
-			var currentCursorSpot = 0;
-			var currentlyPressedKeys=[];
-
-			var arrayOfWords = [];
-			var arrayOfLines = [];
-			var arrayOfPages = [];
-
-			var cursorsLine = 0;
-			var cursorInLine = 0;
-			var lineLengthInCharacters = 0;
-
-			function organizeWords(){
-				arrayOfWords = [[]];
-				for (var documentCharacter=0; documentCharacter<rawDocument.length; documentCharacter++){
-					switch(rawDocument[documentCharacter][0]){
-						case 52:
-							arrayOfWords[arrayOfWords.length-1].push(rawDocument[documentCharacter]);
-							arrayOfWords.push([]);
-							break;
-						case 53:
-							arrayOfWords.push([[53,[],[]]]);
-							arrayOfWords.push([]);
-							break;
-						default:
-							arrayOfWords[arrayOfWords.length-1].push(rawDocument[documentCharacter]);
-					}
-					if (documentCharacter==(currentCursorSpot-1)){
-						var wordCursorIsIn = arrayOfWords.length-1;
-						var characterInWord = arrayOfWords[arrayOfWords.length-1].length-1;
-					}
-					if (currentCursorSpot==0){
-						cursorInLine=0;
-					}
-				}
-				arrayOfLines = [[]];
-				lineLengthInCharacters = 0;
-				for (var word = 0; word<arrayOfWords.length; word++){
-					if (arrayOfWords[word].length){
-						if (arrayOfWords[word][0][0]==53){
-							arrayOfLines.push([]);
-							lineLengthInCharacters=0;
-						}	
+						if (scriptVariety[1]){
+							rawDocument[currentCursorSpot-1][1].push(characterItem);
+						}
 						else{
-							if ((lineLengthInCharacters+arrayOfWords[word].length)<(Math.floor((window.innerWidth-(96*2))/12))){
-								arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
-								lineLengthInCharacters+=arrayOfWords[word].length;
-							}
-							else{
-								arrayOfLines.push([]);
-								arrayOfLines[arrayOfLines.length-1].push(arrayOfWords[word]);
-								lineLengthInCharacters=arrayOfWords[word].length;
-							}
-						}				
-					}
-					if (wordCursorIsIn==word){
-						cursorsLine = arrayOfLines.length-1;
-						cursorInLine = lineLengthInCharacters - (arrayOfWords[word].length-characterInWord-1);
-					}	
-				}
-				var differentArrayOfLines=[];
-				for (var line = 0; line < arrayOfLines.length; line++){
-					differentArrayOfLines.push([]);
-					for (var word = 0; word<arrayOfLines[line].length; word++){
-						for (var characterInstance = 0; characterInstance < arrayOfLines[line][word].length; characterInstance++){
-							differentArrayOfLines[differentArrayOfLines.length-1].push(arrayOfLines[line][word][characterInstance]);
+							rawDocument[currentCursorSpot-1][2].push(characterItem);
 						}
 					}
 				}
-				arrayOfLines = differentArrayOfLines;
 			}
+		}
+	}
 
-			function draw(){
-				if ( currentCursorSpot < 0){
-					currentCursorSpot = 0;
+	var keepGoingThroughCommands=true;
+	for (var commandItem=0; commandItem<commands.length && keepGoingThroughCommands; commandItem++){
+		for (var aTrigger=0; aTrigger<commands[commandItem].triggers.length; aTrigger++){
+			if(commands[commandItem].triggers[aTrigger]==justPressedKey){
+				var passedANecessaryCondition = !commands[commandItem].necessaryConditions.length;
+				if (!passedANecessaryCondition){
+					for (var aNecessaryCondition=0; aNecessaryCondition<commands[commandItem].necessaryConditions.length; aNecessaryCondition++){
+						if (currentlyPressedKeys.indexOf(commands[commandItem].necessaryConditions[aNecessaryCondition])!= -1){
+							passedANecessaryCondition=true;
+						}
+					}
 				}
-				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
-				chadtechCanvas.canvas.width = window.innerWidth;
-				if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
-					chadtechCanvas.canvas.height = (arrayOfLines.length*(16+lineSpace))+64
+
+				var passedPrecludingConditions = true;
+				for (var aPrecludingCondition=0; aPrecludingCondition<commands[commandItem].precludingConditions.length; aPrecludingCondition++){
+					if(currentlyPressedKeys.indexOf(commands[commandItem].precludingConditions[aPrecludingCondition]) != -1){
+						passedPrecludingConditions=false;
+					}
+				}
+
+				if(passedANecessaryCondition && passedPrecludingConditions){
+					commands[commandItem].execution();
+					keepGoingThroughCommands=false;
+				}
+			}
+		}
+	}
+	organizeWords();
+}
+
+function writeData(){
+	var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
+	documentAsData=[];
+	for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
+		ze=Math.floor(rawDocument[documentItem][0]/256);
+		on=rawDocument[documentItem][0]%256;
+		documentAsData.push(ze);
+		documentAsData.push(on);
+	}
+
+	var bunchaPixels=[];
+	var singlePixel=[];
+	bunchaPixels.push([2,1,3,255]);
+	for (var datum=0;datum<documentAsData.length;datum++){
+		singlePixel.push(documentAsData[datum]);
+		if(singlePixel.length==3){
+			bunchaPixels.push(singlePixel);
+			singlePixel=[];
+		}
+	}
+
+	if (singlePixel.length>0 && 3>singlePixel.length){
+		while (3>singlePixel.length){
+			singlePixel.push(83);
+		}
+	}
+	else{
+		singlePixel=[83,83,83];
+	}
+
+	bunchaPixels.push(singlePixel);
+	for (var pixel=0;pixel<bunchaPixels.length;pixel++){
+		var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
+		var colorValues=singleCanvasSpot.data;
+		colorValues[0]=bunchaPixels[pixel][0];
+		colorValues[1]=bunchaPixels[pixel][1];
+		colorValues[2]=bunchaPixels[pixel][2];
+		colorValues[3]=255;
+		chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
+	}
+}
+
+function onMouseDown(event){
+	xSpot = event.clientX;
+	ySpot = event.clientY;
+	if (xSpot<(window.innerWidth-96) && 96<xSpot && ySpot<(window.innerHeight-32) && 32<ySpot){
+		var whichLineInDocuY = Math.floor((ySpot+window.pageYOffset)/(16+lineSpace));
+		var whichCharInLineX = Math.floor((xSpot-96)/12);
+		var characterLineClickedOn = 0;
+
+		if ((whichLineInDocuY-1)<arrayOfLines.length){
+			for (var line = 0; line<whichLineInDocuY-1; line++){
+				if (arrayOfLines[line].length<lineLength){
+					characterLineClickedOn+=arrayOfLines[line].length+1;		
 				}
 				else{
-					chadtechCanvas.canvas.height = window.innerHeight;
-				}
-				if (window.innerHeight-(cursorsLine*(16+lineSpace)+96+window.pageYOffset) < 124){
-					if (currentlyPressedKeys.length){
-						window.scrollBy(0,16+lineSpace);					
-					}
-				}
-				organizeWords();
-				chadtechCanvas.fillStyle="#000000";
-				chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight+window.pageYOffset);
-				for (var line=0; line<arrayOfLines.length; line++){
-					for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
-						chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][0]].bigImage,(characterInstance*12)+96,((16+lineSpace)*line)+32)
-						for (var superscriptCharacterItem=0; superscriptCharacterItem<arrayOfLines[line][characterInstance][1].length; superscriptCharacterItem++){
-							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][1][superscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(superscriptCharacterItem*6),((16+lineSpace)*line)+24);
-						}
-						for (var subscriptCharacterItem=0; subscriptCharacterItem<arrayOfLines[line][characterInstance][2].length; subscriptCharacterItem++){
-							chadtechCanvas.drawImage(characters[arrayOfLines[line][characterInstance][2][subscriptCharacterItem]].lilImage,((characterInstance+1)*12)+89+(subscriptCharacterItem*6),((16+lineSpace)*line)+48);
-						}
-					}
-				}
-				chadtechCanvas.drawImage(cursorImage,(cursorInLine*12)+96,(cursorsLine*(16+lineSpace))+32);
-				writeData();
-			}
-
-			function documentUpdate(){
-				var keepGoingThroughCharacters=true;
-				for (var characterItem=0; characterItem<characters.length && keepGoingThroughCharacters; characterItem++){
-					for (var aTrigger=0; aTrigger<characters[characterItem].triggers.length; aTrigger++){
-						if (characters[characterItem].triggers[aTrigger]==justPressedKey){
-							var passedNecessaryConditions=true;
-							for (var aNecessaryCondition=0; aNecessaryCondition<characters[characterItem].necessaryConditions.length; aNecessaryCondition++){
-								if (currentlyPressedKeys.indexOf(characters[characterItem].necessaryConditions[aNecessaryCondition])== -1){
-									passedNecessaryConditions=false;
-								}
-							}
-							var passedPrecludingConditions = true;
-							for (var aPrecludingCondition=0; aPrecludingCondition<characters[characterItem].precludingConditions.length;aPrecludingCondition++){
-								if(currentlyPressedKeys.indexOf(characters[characterItem].precludingConditions[aPrecludingCondition]) != -1){
-									passedPrecludingConditions=false;
-								}
-							}
-							if (passedPrecludingConditions && passedNecessaryConditions){
-								if (scriptVariety[0]){
-									keepGoingThroughCharacters=false;
-									rawDocument.splice(currentCursorSpot,0,[characterItem,[],[]]);
-									currentCursorSpot+=1;
-								}
-								else{
-									if (scriptVariety[1]){
-										rawDocument[currentCursorSpot-1][1].push(characterItem);
-									}
-									else{
-										rawDocument[currentCursorSpot-1][2].push(characterItem);
-									}
-								}
-							}
-						}
-					}
-				}
-				var keepGoingThroughCommands=true;
-				for (var commandItem=0; commandItem<commands.length && keepGoingThroughCommands; commandItem++){
-					for (var aTrigger=0; aTrigger<commands[commandItem].triggers.length; aTrigger++){
-						if(commands[commandItem].triggers[aTrigger]==justPressedKey){
-							var passedANecessaryCondition = !commands[commandItem].necessaryConditions.length;
-							if (!passedANecessaryCondition){
-								for (var aNecessaryCondition=0; aNecessaryCondition<commands[commandItem].necessaryConditions.length; aNecessaryCondition++){
-									if (currentlyPressedKeys.indexOf(commands[commandItem].necessaryConditions[aNecessaryCondition])!= -1){
-										passedANecessaryCondition=true;
-									}
-								}
-							}
-							var passedPrecludingConditions = true;
-							for (var aPrecludingCondition=0; aPrecludingCondition<commands[commandItem].precludingConditions.length; aPrecludingCondition++){
-								if(currentlyPressedKeys.indexOf(commands[commandItem].precludingConditions[aPrecludingCondition]) != -1){
-									passedPrecludingConditions=false;
-								}
-							}
-							if(passedANecessaryCondition && passedPrecludingConditions){
-								commands[commandItem].execution();
-								keepGoingThroughCommands=false;
-							}
-						}
-					}
-				}
-				organizeWords();
-			}
-
-			function writeData(){
-				var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
-				documentAsData=[];
-				for (var documentItem=0;documentItem<rawDocument.length;documentItem++){
-					ze=Math.floor(rawDocument[documentItem][0]/256);
-					on=rawDocument[documentItem][0]%256;
-					documentAsData.push(ze);
-					documentAsData.push(on);
-				}
-
-				var bunchaPixels=[];
-				var singlePixel=[];
-
-				bunchaPixels.push([2,1,3,255]);
-
-				for (var datum=0;datum<documentAsData.length;datum++){
-					singlePixel.push(documentAsData[datum]);
-					if(singlePixel.length==3){
-						bunchaPixels.push(singlePixel);
-						singlePixel=[];
-					}
-				}
-				if (singlePixel.length>0 && 3>singlePixel.length){
-					while (3>singlePixel.length){
-						singlePixel.push(83);
-					}
-				}
-				else{
-					singlePixel=[83,83,83];
-				}
-				bunchaPixels.push(singlePixel);
-
-				for (var pixel=0;pixel<bunchaPixels.length;pixel++){
-					var singleCanvasSpot=chadtechCanvas.createImageData(1,1);
-					var colorValues=singleCanvasSpot.data;
-					colorValues[0]=bunchaPixels[pixel][0];
-					colorValues[1]=bunchaPixels[pixel][1];
-					colorValues[2]=bunchaPixels[pixel][2];
-					colorValues[3]=255;
-					chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
+					characterLineClickedOn+=arrayOfLines[line].length;
 				}
 			}
 
-			function onMouseDown(event){
-				xSpot = event.clientX;
-				ySpot = event.clientY;
+			if (whichCharInLineX < arrayOfLines[whichLineInDocuY-1].length){
+				currentCursorSpot=characterLineClickedOn+whichCharInLineX;		
 			}
+			else{
+				currentCursorSpot=characterLineClickedOn+arrayOfLines[whichLineInDocuY-1].length;
+			}
+			draw();
+		}
+	}
+}
 
-			function keyEventDown(event){
-				justPressedKey=event.keyCode;
-				if (currentlyPressedKeys.indexOf(event.keyCode)== -1){
-					currentlyPressedKeys.push(event.keyCode);
+function keyEventDown(event){
+	justPressedKey=event.keyCode;
+	if (currentlyPressedKeys.indexOf(event.keyCode)== -1){
+		currentlyPressedKeys.push(event.keyCode);
+	}
+	documentUpdate();
+	event.preventDefault();
+}
+
+function keyEventUp(event){
+	var indexToRemove = currentlyPressedKeys.indexOf(event.keyCode);
+	currentlyPressedKeys.splice(indexToRemove,1);
+}
+
+function onDragOver(){
+	event.preventDefault();
+	return false;
+}
+
+function fileLoad(){
+	var chadtechCanvas = document.getElementById("Chadtech-v0.5");
+	var chadtechContext = chadtechCanvas.getContext("2d");
+	event.preventDefault();
+	if (event.dataTransfer.files[0].type.slice(0,5) == 'image'){
+		var imageReader = new FileReader();
+		imageReader.onloadend = (function(theFile) {
+			var fileName = theFile.name;
+			return function(e){
+				var imageToPaste = new Image();
+				imageToPaste.src = e.target.result;
+				chadtechContext.drawImage(imageToPaste,0,0);
+				var authenticChadtechDocument=false;
+				if (chadtechContext.getImageData(0,0,1,1).data[0]==2 && chadtechContext.getImageData(0,0,1,1).data[1]==1 && chadtechContext.getImageData(0,0,1,1).data[2]==3){
+					authenticChadtechDocument=true;
 				}
-				documentUpdate();
-				event.preventDefault();
-			}
-
-			function keyEventUp(event){
-				var indexToRemove = currentlyPressedKeys.indexOf(event.keyCode);
-				currentlyPressedKeys.splice(indexToRemove,1);
-			}
-
-			function onDragOver(){
-				event.preventDefault();
-				return false;
-			}
-
-			function fileLoad(){
-				var chadtechCanvas = document.getElementById("Chadtech-v0.5");
-				var chadtechContext = chadtechCanvas.getContext("2d");
-				event.preventDefault();
-
-				if (event.dataTransfer.files[0].type.slice(0,5) == 'image'){
-					var imageReader = new FileReader();
-					imageReader.onloadend = (function(theFile) {
-						var fileName = theFile.name;
-						return function(e){
-							var imageToPaste = new Image();
-							imageToPaste.src = e.target.result;
-							chadtechContext.drawImage(imageToPaste,0,0);
-
-							var authenticChadtechDocument=false;
-							if ( chadtechContext.getImageData(0,0,1,1).data[0]==2 && chadtechContext.getImageData(0,0,1,1).data[1]==1 && chadtechContext.getImageData(0,0,1,1).data[2]==3){
-								authenticChadtechDocument=true;
-							}
-
-							if (authenticChadtechDocument){
-								var rawPixelData = [];
-								var reconstructedDocumentData = [];
-
-								var grabbingThisPixel=1;
-								var keepGrabbing=true;
-								while(keepGrabbing){
-									var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/window.innerHeight),grabbingThisPixel%window.innerHeight,1,1).data;
-									for (var colorType=0; colorType<3 && keepGrabbing; colorType++){
-										if (thisPixel[colorType]==83){
-											keepGrabbing=false;
-										}
-										else{
-											rawPixelData.push(thisPixel[colorType]);
-										}
-									}
-									grabbingThisPixel+=1;
-								}
-
-								var ze;
-								var on;
-								for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
-									if (pixelDatum%2==0){
-										ze = rawPixelData[pixelDatum]*256;
-									}
-									else{
-										on = rawPixelData[pixelDatum];
-										reconstructedDocumentData.push([ze+on,[],[]]);
-									}
-								}
-								rawDocument=reconstructedDocumentData;
+				if (authenticChadtechDocument){
+					var rawPixelData = [];
+					var reconstructedDocumentData = [];
+					var grabbingThisPixel=1;
+					var keepGrabbing=true;
+					while(keepGrabbing){
+						var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/window.innerHeight),grabbingThisPixel%window.innerHeight,1,1).data;
+						for (var colorType=0; colorType<3 && keepGrabbing; colorType++){
+							if (thisPixel[colorType]==83){
+								keepGrabbing=false;
 							}
 							else{
-								draw();
+								rawPixelData.push(thisPixel[colorType]);
 							}
-						};
-					})(event.dataTransfer.files[0]);
-					imageReader.readAsDataURL(event.dataTransfer.files[0]);
+						}
+						grabbingThisPixel+=1;
+					}
+
+					var ze;
+					var on;
+					for (var pixelDatum=0; pixelDatum < rawPixelData.length; pixelDatum++){
+						if (pixelDatum%2==0){
+							ze = rawPixelData[pixelDatum]*256;
+						}
+						else{
+							on = rawPixelData[pixelDatum];
+							reconstructedDocumentData.push([ze+on,[],[]]);
+						}
+					}
+					rawDocument=reconstructedDocumentData;
 				}
-			}
+				else{
+					draw();
+				}
+			};
+		})(event.dataTransfer.files[0]);
+		imageReader.readAsDataURL(event.dataTransfer.files[0]);
+	}
+}
 
 		</script>
 	</head>
