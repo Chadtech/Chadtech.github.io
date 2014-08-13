@@ -14,12 +14,12 @@
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					dogBarkingBuffer=buffer;
-				}, onError);
+				}, false);
 			}
 			request.send();
 		}
 
-		superBlast = loadSuperBlastSound('chadcs.github.io/superBlast.mp3');
+		superBlast = loadSuperBlastSound('superBlast.mp3');
 		superBlast;
 		console.log('THIS IS SUPERBLAST', superBlast);
 
