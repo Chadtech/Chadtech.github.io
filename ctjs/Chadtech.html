@@ -1026,6 +1026,7 @@ function fileLoad(){
 	var chadtechCanvas = document.getElementById("Chadtech-v0.5");
 	var chadtechContext = chadtechCanvas.getContext("2d");
 	event.preventDefault();
+	var fileNameOfDroppedFile=event.dataTransfer.files[0].name;
 	if (event.dataTransfer.files[0].type.slice(0,5) == 'image'){
 		var imageReader = new FileReader();
 		imageReader.onloadend = (function(theFile) {
@@ -1037,7 +1038,7 @@ function fileLoad(){
 				var authenticChadtechDocument=false;
 				//       (A)
 				if (chadtechContext.getImageData(0,0,1,1).data[0]==2 && chadtechContext.getImageData(0,0,1,1).data[1]==1 && chadtechContext.getImageData(0,0,1,1).data[2]==3){
-					document.title = event.dataTransfer.files[0].name;
+					document.title = fileNameOfDroppedFile;
 					authenticChadtechDocument=true;
 				}
 				if (authenticChadtechDocument){
