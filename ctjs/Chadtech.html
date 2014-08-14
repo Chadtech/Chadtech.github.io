@@ -143,7 +143,7 @@ if shift is pressed down.
 
  */
 
-function character(necessaryConditions,triggers,precludingConditions,bigImage,lilImage){
+function character(necessaryConditions,triggers,precludingConditions,bigImage,lilImage,charAsString){
 	this.necessaryConditions = necessaryConditions;
 	this.triggers = triggers;
 	this.precludingConditions = precludingConditions;
@@ -153,6 +153,7 @@ function character(necessaryConditions,triggers,precludingConditions,bigImage,li
 	*/
 	this.bigImage = bigImage;
 	this.lilImage = lilImage;
+	this.charAsString = charAsString;
 
 }
 
@@ -161,279 +162,279 @@ var characters = [];
 // Below every character is defined
 
 // lowercase latin characters
-characters.push(new character([],[ktkc[0]['a']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-characters.push(new character([],[ktkc[0]['b']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['c']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3']], '',''));
-characters.push(new character([],[ktkc[0]['d']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['e']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['f']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-characters.push(new character([],[ktkc[0]['g']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['h']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '',''));
-characters.push(new character([],[ktkc[0]['i']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['j']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-characters.push(new character([],[ktkc[0]['k']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-characters.push(new character([],[ktkc[0]['l']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3']], '',''));
-characters.push(new character([],[ktkc[0]['m']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['n']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['2'],ktkc[0]['1'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['o']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-characters.push(new character([],[ktkc[0]['p']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['2']], '',''));
-characters.push(new character([],[ktkc[0]['q']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-characters.push(new character([],[ktkc[0]['r']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '',''));
-characters.push(new character([],[ktkc[0]['s']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['t']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['u']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['v']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['w']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['x']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '',''));
-characters.push(new character([],[ktkc[0]['y']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '',''));
-characters.push(new character([],[ktkc[0]['z']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '',''));
+characters.push(new character([],[ktkc[0]['a']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '','',''));
+characters.push(new character([],[ktkc[0]['b']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['c']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3']], '','',''));
+characters.push(new character([],[ktkc[0]['d']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['e']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['f']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '','',''));
+characters.push(new character([],[ktkc[0]['g']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['h']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1']], '','',''));
+characters.push(new character([],[ktkc[0]['i']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['j']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '','',''));
+characters.push(new character([],[ktkc[0]['k']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '','',''));
+characters.push(new character([],[ktkc[0]['l']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3']], '','',''));
+characters.push(new character([],[ktkc[0]['m']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['n']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['2'],ktkc[0]['1'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['o']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '','',''));
+characters.push(new character([],[ktkc[0]['p']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['2']], '','',''));
+characters.push(new character([],[ktkc[0]['q']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '','',''));
+characters.push(new character([],[ktkc[0]['r']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt']], '','',''));
+characters.push(new character([],[ktkc[0]['s']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['3'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['t']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['u']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['v']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['w']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['x']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['alt'],ktkc[0]['1'],ktkc[0]['3'],ktkc[0]['4']], '','',''));
+characters.push(new character([],[ktkc[0]['y']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty']], '','',''));
+characters.push(new character([],[ktkc[0]['z']],[ktkc[0]['shift'],ktkc[0]['greek'],ktkc[0]['slanty'],ktkc[0]['4']], '','',''));
 
 // upper case latin characters
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['a']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['b']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['c']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['d']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['e']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['f']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['g']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['h']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['i']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['j']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['k']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['l']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['m']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['n']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['o']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['p']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['q']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['r']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['s']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['t']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['u']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['v']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['w']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['x']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['y']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['z']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['a']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['b']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['c']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['d']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['e']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['f']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['g']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['h']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['i']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['j']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['k']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['l']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['m']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['n']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['o']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['p']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['q']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['r']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['s']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['t']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['u']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['v']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['w']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['x']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['y']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['z']],[ktkc[0]['slanty'],ktkc[0]['greek']], '','','')); 
 
-characters.push(new character([],[ktkc[0]['space']],[],'','')); // Space only requires the space bar
-characters.push(new character([],[ktkc[0]['enter']],[],'','')); // Enter only requires the enter key
+characters.push(new character([],[ktkc[0]['space']],[],'','','')); // Space only requires the space bar
+characters.push(new character([],[ktkc[0]['enter']],[],'','','')); // Enter only requires the enter key
 
 // Punctuation
-characters.push(new character([],[ktkc[0]['period']],[ktkc[0]['shift']],'','')); 
-characters.push(new character([],[ktkc[0]['comma']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['semicolon']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['semicolon']],[],'',''));
-characters.push(new character([],[ktkc[0]['single quote']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['single quote']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['forward slash']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['1']],[],'',''));
+characters.push(new character([],[ktkc[0]['period']],[ktkc[0]['shift']],'','','')); 
+characters.push(new character([],[ktkc[0]['comma']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['semicolon']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['semicolon']],[],'','',''));
+characters.push(new character([],[ktkc[0]['single quote']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['single quote']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['forward slash']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['1']],[],'','',''));
 
 // Brackets
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['9']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['0']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['left bracket']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['right bracket']],[],'',''));
-characters.push(new character([],[ktkc[0]['left bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([],[ktkc[0]['right bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([ktkc[0]['alt']],[ktkc[0]['left bracket']],[],'',''));
-characters.push(new character([ktkc[0]['alt']],[ktkc[0]['right bracket']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['9']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['0']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['left bracket']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['right bracket']],[],'','',''));
+characters.push(new character([],[ktkc[0]['left bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([],[ktkc[0]['right bracket']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([ktkc[0]['alt']],[ktkc[0]['left bracket']],[],'','',''));
+characters.push(new character([ktkc[0]['alt']],[ktkc[0]['right bracket']],[],'','',''));
 
 // Slashes
-characters.push(new character([],[ktkc[0]['forward slash']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['back slash']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['back slash']],[],'',''));
+characters.push(new character([],[ktkc[0]['forward slash']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['back slash']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['back slash']],[],'','',''));
 
 // Numbers
-characters.push(new character([],[ktkc[0]['0']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['1']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([],[ktkc[0]['2']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([],[ktkc[0]['3']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([],[ktkc[0]['4']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([],[ktkc[0]['5']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['6']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['7']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['8']],[ktkc[0]['shift']],'',''));
-characters.push(new character([],[ktkc[0]['9']],[ktkc[0]['shift']],'',''));
+characters.push(new character([],[ktkc[0]['0']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['1']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([],[ktkc[0]['2']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([],[ktkc[0]['3']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([],[ktkc[0]['4']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([],[ktkc[0]['5']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['6']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['7']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['8']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([],[ktkc[0]['9']],[ktkc[0]['shift']],'','',''));
 
 // Dummy Character
-characters.push(new character([ktkc[0]['escape']],[],[ktkc[0]['escape']],'',''));
+characters.push(new character([ktkc[0]['escape']],[],[ktkc[0]['escape']],'','',''));
 
 // Those symbols above the number keys when you hold shift and hit keys that are numbers
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['2']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['3']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['4']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['5']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['6']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['7']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['8']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['2']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['3']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['4']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['5']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['6']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['7']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['8']],[],'','',''));
 
 // Greek Lowercase
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['greek']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['a']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['b']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['g']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['d']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['e']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['z']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['h']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['u']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['i']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['k']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['l']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['m']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['n']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['c']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['o']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['p']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['r']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['s']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['t']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['y']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['f']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['x']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['q']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['greek']],[ktkc[0]['w']],[ktkc[0]['shift']],'','',''));
 
 // Greek Uppercase
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
-characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['a']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['b']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['g']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['e']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['z']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['h']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['u']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['i']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['k']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['l']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['m']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['n']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['c']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['o']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['p']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['r']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['s']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['t']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['y']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['f']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['x']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['q']],[],'','',''));
+characters.push(new character([ktkc[0]['greek'],ktkc[0]['shift']],[ktkc[0]['w']],[],'','',''));
 
 // Math
-characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['period']],[ktkc[0]['alt']],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['comma']],[ktkc[0]['alt']],'',''));
-characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['period']],[],'',''));
-characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['comma']],[],'',''));
-characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['a']],[],'',''));
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[ktkc[0]['alt'],ktkc[0]['tilda']],'',''));
-characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift'],ktkc[0]['alt']],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['m']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['q']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['o']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['r']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['j']],[],'',''));
-characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['k']],[],'',''));
+characters.push(new character([],[ktkc[0]['equals']],[ktkc[0]['shift'],ktkc[0]['alt'],ktkc[0]['tilda']],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['period']],[ktkc[0]['alt']],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['comma']],[ktkc[0]['alt']],'','',''));
+characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['period']],[],'','',''));
+characters.push(new character([ktkc[0]['shift'],ktkc[0]['alt']],[ktkc[0]['comma']],[],'','',''));
+characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['alt'],ktkc[0]['equals']],[ktkc[0]['a']],[],'','',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['equals']],[ktkc[0]['alt'],ktkc[0]['tilda']],'','',''));
+characters.push(new character([],[ktkc[0]['minus']],[ktkc[0]['shift'],ktkc[0]['alt']],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['m']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['q']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['s']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['o']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['f']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['n']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['l']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['r']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['i']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['c']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['j']],[],'','',''));
+characters.push(new character([ktkc[0]['equals'],ktkc[0]['alt']],[ktkc[0]['k']],[],'','',''));
 
 // Modal 
-characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['p']],[],'',''));
-characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
+characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['p']],[],'','',''));
+characters.push(new character([ktkc[0]['2'],ktkc[0]['alt']],[ktkc[0]['n']],[],'','',''));
 
 // First Order
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['f']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['h']],[],'',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['e']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['a']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['n']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['i']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['f']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['x']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['c']],[],'','',''));
+characters.push(new character([ktkc[0]['1'],ktkc[0]['alt']],[ktkc[0]['h']],[],'','',''));
 
 // Proof Theory
-characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
-characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['c']],[],'',''));
-characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['l']],[],'',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['s']],[],'','',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['x']],[],'','',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['c']],[],'','',''));
+characters.push(new character([ktkc[0]['3'],ktkc[0]['alt']],[ktkc[0]['l']],[],'','',''));
 
 // Set Theory
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['e']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['n']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['i']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['u']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['a']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['s']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['z']],[],'',''));
-characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['x']],[],'',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['e']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['n']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['i']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['u']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['a']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['s']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['z']],[],'','',''));
+characters.push(new character([ktkc[0]['4'],ktkc[0]['alt']],[ktkc[0]['x']],[],'','',''));
 
 // Slanty Lower case
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['a']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['b']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['c']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['d']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['e']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['f']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['g']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['h']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['i']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['j']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['k']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['l']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['m']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['n']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['o']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['p']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['q']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['r']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['s']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['t']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['u']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['v']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['w']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['x']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['y']],[ktkc[0]['shift']],'',''));
-characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['z']],[ktkc[0]['shift']],'',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['a']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['b']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['c']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['d']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['e']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['f']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['g']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['h']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['i']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['j']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['k']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['l']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['m']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['n']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['o']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['p']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['q']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['r']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['s']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['t']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['u']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['v']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['w']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['x']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['y']],[ktkc[0]['shift']],'','',''));
+characters.push(new character([ktkc[0]['slanty']],[ktkc[0]['z']],[ktkc[0]['shift']],'','',''));
 
 // Slanty Upper Case
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['a']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['b']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['c']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['d']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['e']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['f']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['g']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['h']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['i']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['j']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['k']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['l']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['m']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['n']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['o']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['p']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['q']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['r']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['s']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['t']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['u']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['v']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['w']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['x']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['y']],[],'',''));
-characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['z']],[],'',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['a']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['b']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['c']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['d']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['e']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['f']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['g']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['h']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['i']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['j']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['k']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['l']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['m']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['n']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['o']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['p']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['q']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['r']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['s']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['t']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['u']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['v']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['w']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['x']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['y']],[],'','',''));
+characters.push(new character([ktkc[0]['slanty'],ktkc[0]['shift']],[ktkc[0]['z']],[],'','',''));
 
 // Underscore
-characters.push(new character([ktkc[0]['shift']],[ktkc[0]['minus']],[],'',''));
+characters.push(new character([ktkc[0]['shift']],[ktkc[0]['minus']],[],'','',''));
 
 // A function that reutrns a string expressing the numberal of NUMBER, that is also ZEROSTOFILL long 
 function zeroPadder(number,zerosToFill){
@@ -442,6 +443,19 @@ function zeroPadder(number,zerosToFill){
 		numberAsString = '0'+numberAsString;
 	}
 	return numberAsString;
+}
+
+/*
+	stringCharactersListed is a string where each indexed element is a string version of that character in the characters index.
+	This way, if I ever write code to convert from text to Chadtech text, I can refer to the charAsString property of each 
+	character
+*/
+
+var stringCharactersListed ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \n.,;:'+"'"+'"'+'?!(){}[]{}//|01234567899@#$%^&*abgdezhtiklmnxoprstufxqwABGDEZHTIKLMNXOPRSTUFXQW=><><%~+-*#??f?????->^#EA~???????????E???U????abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+var characterToString={}
+
+for (var characterItem = 0; characterItem<characters.length; characterItem++){
+	characters[characterItem].charAsString = stringCharactersListed[characterItem];
 }
 
 /*
@@ -1086,8 +1100,6 @@ function fileLoad(){
 		imageReader.readAsDataURL(event.dataTransfer.files[0]);
 	}
 }
-
-//draw();
 
 		</script>
 	</head>
