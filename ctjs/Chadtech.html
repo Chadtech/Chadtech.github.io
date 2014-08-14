@@ -1055,6 +1055,7 @@ function fileLoad(){
 					//      (B)
 					while(keepGrabbing){
 						var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/imageToPasteHeight),grabbingThisPixel%imageToPasteHeight,1,1).data;
+						console.log('THIS PIXEL',thisPixel);
 						for (var colorType=0; colorType<3 && keepGrabbing; colorType++){
 							if (thisPixel[colorType]==83){
 								keepGrabbing=false;
