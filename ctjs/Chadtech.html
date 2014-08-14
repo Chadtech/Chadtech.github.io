@@ -892,6 +892,7 @@ After all the pixels have been generated, each pixel is placed in the 0 pixel co
 the very left side) (D). If it exceeds the height of the page, it rolls over onto the next column.
 
 */
+
 function writeData(){
 	var chadtechCanvas = document.getElementById("Chadtech-v0.5").getContext("2d");
 	documentAsData=[];
@@ -934,7 +935,7 @@ function writeData(){
 		colorValues[1]=bunchaPixels[pixel][1];
 		colorValues[2]=bunchaPixels[pixel][2];
 		colorValues[3]=255;
-		chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/window.innerHeight),pixel%window.innerHeight);
+		chadtechCanvas.putImageData(singleCanvasSpot,Math.floor(pixel/((arrayOfLines.length*(16+lineSpace))+64)),pixel%((arrayOfLines.length*(16+lineSpace))+64));
 	}
 }
 
@@ -1029,6 +1030,7 @@ function fileLoad(){
 	var chadtechContext = chadtechCanvas.getContext("2d");
 	event.preventDefault();
 	var fileNameOfDroppedFile=event.dataTransfer.files[0].name;
+	console.log('THIS IS FILE',event.dataTransfer.files[0]);
 	if (event.dataTransfer.files[0].type.slice(0,5) == 'image'){
 		var imageReader = new FileReader();
 		imageReader.onloadend = (function(theFile) {
@@ -1036,6 +1038,7 @@ function fileLoad(){
 			return function(e){
 				var imageToPaste = new Image();
 				imageToPaste.src = e.target.result;
+				var imageToPasteHeight=imageToPaste.height;
 				chadtechContext.drawImage(imageToPaste,0,0);
 				var authenticChadtechDocument=false;
 				//       (A)
@@ -1050,7 +1053,7 @@ function fileLoad(){
 					var keepGrabbing=true;
 					//      (B)
 					while(keepGrabbing){
-						var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/window.innerHeight),grabbingThisPixel%window.innerHeight,1,1).data;
+						var thisPixel = chadtechContext.getImageData(Math.floor(grabbingThisPixel/imageToPasteHeight),grabbingThisPixel%imageToPasteHeight,1,1).data;
 						for (var colorType=0; colorType<3 && keepGrabbing; colorType++){
 							if (thisPixel[colorType]==83){
 								keepGrabbing=false;
