@@ -1069,7 +1069,7 @@ function fileLoad(){
 						}
 						else{
 							secondByte = rawPixelData[pixelDatum];
-							reconstructedDocumentData.push([ze+on,[],[]]);
+							reconstructedDocumentData.push([firstByte+secondByte,[],[]]);
 						}
 					}
 					rawDocument=reconstructedDocumentData;
