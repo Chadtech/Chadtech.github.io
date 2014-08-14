@@ -1039,6 +1039,7 @@ function fileLoad(){
 				var imageToPaste = new Image();
 				imageToPaste.src = e.target.result;
 				var imageToPasteHeight=imageToPaste.height;
+				console.log('IMAGE TO PASTE HEIGHT', imageToPasteHeight);
 				chadtechContext.drawImage(imageToPaste,0,0);
 				var authenticChadtechDocument=false;
 				//       (A)
