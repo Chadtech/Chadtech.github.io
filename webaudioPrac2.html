@@ -15,21 +15,21 @@
 			source.start(0);
 		}
 
-		function loadSound(url){
+		function loadSound(url,whatsGettingData){
 			var request = new XMLHttpRequest();
 			request.open('GET',url,true);
 			request.responseType = 'arraybuffer';
 
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
-					soundBuffer=buffer;
+					whatsGettingData=buffer;
 					playSound(soundBuffer);
 				});
 			}
 			request.send();
 		}
 
-		loadSound('superBlast.mp3');
+		loadSound('superBlast.mp3',soundBuffer);
 
 		</script>
 	</head>
