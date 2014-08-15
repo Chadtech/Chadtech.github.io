@@ -8,6 +8,26 @@
 
 		console.log('CONTEXT',context);
 
+		var request = new XMLHttpRequest();
+
+		request.open('GET','superBlast.mp3',true);
+		request.responseType = "arraybuffer";
+
+		request.onload = function() {
+			var audioData = request.response;
+			createSoundSource(audioData);
+		};
+
+		request.send();
+
+		soundSource = context.createBufferSource();
+		soundBuffer = context.createBuffer(audioData, true);
+		soundSource.buffer = soundBuffer;
+
+		soundSource.connect(context.destination);
+
+		soundSource.noteOn(0);
+
 		</script>
 	</head>
 	<body>
