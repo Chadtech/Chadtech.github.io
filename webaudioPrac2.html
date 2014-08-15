@@ -23,7 +23,7 @@
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					whatsGettingData=buffer;
-					playSound(soundBuffer);
+					playSound(whatsGettingData);
 				});
 			}
 			request.send();
