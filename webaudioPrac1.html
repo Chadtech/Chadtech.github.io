@@ -16,17 +16,19 @@
 		request.onload = function() {
 			var audioData = request.response;
 			createSoundSource(audioData);
+
+			soundSource = context.createBufferSource();
+			soundBuffer = context.createBuffer(audioData, true);
+			soundSource.buffer = soundBuffer;
+
+			soundSource.connect(context.destination);
+
+			soundSource.noteOn(0);
 		};
 
 		request.send();
 
-		soundSource = context.createBufferSource();
-		soundBuffer = context.createBuffer(audioData, true);
-		soundSource.buffer = soundBuffer;
 
-		soundSource.connect(context.destination);
-
-		soundSource.noteOn(0);
 
 		</script>
 	</head>
