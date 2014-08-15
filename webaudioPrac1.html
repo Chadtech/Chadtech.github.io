@@ -18,7 +18,9 @@
 			//createSoundSource(audioData);
 
 			soundSource = context.createBufferSource();
-			soundBuffer = context.createBuffer(audioData, true);
+			console.log('THIS IS AUDIODATA',audioData);
+			console.log('LENGTH?',audioData.length);
+			soundBuffer = context.createBuffer(1,audioData, 44100);
 			soundSource.buffer = soundBuffer;
 
 			soundSource.connect(context.destination);
