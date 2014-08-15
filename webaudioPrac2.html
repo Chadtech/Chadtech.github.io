@@ -8,7 +8,7 @@
 
 		var soundBuffer= null;
 
-		function playSound(buffer){
+		function playSound(buffer,howLongToWait){
 			var source = context.createBufferSource();
 			source.buffer = buffer;
 			source.connect(context.destination);
@@ -31,8 +31,12 @@
 
 		loadSound('superBlast.mp3',soundBuffer);
 
+		function keyDownEvent(event){
+			playSound(soundBuffer);
+		}
+
 		</script>
 	</head>
-	<body>
+	<body onkeydown="keyDownEvent(event)">
 	</body>
 </html>
