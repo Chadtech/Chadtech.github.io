@@ -7,6 +7,7 @@
 
 
 		var soundBuffer;
+		console.log('SOUND BUFFER POST DEFINITION',soundBuffer);
 
 		function playSound(buffer,howLongToWait){
 			var source = context.createBufferSource();
@@ -24,14 +25,17 @@
 				context.decodeAudioData(request.response, function(buffer){
 					whatsGettingData=buffer;
 					playSound(whatsGettingData,4);
+					console.log('SOUND BUFFER POST ONLOAD PLAY',soundBuffer);
 				});
 			}
 			request.send();
 		}
+		console.log('SOUND BUFFER POST LOAD SOUND',soundBuffer);
 
 		loadSound('superBlast.mp3',soundBuffer);
 
 		function keyDownEvent(event){
+			console.log('SOUND BUFFER PRE KEYDOWN PLAY SOUND',soundBuffer);
 			playSound(soundBuffer,0);
 		}
 
