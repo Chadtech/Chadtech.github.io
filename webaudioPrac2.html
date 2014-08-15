@@ -15,6 +15,9 @@
 			source.start(0);
 		}
 
+		function didntWork(){
+			console.log('IT DIDNT WORK!!1');
+		}
 		function loadSound(url){
 			var request = new XMLHttpRequest();
 			request.open('GET',url,true);
@@ -24,7 +27,7 @@
 				context.decodeAudioData(request.response, function(buffer){
 					soundBuffer=buffer;
 					playSound(soundBuffer);
-				}, onError);
+				}, didntWork());
 			}
 			request.send();
 		}
