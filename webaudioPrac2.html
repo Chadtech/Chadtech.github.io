@@ -7,6 +7,14 @@
 
 
 		var soundBuffer= null;
+
+		function playSound(buffer){
+			var source = context.createBufferSource();
+			source.buffer = buffer;
+			source.connect(context.destination);
+			source.start(0);
+		}
+
 		function loadSound(url){
 			var request = new XMLHttpRequest();
 			request.open('GET',url,true);
@@ -15,22 +23,13 @@
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					soundBuffer=buffer;
+					playSound(soundBuffer);
 				}, onError);
 			}
 			request.send();
 		}
 
 		loadSound('superBlast.mp3');
-
-		function playSound(buffer){
-			var source = context.createBufferSource();
-			source.buffer = buffer;
-			source.connect(context.destination);
-			source.start(0);
-
-		}
-
-		playSound(soundBuffer);
 
 		</script>
 	</head>
