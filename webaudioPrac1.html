@@ -6,6 +6,8 @@
 		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		context = new AudioContext();
 
+
+		console.log('CONTEXT DESTINATION',context.destination);
 		console.log('CONTEXT',context);
 
 		var request = new XMLHttpRequest();
@@ -25,7 +27,7 @@
 
 			soundSource.connect(context.destination);
 
-			soundSource.noteOn(0);
+			soundSource.start(0);
 		};
 
 		request.send();
