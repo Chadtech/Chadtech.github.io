@@ -20,7 +20,7 @@
 			request.send();
 		}
 
-		superBlast = loadSound('superBlast.mp3');
+		loadSound('superBlast.mp3');
 
 		function playSound(buffer){
 			var source = context.createBufferSource();
@@ -30,7 +30,7 @@
 
 		}
 
-		playSound(superBlast);
+		playSound(soundBuffer);
 
 		</script>
 	</head>
