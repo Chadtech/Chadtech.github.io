@@ -16,18 +16,18 @@
 		}
 
 		function didntWork(whyDidntItWork){
-			console.log('IT DIDNT WORK!!1',whyDidntItWork).err;
+			console.log('IT DIDNT WORK!!1');
 		}
 		function loadSound(url){
 			var request = new XMLHttpRequest();
 			request.open('GET',url,true);
-			request.responseType = 'arrayBuffer';
+			request.responseType = 'arraybuffer';
 
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					soundBuffer=buffer;
 					playSound(soundBuffer);
-				}, didntWork(e));
+				}, didntWork());
 			}
 			request.send();
 		}
