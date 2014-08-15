@@ -12,7 +12,7 @@
 			var source = context.createBufferSource();
 			source.buffer = buffer;
 			source.connect(context.destination);
-			source.start(0);
+			source.start(howLongToWait);
 		}
 
 		function loadSound(url,whatsGettingData){
@@ -23,7 +23,7 @@
 			request.onload = function(){
 				context.decodeAudioData(request.response, function(buffer){
 					whatsGettingData=buffer;
-					playSound(whatsGettingData);
+					playSound(whatsGettingData,4);
 				});
 			}
 			request.send();
@@ -32,7 +32,7 @@
 		loadSound('superBlast.mp3',soundBuffer);
 
 		function keyDownEvent(event){
-			playSound(soundBuffer);
+			playSound(soundBuffer,0);
 		}
 
 		</script>
