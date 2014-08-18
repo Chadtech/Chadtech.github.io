@@ -1,49 +1,85 @@
 <html>
 	<head>
 		<title>Webaudio Prac</title>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js"></script>
+
 		<script type="text/javascript">
 		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		var context = new AudioContext();
 
-
 		var soundBuffer;
-		console.log('SOUND BUFFER POST DEFINITION',soundBuffer);
 
-		function playSound(buffer,howLongToWait){
+		var playSound = function(buffer, howLongToWait){
 			var source = context.createBufferSource();
 			source.buffer = buffer;
 			source.connect(context.destination);
 			source.start(howLongToWait);
 		}
 
-		function loadSound(url,whatsGettingData){
-			var request = new XMLHttpRequest();
-			request.open('GET',url,true);
-			request.responseType = 'arraybuffer';
+		var loadSound = function (url, next){
+			//console.log(url)
+			request = new XMLHttpRequest();
+  		request.open('GET', url, true);
+  		request.responseType = 'arraybuffer';
+			request.onload = function() {
+		    
+		    var audioData = request.response;
+		    console.log(request)
+		    console.log(audioData);
 
-			request.onload = function(){
-				context.decodeAudioData(request.response, function(buffer){
-					whatsGettingData=buffer;
-					playSound(whatsGettingData,4);
-					console.log('SOUND BUFFER POST ONLOAD PLAY',soundBuffer);
-				});
-			}
-			request.send();
+		    context.decodeAudioData(audioData, function(buffer){
+		    	console.log(buffer);
+		    	next(buffer);
+		    }, function(e){
+		    	"Error with decoding audio data" + e.err
+		    });
+		  }
+
+		  request.send();
 		}
-		console.log('SOUND BUFFER POST LOAD SOUND',soundBuffer);
 
-		loadSound('superBlast.mp3',soundBuffer);
-		playSound(soundBuffer,0);
-		soundBuffer.start(0);
-
-		function keyDownEvent(event){
-			console.log('SOUND BUFFER PRE KEYDOWN PLAY SOUND',soundBuffer);
+		var keyDownEvent = function (event){
+			//loadSound('superBlast.mp3', function(soundBuffer){
 			playSound(soundBuffer,0);
-			soundBuffer.start(0);
+			//});
+		}
+
+
+		var loadSounds = function() {
+
+			var sounds = ['FOh.mp3','EIh.mp3','SIh.mp3'];
+
+			async.map(sounds, function(name, next){
+				loadSound(name, function(buffer){
+					next(null, buffer);
+				});
+
+			}, function(err, results){
+	
+				console.log(err, results);
+
+				/*
+				$('body').on('keydown', function(e) {
+					console.log(e.which);
+					switch(e.which) {
+						case 65:
+							playSound(results);
+						case 83:
+							playSound(results);
+						case 68:
+							playSound(results);
+					}
+
+				});*/
+
+			});
+
 		}
 
 		</script>
 	</head>
-	<body onkeydown="keyDownEvent(event)">
+	<body onload="loadSounds()">
 	</body>
 </html>
