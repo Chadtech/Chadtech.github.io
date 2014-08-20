@@ -780,11 +780,11 @@ function draw(){
 	//    (B)
 	organizeWords();
 	chadtechCanvas.fillStyle="#000000";
-	if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
+	if (window.innerHeight > ((arrayOfLines.length*(16+lineSpace))+64)){
 		chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight);	
 	}
 	else{
-		charactershadtechCanvas.fillRect(0,0,window.innerWidth,(arrayOfLines.length*(16+lineSpace))+64);
+		chadtechCanvas.fillRect(0,0,window.innerWidth,(arrayOfLines.length*(16+lineSpace))+64);
 	}
 
 
@@ -1108,7 +1108,7 @@ function fileLoad(){
 	}
 }
 
-setTimeout(draw(), 1000);
+//setTimeout(draw(), 1000);
 
 		</script>
 	</head>
