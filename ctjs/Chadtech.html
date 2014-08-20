@@ -451,7 +451,8 @@ function zeroPadder(number,zerosToFill){
 	character
 */
 
-var stringCharactersListed ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \n.,;:'+"'"+'"'+'?!(){}[]{}//|01234567899@#$%^&*abgdezhtiklmnxoprstufxqwABGDEZHTIKLMNXOPRSTUFXQW=><><%~+-*#??f?????->^#EA~???????????E???U????abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+var stringCharactersListed ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \n.,;:'+"'"+'"'+'?!(){}[]{}//|01234567899@#$%^&*abgdezhtiklmnxoprstufxqwABGDEZHTIKLMNXOPRSTUFXQW=><><%~+-*#``f`````->^#EA~```````````E```U````abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+
 var characterToString={}
 
 for (var characterItem = 0; characterItem<characters.length; characterItem++){
@@ -779,7 +780,13 @@ function draw(){
 	//    (B)
 	organizeWords();
 	chadtechCanvas.fillStyle="#000000";
-	chadtechCanvas.fillRect(0,0,window.innerWidth,(arrayOfLines.length*(16+lineSpace))+64);
+	if (window.innerHeight < ((arrayOfLines.length*(16+lineSpace))+64)){
+		chadtechCanvas.fillRect(0,0,window.innerWidth,window.innerHeight);	
+	}
+	else{
+		charactershadtechCanvas.fillRect(0,0,window.innerWidth,(arrayOfLines.length*(16+lineSpace))+64);
+	}
+
 
 	for (var line=0; line<arrayOfLines.length; line++){
 		for (var characterInstance=0; characterInstance<arrayOfLines[line].length; characterInstance++){
@@ -1100,6 +1107,8 @@ function fileLoad(){
 		imageReader.readAsDataURL(event.dataTransfer.files[0]);
 	}
 }
+
+setTimeout(draw(), 1000);
 
 		</script>
 	</head>
