@@ -1,10 +1,10 @@
 window.AudioContext = window.AudioContext or window.webkitAudioContext
 context = new AudioContext()
 
-oscillatorVoice = (oscillatorType) ->
+oscillatorVoice = (oscillatorType, frequencyValue) ->
 
   oscillatorPrimitive = context.createOscillator()
-  oscillatorPrimitive.frequency.value = 101
+  oscillatorPrimitive.frequency.value = frequencyValue || 101
   oscillatorPrimitive.type = oscillatorType
 
   volumePrimitive = context.createGain()
@@ -24,9 +24,7 @@ oscillatorVoice = (oscillatorType) ->
   setFrequency : (newFrequency) ->
     @oscillator.frequency.value = newFrequency
 
-  begin : (newFrequency) ->
-    if newFrequency
-      @setFrequency(newFrequency)
+  begin : () ->
     now = context.currentTime
     @volume.gain.setValueAtTime(0,now)
     @volume.gain.linearRampToValueAtTime(0.2,now+0.005)
@@ -36,15 +34,10 @@ oscillatorVoice = (oscillatorType) ->
     now = context.currentTime
     @volume.gain.setValueAtTime(0.2,now)
     @volume.gain.linearRampToValueAtTime(0,now+0.005)
+    @oscillator.stop(0.007)
     @availability = true
 
-oscillatorGroup = [
-  new oscillatorVoice('sawtooth')
-  new oscillatorVoice('sawtooth')
-  new oscillatorVoice('sawtooth')
-  new oscillatorVoice('sawtooth')
-  new oscillatorVoice('sawtooth')
-]
+oscillatorGroup = []
 
 findTone = (eventKey) ->
   tone = ''
@@ -137,15 +130,10 @@ $(document).ready ()->
     oscillatorGroup.forEach (element)->
       currentlyPressedKeys.push element.stimulusKey*(!element.availability)
     if currentlyPressedKeys.indexOf(event.which)== -1
-      oscillatorIndex = 0
-      availableOscillatorFound = false
-      while oscillatorIndex<oscillatorGroup.length and not availableOscillatorFound
-        if oscillatorGroup[oscillatorIndex].availability
-          oscillatorGroup[oscillatorIndex].begin(findTone(event.which))
-          oscillatorGroup[oscillatorIndex].stimulusKey = event.which
-          availableOscillatorFound = true
-          draw()
-        oscillatorIndex++
+      oscillatorGroup.push(new oscillatorVoice('sawtooth', findTone(event.which)))
+      oscillatorGroup[oscillatorGroup.length-1].stimulusKey = event.which
+      oscillatorGroup[oscillatorGroup.length-1].begin()
+    draw()
 
 $(document).ready ()->
   $('body').keyup (event)->
@@ -153,6 +141,7 @@ $(document).ready ()->
     while oscillatorIndex < oscillatorGroup.length
       if oscillatorGroup[oscillatorIndex].stimulusKey == event.which
         oscillatorGroup[oscillatorIndex].end()
+        oscillatorGroup[oscillatorIndex] = new oscillatorVoice('sawtooth')
       oscillatorIndex++
     draw()
 
