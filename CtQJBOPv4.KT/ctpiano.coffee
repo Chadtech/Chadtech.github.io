@@ -1,6 +1,8 @@
 window.AudioContext = window.AudioContext or window.webkitAudioContext
 context = new AudioContext()
 
+oscillatorGroup = {}
+
 oscillatorVoice = (oscillatorType, frequencyValue) ->
 
   oscillatorPrimitive = context.createOscillator()
@@ -15,29 +17,32 @@ oscillatorVoice = (oscillatorType, frequencyValue) ->
 
   oscillatorPrimitive.start(0)
 
-  oscillator : oscillatorPrimitive
-  volume : volumePrimitive
-  availability : true
-  #oscillatorType : oscillatorType or 'sine'
-  stimulusKey : 9000
+  oscillator: oscillatorPrimitive
+  volume: volumePrimitive
+  availability: true
+  stimulusKey: 9000
 
-  setFrequency : (newFrequency) ->
+  setFrequency: (newFrequency) ->
     @oscillator.frequency.value = newFrequency
 
-  begin : () ->
+  begin: ->
     now = context.currentTime
     @volume.gain.setValueAtTime(0,now)
     @volume.gain.linearRampToValueAtTime(0.2,now+0.005)
     @availability = false
 
-  end : () ->
+  end: ->
     now = context.currentTime
     @volume.gain.setValueAtTime(0.2,now)
     @volume.gain.linearRampToValueAtTime(0,now+0.005)
-    @oscillator.stop(0.007)
+    @oscillator.stop(now+0.007)
+    keyToRemove = @stimulusKey
+    setTimeout(()->
+      delete oscillatorGroup[keyToRemove]
+      draw()
+    , 0.01)
     @availability = true
 
-oscillatorGroup = []
 
 findTone = (eventKey) ->
   tone = ''
@@ -53,7 +58,81 @@ findTone = (eventKey) ->
     rowSuspect++
   return tone
 
-tones = [1/1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8]
+everyFive = [
+  [1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8]
+  [1, 9/8, 5/4, 675/512, 3/2, 5/3, 15/8]
+  [1, 10/9, 5/4, 4/3, 40/27, 5/3, 256/135]
+  [1, 10/9, 5/4, 4/3, 40/27, 5/3, 15/8]
+  [1, 9/8, 32/25, 4/3, 3/2, 128/75, 48/25]
+  [1, 9/8, 5/4, 4/3, 3/2, 27/16, 15/8]
+  [1, 256/225, 512/405, 4/3, 1024/675, 128/75, 256/135]
+  [1, 10/9, 5/4, 4/3, 3/2, 5/3, 15/8]
+  [1, 10/9, 5/4, 4/3, 3/2, 5/3, 15/8]
+  [1, 9/8, 32/25, 27/20, 3/2, 27/16, 48/25]
+  [1, 9/8, 81/64, 27/20, 3/2, 27/16, 15/8]
+  [1, 256/225, 32/25, 4/3, 3/2, 128/75, 256/135]
+]
+
+inverseEveryFive = [
+  [1, 16/15, 6/5, 4/3, 3/2, 8/5, 16/9]
+  [1, 16/15, 6/5, 4/3, 1024/675, 8/5, 16/9]
+  [1, 135/128, 6/5, 27/20, 3/2, 8/5, 9/5]
+  [1, 16/15, 6/5, 27/20, 3/2, 8/5, 9/5]
+  [1, 25/24, 75/64, 4/3, 3/2, 25/16, 16/9]
+  [1, 16/15, 32/27, 4/3, 3/2, 8/5, 16/9]
+  [1, 135/128, 75/64, 675/512, 3/2, 405/256, 225/128]
+  [1, 16/15, 6/5, 4/3, 3/2, 8/5, 9/5]
+  [1, 16/15, 6/5, 4/3, 3/2, 8/5, 9/5]
+  [1, 25/24, 32/27, 4/3, 40/27, 25/16, 16/9]
+  [1, 16/15, 32/27, 4/3, 40/27, 128/81, 16/9]
+  [1, 135/128, 75/64, 4/3, 3/2, 25/16, 225/128]
+]
+
+everySeven = [
+  [1, 28/27, 7/6, 4/3, 3/2, 14/9, 7/4]
+  [1, 243/224, 243/196, 4/3, 3/2, 81/49, 12/7]
+  [1, 28/27, 32/27, 4/3, 32/21, 14/9, 16/9]
+  [1, 54/49, 32/27, 4/3, 3/2, 32/21, 16/9]
+  [1, 28/27, 7/6, 4/3, 112/81, 14/9, 7/4]
+  [1, 28/27, 7/6, 21/16, 3/2, 14/9, 7/4]
+  [1, 243/224, 243/196, 9/7, 3/2, 729/448, 729/392]
+  [1, 28/27, 7/6, 4/3, 3/2, 14/9, 16/9]
+  [1, 54/49, 8/7, 4/3, 3/2, 81/49, 16/9]
+  [1, 49/48, 7/6, 21/16, 3/2, 14/9, 7/4]
+  [1, 64/63, 32/27, 4/3, 32/21, 128/81, 16/9]
+  [1, 9/8, 81/64, 81/56, 14/9, 27/16, 27/14]
+]
+
+inverseEverySeven= [
+  [1, 8/7, 9/7, 4/3, 3/2, 12/7, 27/14]
+  [1, 7/6, 98/81, 4/3, 3/2, 392/243, 448/243]
+  [1, 9/8, 9/7, 21/16, 3/2, 27/16, 27/14]
+  [1, 9/8, 21/16, 4/3, 3/2, 27/16, 49/27]
+  [1, 8/7, 9/7, 81/56, 3/2, 12/7, 27/14]
+  [1, 8/7, 9/7, 4/3, 32/21, 12/7, 27/14]
+  [1, 784/729, 896/729, 4/3, 14/9, 392/243, 448/243]
+  [1, 9/8, 9/7, 4/3, 3/2, 12/7, 27/14]
+  [1, 9/8, 98/81, 4/3, 3/2, 7/4, 49/27]
+  [1, 8/7, 9/7, 4/3, 32/21, 12/7, 96/49]
+  [1, 9/8, 81/64, 21/16, 3/2, 27/16, 63/32]
+  [1, 28/27, 32/27, 9/7, 112/81, 128/81, 16/9]
+]
+
+scales = [everyFive, inverseEveryFive, everySeven, inverseEverySeven]
+
+primeSystem = 0
+ofSystem = 0
+
+tones = scales[primeSystem][ofSystem]
+
+while primeSystem < scales.length
+  ofSystem = 0
+  while ofSystem < 7
+    ofSystem++
+  primeSystem++
+
+primeSystem = 0
+ofSystem = 0
 
 selected = new Image()
 selected.src = 'selected.png'
@@ -88,7 +167,7 @@ zeroPadder = (number,zerosToFill) ->
   return numberAsString
 
 numeralsIndex = 0
-while numeralsIndex < 8
+while numeralsIndex < 16
   numbersToNumerals[numeralsIndex].src = 'n'+zeroPadder(numeralsIndex,2)+'.PNG'
   numeralsIndex++
 
@@ -106,9 +185,8 @@ draw = ()->
   chadtechCanvas.canvas.width = window.innerWidth
   chadtechCanvas.canvas.height = window.innerHeight
   chadtechCanvas.drawImage(title,xMargin,yMargin)
-  currentlyPressedKeys = []
-  oscillatorGroup.forEach (element)->
-    currentlyPressedKeys.push element.stimulusKey*(!element.availability)
+  chadtechCanvas.drawImage(numbersToNumerals[primeSystem],xMargin+title.width, yMargin)
+  chadtechCanvas.drawImage(numbersToNumerals[ofSystem],xMargin+title.width+12, yMargin)
   rowNumber = 0
   while rowNumber < rows.length
     columnNumber = 0
@@ -116,37 +194,43 @@ draw = ()->
       chadtechCanvas.drawImage(notSelected, (columnNumber*64)+(rowNumber*16)+xMargin, (rowNumber*64)+yMargin+16)
       chadtechCanvas.drawImage(numbersToNumerals[columnNumber%7],(columnNumber*64)+(rowNumber*16)+45+xMargin,(rowNumber*64)+20+yMargin)
       chadtechCanvas.drawImage(numbersToNumerals[rowNumber+Math.floor(columnNumber/7)],(columnNumber*64)+(rowNumber*16)+33+xMargin,(rowNumber*64)+20+yMargin)
+      if oscillatorGroup[rows[rowNumber][columnNumber]]
+        chadtechCanvas.drawImage(selected, (columnNumber*64)+(rowNumber*16)+xMargin, (rowNumber*64)+yMargin+16)        
       columnNumber++
-    currentlyPressedKeyIndex = 0
-    while currentlyPressedKeyIndex < currentlyPressedKeys.length
-      if rows[rowNumber].indexOf(currentlyPressedKeys[currentlyPressedKeyIndex])!= -1
-       chadtechCanvas.drawImage(selected, (rows[rowNumber].indexOf(currentlyPressedKeys[currentlyPressedKeyIndex])*64)+(rowNumber*16)+xMargin, (rowNumber*64)+yMargin+16)
-      currentlyPressedKeyIndex++
     rowNumber++
+
+changeScale = (keyCode)->
+  if keyCode == 37
+    if primeSystem>0
+      primeSystem--
+  else if keyCode == 38
+    if ofSystem>0
+      ofSystem--
+  else if keyCode == 39
+    if primeSystem<(scales.length-1)
+      primeSystem++
+  else if keyCode == 40
+    if ofSystem<(scales[primeSystem].length-1)
+      ofSystem++
+  tones = scales[primeSystem][ofSystem]
 
 $(document).ready ()->
   $('body').keydown (event)->
-    currentlyPressedKeys = []
-    oscillatorGroup.forEach (element)->
-      currentlyPressedKeys.push element.stimulusKey*(!element.availability)
-    if currentlyPressedKeys.indexOf(event.which)== -1
-      oscillatorGroup.push(new oscillatorVoice('sawtooth', findTone(event.which)))
-      oscillatorGroup[oscillatorGroup.length-1].stimulusKey = event.which
-      oscillatorGroup[oscillatorGroup.length-1].begin()
+    if (41<event.which) or (event.which<37)
+      if not oscillatorGroup[event.which]
+        oscillatorGroup[event.which] = new oscillatorVoice('sawtooth', findTone(event.which))
+        keyJustPressed = event.which
+        oscillatorGroup[event.which].stimulusKey = keyJustPressed
+        oscillatorGroup[event.which].begin()
+    else
+      changeScale(event.which)
     draw()
 
-$(document).ready ()->
   $('body').keyup (event)->
-    oscillatorIndex = 0
-    while oscillatorIndex < oscillatorGroup.length
-      if oscillatorGroup[oscillatorIndex].stimulusKey == event.which
-        oscillatorGroup[oscillatorIndex].end()
-        oscillatorGroup[oscillatorIndex] = new oscillatorVoice('sawtooth')
-      oscillatorIndex++
-    draw()
+    oscillatorGroup[event.which].end()
 
-$(window).resize ()->
-  draw()
+  $(window).resize ()->
+    draw()
 
 setTimeout(()-> 
   draw()
