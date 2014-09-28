@@ -1,0 +1,56 @@
+.backdrop {
+  background: #000000;
+}
+
+*{
+  padding:0px;
+  margin: 0px;
+}
+
+.title {
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-size: 36px;
+  color: #C0C0C0;
+  float: top;
+}
+
+.absoluteCorner {
+  position: relative;
+  left: 10px;
+  top: 0px;
+  width: 1000;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heading {
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-size: 24px;
+  font-style: italic;
+  color: #C0C0C0;
+}
+
+.text {
+  position: absolute;
+  left: 10px;
+}
+
+.content {
+  list-style-type: none;
+  background: #202020;
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 18px;
+  color: #C0C0C0;
+}
+
+.colorspan {
+  background: #202020;
+  width: 100%;
+}
+
+.link {
+  text-decoration: none;
+  color: #E04000;
+}
