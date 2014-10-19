@@ -122,6 +122,8 @@ rotation = ( howManyDegrees ) ->
       datumIndex++
 
     selection = rotatedSelection
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
 
     selectionsWidth = rotatedSelection.width
     selectionsHeight = rotatedSelection.height
@@ -129,7 +131,8 @@ rotation = ( howManyDegrees ) ->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth
       bottomEdge = selectionY + selectionsHeight
       drawSelectBox(ctContext, selectionX - 1, selectionY - 1, rightEdge, bottomEdge)

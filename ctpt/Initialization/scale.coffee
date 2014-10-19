@@ -190,13 +190,16 @@ scale = ->
       pixelIndex++
 
     selection = newSelection
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
     selectionsWidth = scaledWidth
     selectionsHeight = scaledHeight
 
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth
       bottomEdge = selectionY + selectionsHeight
       drawSelectBox(ctContext, selectionX - 1, selectionY - 1, rightEdge, bottomEdge)

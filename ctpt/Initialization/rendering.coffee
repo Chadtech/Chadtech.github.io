@@ -164,7 +164,7 @@ drawToolbars = ->
         iconY = ctPaintTools[toolsToNumbers['zoom']].clickRegion[1]
         toolbar0Context.drawImage( theImage, iconX, iconY)
 
-   if tH[tH.length - 1].name is 'select'
+    if tH[tH.length - 1].name is 'select'
       if tH[tH.length - 1].mode
         theImage = solidIcons['select'][1]
         iconX = tH[tH.length - 1].clickRegion[0]
@@ -307,23 +307,54 @@ copeWithSelection = ()->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage, 0, 0)
-      ctContext.putImageData(selection, copeX, copeY)
+      #ctContext.putImageData(selection, copeX, copeY)
+      ctContext.drawImage(selectionImage, copeX, copeY)
       cH.push ctCanvas.toDataURL()
       cH.shift()
       cF = []
     canvasDataAsImage.src = cH[cH.length - 1]
 
-#makeTransparent = () ->
-#  if areaSelected
-
-
-
-
-
-
-
-
-
-
-
+makeTransparent = () ->
+  if ctPaintTools[toolsToNumbers['select']].mode
+    datumIndex = 0
+    while datumIndex < selection.data.length
+      if (datumIndex % 4) is 3
+        if selection.data[datumIndex] isnt 255
+          selection.data[datumIndex] = 255
+      datumIndex++
+    ctPaintTools[toolsToNumbers['select']].mode = false
+  else
+    datumIndex = 0
+    isSameColor = true
+    while datumIndex < selection.data.length
+      switch (datumIndex%4)
+        when 0
+          if selection.data[datumIndex] isnt colorSwatches[1][0]
+            isSameColor = false
+        when 1
+          if selection.data[datumIndex] isnt colorSwatches[1][1]
+            isSameColor = false
+        when 2
+          if selection.data[datumIndex] isnt colorSwatches[1][2]
+            isSameColor = false
+        when 3
+          if isSameColor
+            selection.data[datumIndex] = 0
+          else
+            isSameColor = true
+      datumIndex++
+    ctPaintTools[toolsToNumbers['select']].mode = true
+  drawToolbars()
+  selectionImage = new Image()
+  selectionImage.src = imageDataToURL(selection)
+  canvasDataAsImage = new Image()
+  canvasDataAsImage.onload = ->
+    ctContext.drawImage(canvasDataAsImage,0,0)
+    ctContext.drawImage(selectionImage, selectionX, selectionY)
+    originX = selectionX
+    originY = selectionY
+    edgeX = originX + selectionsWidth - 1
+    edgeY = originY + selectionsHeight - 1
+    drawSelectBox(ctContext, originX, originY, edgeX, edgeY)
+  canvasDataAsImage.src = canvasHoldover
 

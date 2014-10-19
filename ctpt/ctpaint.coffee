@@ -105,6 +105,7 @@ zoomY = undefined
   is the location of selection while it is being dragged.
 ###
 selection = undefined
+selectionImage = undefined
 areaSelected = false
 selectionX = 0
 selectionY = 0
@@ -219,81 +220,42 @@ spotInColorPalette = undefined
 ###
   The color pallete. Even numbered pallete elements are on the top row,
   odds on the bottom row. That aside the colors ascend from left to right
-
-  The colors were largely ripped out of the youtube video of Tom Sach's
-  video 'colors'. Some minor adjustments.
 ###
 topRow = [
-  # Default windows light gray / windows command prompt gray
   [192, 192, 192]
-  # black
   [0 ,0 ,0]
-  # Olive Drab
   [85, 96, 45]
-  # Coolest Safety Glasses Brown
   [101, 92, 77]
-  # That sickly brown orange of wood Shelac
   [240, 147, 35]
-  # Sand / Skin / light brown
   [221, 201, 142]
-  # Bertrand Russell's Skin Color
   [252, 164, 132]
-  # McDonalds Yellow
   [243, 211, 27]
-  # Syro Album Cover Yellow
   [176, 214, 48]
-  # An instance of Orange in Sach's video 'color'
   [255, 91, 49]
-  # McDonalds Red
   [212, 51, 29]
-  # Red from the red top attractive model 'Elly Tran Ha' was wearing
   [242, 29, 35]
-  # Slightly gray-blue pink
   [230, 121, 166]
-  # The Rose Pedals in the video of Harry Partch making Rose Pedal Jam
   [80, 0, 87]
-  # The dark red in 4chans Yastsuba color scheme
   [240, 224, 214]
-  # The light red in 4chans Yatsuba color scheme
   [255, 255, 238]
 ]
 
 bottomRow = [
-  # Default Windows dark gray
   [64, 64, 64]
-  # White
   [255, 255, 255]
-  # Thom Yorke's outfit color in the music video of 'Ingenue'
   [157, 144, 136]
-  # Lighter and grayer Navy Blue
   [50, 54, 128]
-  # The wonderful blue from blue white board markers
   [36, 33, 157]
-  # Klein Blue
   [0, 47, 167]
-  # Blue that I chose to resemble the color of the sky once
   [23, 92, 254]
-  # Tiffany Blue
   [10, 186, 181]
-  # 'Oriental Avenue' Blue
-  # As in, the color of that property from the game monopoly
-  # that I believe is gray and not blue, but apparently
-  # most people consider to be blue.
   [159, 170, 210]
-
-  # The Dark blue in 4chan's Yastuba B
   [214, 218, 240]
-  # The light blue in 4chan's Yatsuba B
   [238, 242, 255]
-  # 'Green' from the album cover of 'Amplifier Worship' by Boris
   [157, 212, 147]
-  # Green I made up 0
   [170, 211, 13]
-  # Greg Saunier from Deerhoof's shirt in Jaun's basement performance
   [60, 182, 99]
-  # Green I made up 1
   [10, 202, 26]
-  # The snare drums head in the video 'Zach Hill Practicing'
   [201, 207, 215]
 ]
 
@@ -457,6 +419,26 @@ sameColorCheck = (colorA, colorB) ->
     greenAreSame = colorA[1] == colorB[1]
     blueAreSame = colorA[2] == colorB[2]
     return  redAreSame and greenAreSame and blueAreSame
+
+###
+  There are two functions that can be used to draw something onto a canvas,
+  putImageData, and drawImage. putImageData replaces data, and drawImage
+  Merges data, accounting for transparency.
+
+  I use this function to convert image data, which naturally has no
+  function toDataURL(), into a data URL. The data URL is then used
+  as a source for a new image object, which can be the subject of 
+  the drawImage function.
+###
+imageDataToURL = ( imageAsImageData ) ->
+  temporaryCanvas = document.createElement('canvas')
+  temporaryCanvas.width = imageAsImageData.width
+  temporaryCanvas.height = imageAsImageData.height
+
+  temporaryContext = temporaryCanvas.getContext('2d')
+  temporaryContext.putImageData(imageAsImageData, 0, 0)
+
+  return temporaryCanvas.toDataURL()
 
     
 # The main Canvas
@@ -1247,10 +1229,13 @@ xFlip = ->
       pixelIndex++
 
     #   ( e )
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth - 1
       bottomEdge = selectionY + selectionsHeight - 1
       drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
@@ -1348,10 +1333,13 @@ yFlip = ->
       pixelIndex++
 
     #   ( e )
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth - 1
       bottomEdge = selectionY + selectionsHeight - 1
       drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
@@ -1607,6 +1595,8 @@ rotation = ( howManyDegrees ) ->
       datumIndex++
 
     selection = rotatedSelection
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
 
     selectionsWidth = rotatedSelection.width
     selectionsHeight = rotatedSelection.height
@@ -1614,7 +1604,8 @@ rotation = ( howManyDegrees ) ->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth
       bottomEdge = selectionY + selectionsHeight
       drawSelectBox(ctContext, selectionX - 1, selectionY - 1, rightEdge, bottomEdge)
@@ -1819,10 +1810,13 @@ invertAction = () ->
         colorIndex++
       pixelIndex++
 
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth - 1
       bottomEdge = selectionY + selectionsHeight - 1
       drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
@@ -1967,10 +1961,13 @@ replaceDataSorting = ( inputMaterial, eventIsKeyDown ) ->
                   colorIndex++
                 pixelIndex++
 
+              selectionImage = new Image()
+              selectionImage.src = imageDataToURL(selection)
               canvasDataAsImage = new Image()
               canvasDataAsImage.onload = ->
                 ctContext.drawImage(canvasDataAsImage,0,0)
-                ctContext.putImageData(selection, selectionX, selectionY)
+                #ctContext.putImageData(selection, selectionX, selectionY)
+                ctContext.drawImage(selectionImage, selectionX, selectionY)
                 rightEdge = selectionX + selectionsWidth - 1
                 bottomEdge = selectionY + selectionsHeight - 1
                 drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
@@ -2215,13 +2212,16 @@ scale = ->
       pixelIndex++
 
     selection = newSelection
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
     selectionsWidth = scaledWidth
     selectionsHeight = scaledHeight
 
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth
       bottomEdge = selectionY + selectionsHeight
       drawSelectBox(ctContext, selectionX - 1, selectionY - 1, rightEdge, bottomEdge)
@@ -2295,7 +2295,7 @@ resizeDataSortingInitialize = (width, height) ->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      ctContext.putImageData(selection, selectionX, selectionY)
+      #ctContext.putImageData(selection, selectionX, selectionY)
       historyUpdate()
     canvasDataAsImage.src = cH[cH.length - 1]
   menuDatum = zeroPadder(width, 4) + zeroPadder(height, 4)
@@ -2497,12 +2497,14 @@ pasteAction = ->
       canvasDataAsImage = new Image()
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
-        ctContext.putImageData(selection, selectionX, selectionY)
+
+        #ctContext.putImageData(selection, selectionX, selectionY)
+        ctContext.drawImage(selectionImage, selectionX, selectionY)
         canvasHoldover = ctCanvas.toDataURL()
         cH.push ctCanvas.toDataURL()
         cH.shift()
         cF = []
-        # (A)
+         # (A)
         pasteTheSelection()
       canvasDataAsImage.src = cH[cH.length - 1]
     else
@@ -2521,6 +2523,8 @@ pasteAction = ->
 pasteTheSelection = ->
   # Set the selection to what was in the clipboard
   selection = copyMemory
+  selectionImage = new Image()
+  selectionImage.src = imageDataToURL(selection)
   #If we are zomed in, we want the pastee
   # to be in the visual field
   if not zoomActivate
@@ -2552,7 +2556,9 @@ pasteTheSelection = ->
       # Draw the canvas as we know it to be
       ctContext.drawImage(canvasDataAsImage,0,0)
       # Then draw the selection
-      ctContext.putImageData(selection, selectionX, selectionY)
+     
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       # Then draw that little box around the selection
       originX = selectionX
       originY = selectionY
@@ -2749,13 +2755,16 @@ allAction = (event) ->
       canvasDataAsImage = new Image()
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
-        ctContext.putImageData(selection, selectionX, selectionY)
+
+        #ctContext.putImageData(selection, selectionX, selectionY)
+        ctContext.drawImage(selectionImage, selectionX, selectionY)
 
         cH.push ctCanvas.toDataURL()
         cH.shift()
         cF = []
 
         selectAll()
+        selectionImage.src = imageDataToURL(selection)
 
       canvasDataAsImage.src = cH[cH.length - 1]
 
@@ -2767,9 +2776,14 @@ selectAll = ->
   tCanvasWidth = ctContext.canvas.width
   tCanvasHeight = ctContext.canvas.height
   selection = ctContext.getImageData(0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
+  selectionImage = new Image()
+  selectionImage.src = imageToDataURL(selection)
   squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
   canvasHoldover = ctCanvas.toDataURL()
-  ctContext.putImageData(selection, 0, 0)
+
+  #ctContext.putImageData(selection, 0, 0)
+
+  ctContext.drawImage(selectionImage, 0, 0)
   selectionsWidth = tCanvasWidth
   selectionsHeight = tCanvasHeight
   selectionX = 0
@@ -2987,7 +3001,7 @@ drawToolbars = ->
         iconY = ctPaintTools[toolsToNumbers['zoom']].clickRegion[1]
         toolbar0Context.drawImage( theImage, iconX, iconY)
 
-   if tH[tH.length - 1].name is 'select'
+    if tH[tH.length - 1].name is 'select'
       if tH[tH.length - 1].mode
         theImage = solidIcons['select'][1]
         iconX = tH[tH.length - 1].clickRegion[0]
@@ -3130,25 +3144,56 @@ copeWithSelection = ()->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage, 0, 0)
-      ctContext.putImageData(selection, copeX, copeY)
+      #ctContext.putImageData(selection, copeX, copeY)
+      ctContext.drawImage(selectionImage, copeX, copeY)
       cH.push ctCanvas.toDataURL()
       cH.shift()
       cF = []
     canvasDataAsImage.src = cH[cH.length - 1]
 
-#makeTransparent = () ->
-#  if areaSelected
-
-
-
-
-
-
-
-
-
-
-
+makeTransparent = () ->
+  if ctPaintTools[toolsToNumbers['select']].mode
+    datumIndex = 0
+    while datumIndex < selection.data.length
+      if (datumIndex % 4) is 3
+        if selection.data[datumIndex] isnt 255
+          selection.data[datumIndex] = 255
+      datumIndex++
+    ctPaintTools[toolsToNumbers['select']].mode = false
+  else
+    datumIndex = 0
+    isSameColor = true
+    while datumIndex < selection.data.length
+      switch (datumIndex%4)
+        when 0
+          if selection.data[datumIndex] isnt colorSwatches[1][0]
+            isSameColor = false
+        when 1
+          if selection.data[datumIndex] isnt colorSwatches[1][1]
+            isSameColor = false
+        when 2
+          if selection.data[datumIndex] isnt colorSwatches[1][2]
+            isSameColor = false
+        when 3
+          if isSameColor
+            selection.data[datumIndex] = 0
+          else
+            isSameColor = true
+      datumIndex++
+    ctPaintTools[toolsToNumbers['select']].mode = true
+  drawToolbars()
+  selectionImage = new Image()
+  selectionImage.src = imageDataToURL(selection)
+  canvasDataAsImage = new Image()
+  canvasDataAsImage.onload = ->
+    ctContext.drawImage(canvasDataAsImage,0,0)
+    ctContext.drawImage(selectionImage, selectionX, selectionY)
+    originX = selectionX
+    originY = selectionY
+    edgeX = originX + selectionsWidth - 1
+    edgeY = originY + selectionsHeight - 1
+    drawSelectBox(ctContext, originX, originY, edgeX, edgeY)
+  canvasDataAsImage.src = canvasHoldover
 
 
 ###
@@ -3249,7 +3294,6 @@ keyListeningUnderNormalCircumstance = [
           zoomRootY -= ( 9 // zoomFactor ) + 2
           canvasYPos -= (zoomRootY * zoomFactor)
           positionCanvas()
-          updateCursor()
 
     if event.keyCode is keysToKeyCodes['down']
       if not zoomActivate
@@ -3264,7 +3308,6 @@ keyListeningUnderNormalCircumstance = [
           zoomRootY += ( 9 // zoomFactor ) + 2
           canvasYPos -= (zoomRootY * zoomFactor)
           positionCanvas()
-          updateCursor()
 
     if event.keyCode is keysToKeyCodes['left']
       if not zoomActivate
@@ -3278,7 +3321,6 @@ keyListeningUnderNormalCircumstance = [
           zoomRootX -= ( 9 // zoomFactor ) + 2
           canvasXPos -= (zoomRootX * zoomFactor)
           positionCanvas()
-          updateCursor()
 
     if event.keyCode is keysToKeyCodes['right']
       if not zoomActivate
@@ -3293,7 +3335,6 @@ keyListeningUnderNormalCircumstance = [
           zoomRootX += ( 9 // zoomFactor ) + 2
           canvasXPos -= (zoomRootX * zoomFactor)
           positionCanvas()
-          updateCursor()
           
     if event.keyCode is keysToKeyCodes['backspace']
       if areaSelected
@@ -3305,6 +3346,8 @@ keyListeningUnderNormalCircumstance = [
           cH.shift()
           cF = []
         canvasDataAsImage.src = canvasHoldover
+  (event) ->
+
 ]
  
 justPassTheCharacter = (keyPressed) ->
@@ -3356,7 +3399,6 @@ zoomPosture = [
   (event) ->
     drawInformation(event)
     setCasualPosition(event)
-    #updateCursor(event)
 
   (event) ->
     if not mousePressed
@@ -3379,18 +3421,18 @@ selectPosture = [
     if not areaSelected
       if mousePressed
 
+        getMousePositionOnCanvas(event)
+        sortedXs = [ Math.min(xSpot, oldX), Math.max(xSpot, oldX) ]
+        sortedYs = [ Math.min(ySpot, oldY), Math.max(ySpot, oldY) ]
+
+        boxInformation = (Math.abs(xSpot - oldX) + 1).toString() 
+        boxInformation += 'px x '
+        boxInformation += (Math.abs(ySpot - oldY) + 1).toString()
+        boxInformation += 'px'
+        drawInformation( event, boxInformation )
+
         canvasDataAsImage = new Image()
         canvasDataAsImage.onload = ->
-          getMousePositionOnCanvas(event)
-          sortedXs = [ Math.min(xSpot, oldX), Math.max(xSpot, oldX) ]
-          sortedYs = [ Math.min(ySpot, oldY), Math.max(ySpot, oldY) ]
-
-          boxInformation = (Math.abs(xSpot - oldX) + 1).toString() 
-          boxInformation += 'px x '
-          boxInformation += (Math.abs(ySpot - oldY) + 1).toString()
-          boxInformation += 'px'
-          drawInformation( event, boxInformation )
-
           originX = sortedXs[0]
           originY = sortedYs[0]
           otherSideX = sortedXs[1]
@@ -3400,7 +3442,6 @@ selectPosture = [
         canvasDataAsImage.src = cH[cH.length - 1]
       else
         drawInformation( event, boxInformation )
-
 
     else
       if mousePressed
@@ -3419,8 +3460,10 @@ selectPosture = [
         canvasDataAsImage = new Image()
         canvasDataAsImage.onload = ->
           ctContext.drawImage(canvasDataAsImage, 0, 0)
-          ctContext.putImageData(selection, gripX, gripY)
+          ctContext.drawImage(selectionImage, gripX, gripY)
           drawSelectBox(ctContext, gripX, gripY, rightEdge, bottomEdge)
+          #ctContext.putImageData(selection, gripX, gripY)
+          #drawSelectBox(ctContext, gripX, gripY, rightEdge, bottomEdge)
         canvasDataAsImage.src = canvasHoldover
       else
         drawInformation( event, boxInformation )
@@ -3450,8 +3493,9 @@ selectPosture = [
         canvasDataAsImage = new Image()
         canvasDataAsImage.onload = ->
           ctContext.drawImage(canvasDataAsImage, 0, 0)
-          ctContext.putImageData(selection, selectionX, selectionY)
+          ctContext.drawImage(selectionImage, selectionX, selectionY)
           historyUpdate()
+          #ctContext.putImageData(selection, selectionX, selectionY)
         canvasDataAsImage.src = canvasHoldover
 
   # Mouse up
@@ -3485,9 +3529,15 @@ selectPosture = [
 
           canvasHoldover = ctCanvas.toDataURL()
 
-          #historyUpdate()
-          ctContext.putImageData(selection, selectionX, selectionY)
-          drawSelectBox(ctContext, originX, originY, otherSideX, otherSideY)
+          selectionImage = new Image()
+          selectionImage.onload = ->
+            ctContext.drawImage(selectionImage, selectionX, selectionY)
+            drawSelectBox(ctContext, originX, originY, otherSideX, otherSideY)
+          selectionImage.src = imageDataToURL(selection)
+
+          #ctContext.putImageData(selection, selectionX, selectionY)
+          #drawSelectBox(ctContext, originX, originY, otherSideX, otherSideY)
+
         canvasDataAsImage.src = cH[cH.length - 1]
         areaSelected = true
     else
@@ -4035,8 +4085,10 @@ $(document).ready (event)->
       drawToolbars()
 
     if event.keyCode is keysToKeyCodes['single quote']
-      #makeTransparent()
       modeChangeAction()
+
+    if event.keyCode is keysToKeyCodes['space']
+      makeTransparent()
 
     if event.keyCode is keysToKeyCodes['equals'] or event.keyCode is 61
       if zoomActivate

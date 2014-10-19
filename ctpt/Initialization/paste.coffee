@@ -11,12 +11,14 @@ pasteAction = ->
       canvasDataAsImage = new Image()
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
-        ctContext.putImageData(selection, selectionX, selectionY)
+
+        #ctContext.putImageData(selection, selectionX, selectionY)
+        ctContext.drawImage(selectionImage, selectionX, selectionY)
         canvasHoldover = ctCanvas.toDataURL()
         cH.push ctCanvas.toDataURL()
         cH.shift()
         cF = []
-        # (A)
+         # (A)
         pasteTheSelection()
       canvasDataAsImage.src = cH[cH.length - 1]
     else
@@ -35,6 +37,8 @@ pasteAction = ->
 pasteTheSelection = ->
   # Set the selection to what was in the clipboard
   selection = copyMemory
+  selectionImage = new Image()
+  selectionImage.src = imageDataToURL(selection)
   #If we are zomed in, we want the pastee
   # to be in the visual field
   if not zoomActivate
@@ -66,7 +70,9 @@ pasteTheSelection = ->
       # Draw the canvas as we know it to be
       ctContext.drawImage(canvasDataAsImage,0,0)
       # Then draw the selection
-      ctContext.putImageData(selection, selectionX, selectionY)
+     
+      #ctContext.putImageData(selection, selectionX, selectionY)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
       # Then draw that little box around the selection
       originX = selectionX
       originY = selectionY

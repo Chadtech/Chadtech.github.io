@@ -9,13 +9,16 @@ allAction = (event) ->
       canvasDataAsImage = new Image()
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
-        ctContext.putImageData(selection, selectionX, selectionY)
+
+        #ctContext.putImageData(selection, selectionX, selectionY)
+        ctContext.drawImage(selectionImage, selectionX, selectionY)
 
         cH.push ctCanvas.toDataURL()
         cH.shift()
         cF = []
 
         selectAll()
+        selectionImage.src = imageDataToURL(selection)
 
       canvasDataAsImage.src = cH[cH.length - 1]
 
@@ -27,9 +30,14 @@ selectAll = ->
   tCanvasWidth = ctContext.canvas.width
   tCanvasHeight = ctContext.canvas.height
   selection = ctContext.getImageData(0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
+  selectionImage = new Image()
+  selectionImage.src = imageToDataURL(selection)
   squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
   canvasHoldover = ctCanvas.toDataURL()
-  ctContext.putImageData(selection, 0, 0)
+
+  #ctContext.putImageData(selection, 0, 0)
+
+  ctContext.drawImage(selectionImage, 0, 0)
   selectionsWidth = tCanvasWidth
   selectionsHeight = tCanvasHeight
   selectionX = 0

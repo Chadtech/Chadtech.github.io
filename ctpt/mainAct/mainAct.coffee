@@ -29,8 +29,10 @@ $(document).ready (event)->
       drawToolbars()
 
     if event.keyCode is keysToKeyCodes['single quote']
-      #makeTransparent()
       modeChangeAction()
+
+    if event.keyCode is keysToKeyCodes['space']
+      makeTransparent()
 
     if event.keyCode is keysToKeyCodes['equals'] or event.keyCode is 61
       if zoomActivate
