@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Paint</title>
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js";></script>
+      <script type="text/coffeescript" src="ctpaint.coffee"></script>
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min.js"></script>
+      <script>
+        window.location.hash="no-back-button";
+        window.location.hash="no-back-button";
+        window.location.hash="Again-No-back-button";
+        window.onhashchange=function(){window.location.hash="no-back-button";}
+      </script> 
+
+      <link href="ctpaint.css" rel="stylesheet" type="text/css">
+      <link rel="shortcut icon" href="https://raw.githubusercontent.com/ChadCS/ChadTech-v0/master/thumbnail.ico">
+  </head>
+<body>
+    <div id="wholeWindow">
+      <div id="backgroundDiv" style="position: absolute; top:0px; left:0px;">
+        <canvas id="background" style = " background-color : #202020"></canvas>
+      </div>
+
+      <div id="dragAndDrop">
+        <div id="ctpaintDiv" style="position: absolute; top:0px; left:0px;">
+          <canvas id="CtPaint" style = "background-color : #202020"></canvas>
+        </div>
+      </div>
+
+      <div id="toolbar0Div" style="position: absolute; top:0px; left:0px;">
+        <canvas id="toolbar0" style = " background-color : #FF00FF"></canvas>
+      </div>
+      <div id="toolbar1Div" style="position: absolute; top:0px; left:0px;">
+        <canvas id="toolbar1" style = " background-color : #0000FF"></canvas>
+      </div>
+
+      <div id="menuDiv" style="position: absolute; top:0px; left:0px;">
+        <canvas id="menu" style = " background-color : #0000FF"></canvas>
+      </div>
+
+      <div id="wayWideDiv">
+        <canvas id="wayWide"></canvas>
+      </div>
+  </div>
+</body>
+</html>
