@@ -1,8 +1,11 @@
+###
+  This function selects the whole canvas, much like what would
+  happen if you pressed cmd + a in any image software
+###
 allAction = (event) ->
-  tH.push ctPaintTools[toolsToNumbers['all']]
-  drawToolbars()
-
   if not zoomActivate
+    tH.push ctPaintTools[toolsToNumbers['all']]
+    drawToolbars()
     if areaSelected
       areaSelected = false
 
@@ -10,7 +13,6 @@ allAction = (event) ->
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
 
-        #ctContext.putImageData(selection, selectionX, selectionY)
         ctContext.drawImage(selectionImage, selectionX, selectionY)
 
         cH.push ctCanvas.toDataURL()
@@ -31,19 +33,19 @@ selectAll = ->
   tCanvasHeight = ctContext.canvas.height
   selection = ctContext.getImageData(0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
   selectionImage = new Image()
-  selectionImage.src = imageToDataURL(selection)
-  squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
-  canvasHoldover = ctCanvas.toDataURL()
+  selectionImage.onload = ->
+    squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
+    canvasHoldover = ctCanvas.toDataURL()
 
-  #ctContext.putImageData(selection, 0, 0)
+    ctContext.drawImage(selectionImage, 0, 0)
+    selectionsWidth = tCanvasWidth
+    selectionsHeight = tCanvasHeight
+    selectionX = 0
+    selectionY = 0
+    drawSelectBox( ctContext, 0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
+    areaSelected = true
 
-  ctContext.drawImage(selectionImage, 0, 0)
-  selectionsWidth = tCanvasWidth
-  selectionsHeight = tCanvasHeight
-  selectionX = 0
-  selectionY = 0
-  drawSelectBox( ctContext, 0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
-  areaSelected = true
+  selectionImage.src = imageDataToURL(selection)
 
   setTimeout( ()->
     tH.pop()

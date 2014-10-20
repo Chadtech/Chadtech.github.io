@@ -1,6 +1,10 @@
 ct = new Image()
 ct.src = "assets/ct.png"
 
+instructions = new Image()
+instructions.src = 'assets/instructions.png'
+
+# Useful when I want to ensure a datum entry is a hexadecimal value
 hexadecimalProper = [
   '0'
   '1'
@@ -58,6 +62,7 @@ cH = [
   undefined
   undefined
 ]
+
 ###
   cF is short for canvas future
 ###
@@ -88,6 +93,7 @@ mouseExit = false
 draggingBorder = false
 
 zoomActivate = false
+viewMode = false
 zoomFactor = 1
 zoomRootX = undefined
 zoomRootY = undefined
@@ -152,6 +158,10 @@ fillProceed = true
   They are only updated by the getMousePositionOnCanvas function.
   oldX and oldY are used in the many tools that require a memory
   of where the tool started, or where it was.
+
+  casualX and casualY are used in instances where the mouse location
+  needs to be asertained, but without interference to the xSpot/ySpot
+  pair.
 ###
 xSpot = undefined
 ySpot = undefined
@@ -162,6 +172,12 @@ oldY = undefined
 casualX = undefined
 casualY = undefined
 
+###
+  The location of the cursor on the canvas is indicated by a colored pixel
+  Since a color might not be visible over certain canvases, the option
+  to change the pixel color is available. The array cursorColors is contains
+  the full selection of cursor colors.
+###
 cursorColors = [
   [ 255, 85, 0, 255 ]
   [ 85, 0, 255, 255 ]
@@ -180,6 +196,12 @@ indexOfCursorColors = 0
 
 colorOfCursorPixel = cursorColors[indexOfCursorColors]
 
+###
+  The location of the cursor is defined seperately from the other
+  cursor location pairs (xSpot, oldX, casualX), to prevent
+  interference. The location of the cursor pixel is updated continuously,
+  with the old pixel being covered up, and the new one being drawn
+###
 cursorX = undefined
 cursorY = undefined
 
@@ -191,5 +213,10 @@ oldCursorsColor = undefined
 buttonWidth = 24
 buttonHeight = 24
 
+###
+  The user can click and drag the primary color swatch to the color
+  palette. This boolean indicates if the primary color swatch has been
+  clicked down on.
+###
 swatchColorPicked = false
 

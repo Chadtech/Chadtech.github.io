@@ -1,6 +1,10 @@
 ct = new Image()
 ct.src = "assets/ct.png"
 
+instructions = new Image()
+instructions.src = 'assets/instructions.png'
+
+# Useful when I want to ensure a datum entry is a hexadecimal value
 hexadecimalProper = [
   '0'
   '1'
@@ -58,6 +62,7 @@ cH = [
   undefined
   undefined
 ]
+
 ###
   cF is short for canvas future
 ###
@@ -88,6 +93,7 @@ mouseExit = false
 draggingBorder = false
 
 zoomActivate = false
+viewMode = false
 zoomFactor = 1
 zoomRootX = undefined
 zoomRootY = undefined
@@ -152,6 +158,10 @@ fillProceed = true
   They are only updated by the getMousePositionOnCanvas function.
   oldX and oldY are used in the many tools that require a memory
   of where the tool started, or where it was.
+
+  casualX and casualY are used in instances where the mouse location
+  needs to be asertained, but without interference to the xSpot/ySpot
+  pair.
 ###
 xSpot = undefined
 ySpot = undefined
@@ -162,6 +172,12 @@ oldY = undefined
 casualX = undefined
 casualY = undefined
 
+###
+  The location of the cursor on the canvas is indicated by a colored pixel
+  Since a color might not be visible over certain canvases, the option
+  to change the pixel color is available. The array cursorColors is contains
+  the full selection of cursor colors.
+###
 cursorColors = [
   [ 255, 85, 0, 255 ]
   [ 85, 0, 255, 255 ]
@@ -180,6 +196,12 @@ indexOfCursorColors = 0
 
 colorOfCursorPixel = cursorColors[indexOfCursorColors]
 
+###
+  The location of the cursor is defined seperately from the other
+  cursor location pairs (xSpot, oldX, casualX), to prevent
+  interference. The location of the cursor pixel is updated continuously,
+  with the old pixel being covered up, and the new one being drawn
+###
 cursorX = undefined
 cursorY = undefined
 
@@ -191,6 +213,11 @@ oldCursorsColor = undefined
 buttonWidth = 24
 buttonHeight = 24
 
+###
+  The user can click and drag the primary color swatch to the color
+  palette. This boolean indicates if the primary color swatch has been
+  clicked down on.
+###
 swatchColorPicked = false
 
 
@@ -224,16 +251,16 @@ spotInColorPalette = undefined
 topRow = [
   [192, 192, 192]
   [0 ,0 ,0]
-  [85, 96, 45]
   [101, 92, 77]
-  [240, 147, 35]
-  [221, 201, 142]
-  [252, 164, 132]
-  [243, 211, 27]
+  [85, 96, 45]
   [176, 214, 48]
+  [221, 201, 142]
+  [243, 211, 27]
+  [240, 147, 35]
   [255, 91, 49]
   [212, 51, 29]
   [242, 29, 35]
+  [252, 164, 132]
   [230, 121, 166]
   [80, 0, 87]
   [240, 224, 214]
@@ -841,12 +868,53 @@ floodFill = (canvas, context, colorToChangeTo, xPosition, yPosition) ->
     context.putImageData(revisedCanvasToPaste,0,0)
 
 
+###
+  This function draws a square onto the canvas.
+###
 squareAction = (canvas, color, beginX, beginY, endX, endY, fillOrNot) ->
+  # First, let us check if the square is to be drawn filled in or not
   if not tH[tH.length - 1].mode and not fillOrNot
+    ###
+      If it isnt getting filled in, let the function draw a square
+      for every pixel of width the square is to have
+      The width of course, being defined by the square tool's
+      magnitude property. (A)
+
+      Before drawing the square though, the function must realize
+      the relative positions of where the mouse was clicked down,
+      and where the mouse now is. These two positions are typically
+      the arguments beginX/beginY, and endX/endY.
+
+      For both the x and y dimensions, the starting point could be
+      farther than the end point from the origin, or closer. This
+      means ther are four possible states of relative position: 0)
+      the starting X is closer to the origin, and the starting Y is 
+      closer to the origin; 1) the ending X is closer to the origin
+      ( than the ending X ), and the starting Y is closer to the origin 
+      (than the ending Y); 2) the starting X is closer to the origin 
+      and the ending Y is closer to the origin; and 3) the ending X 
+      is closer to the origin and the ending Y is closer to the origin.
+      To Minimize the number of if statements, the function first
+      judges if the starting and ending points for each dimension
+      are the same ( B ), and then judges the relative position
+      of one dimension, with the other dimensions relative
+      position infered ( C )
+
+      When the square drawn has a border, the function simply
+      drawns many squares with a one pixel border. When the square 
+      drawn has a border, the relative positions of the points in 
+      each dimension must be recognized, least the function will not 
+      know if the next bordering square to be drawn is to be drawn
+      one pixel left, or one pixel right (or up or down), 
+      of the prior square.
+    ###
     magnitudeIncrement = 0
-    if (beginX < endX) == (beginY < endY)
+    # ( B )
+    if (beginX < endX) is (beginY < endY)
+      # ( C )
       if (beginX < endX)
         while magnitudeIncrement < tH[tH.length - 1].magnitude
+          # ( A )
           mi = magnitudeIncrement
           drawLine(canvas, color, beginX + mi, beginY + mi, endX - mi, beginY + mi)
           drawLine(canvas, color, beginX + mi, beginY + mi, beginX + mi, endY - mi )
@@ -855,6 +923,7 @@ squareAction = (canvas, color, beginX, beginY, endX, endY, fillOrNot) ->
           magnitudeIncrement++
       else
         while magnitudeIncrement < tH[tH.length - 1].magnitude
+          # ( A )
           mi = magnitudeIncrement
           drawLine(canvas, color, beginX - mi, beginY - mi, endX + mi, beginY - mi)
           drawLine(canvas, color, beginX - mi, beginY - mi, beginX - mi, endY + mi )
@@ -862,8 +931,10 @@ squareAction = (canvas, color, beginX, beginY, endX, endY, fillOrNot) ->
           drawLine(canvas, color, beginX - mi, endY + mi, endX + mi, endY + mi)
           magnitudeIncrement++
     else
+      # ( C )
       if (endY < beginY)
         while magnitudeIncrement < tH[tH.length - 1].magnitude
+          # ( A )
           mi = magnitudeIncrement
           drawLine(canvas, color, beginX + mi, beginY - mi, endX - mi, beginY - mi)
           drawLine(canvas, color, beginX + mi, beginY - mi, beginX + mi, endY + mi )
@@ -872,6 +943,7 @@ squareAction = (canvas, color, beginX, beginY, endX, endY, fillOrNot) ->
           magnitudeIncrement++
       else
         while magnitudeIncrement < tH[tH.length - 1].magnitude
+          # ( A )
           mi = magnitudeIncrement
           drawLine(canvas, color, beginX - mi, beginY + mi, endX + mi, beginY + mi)
           drawLine(canvas, color, beginX - mi, beginY + mi, beginX - mi, endY - mi )
@@ -885,7 +957,7 @@ squareAction = (canvas, color, beginX, beginY, endX, endY, fillOrNot) ->
     else
       numberOfIterationsNecessary = Math.abs(beginX - endX)
     magnitudeIncrement = 0
-    if (beginX < endX) == (beginY < endY)
+    if (beginX < endX) is (beginY < endY)
       if (beginX < endX)
         while magnitudeIncrement < numberOfIterationsNecessary
           mi = magnitudeIncrement
@@ -1070,28 +1142,6 @@ lineAction = (canvas, color, beginX, beginY, endX, endY) ->
   if tH[tH.length - 1].magnitude > 1
     doingBoldness = tH[tH.length - 1].magnitude - 1
   drawLine(canvas, color, beginX, beginY, endX, endY, doingBoldness)
-  ###
-  lineSlope = undefined
-  if tH[tH.length - 1].magnitude > 1
-    lineSlope = Math.abs(beginX - endX) / Math.abs(beginY - endY)
-    if lineSlope > 1
-      lineSlope = Math.abs(beginY - endY) / Math.abs(beginX - endX)
-
-  magnitudeIncrement = 0
-  while magnitudeIncrement < tH[tH.length - 1].magnitude
-    drawLine(canvas, color, beginX + magnitudeIncrement, beginY, endX + magnitudeIncrement, endY)
-    drawLine(canvas, color, beginX - magnitudeIncrement, beginY, endX - magnitudeIncrement, endY)
-    drawLine(canvas, color, beginX, beginY + magnitudeIncrement, endX, endY + magnitudeIncrement)
-    drawLine(canvas, color, beginX, beginY - magnitudeIncrement, endX, endY - magnitudeIncrement)
-    magnitudeIncrement++
-  if tH[tH.length - 1].magnitude > 1
-    calculatedRadius = (tH[tH.length - 1].magnitude) - Math.round(lineSlope * 1.21)
-    magnitudeIncrement = 0
-    while magnitudeIncrement < calculatedRadius
-      drawCircle( canvas, color, beginX, beginY, calculatedRadius - magnitudeIncrement, true )
-      drawCircle( canvas, color, endX, endY, calculatedRadius - magnitudeIncrement, true )
-      magnitudeIncrement++
-  ###
 
 
 ###
@@ -1500,14 +1550,22 @@ rotateDataSorting = ( inputMaterial, eventIsKeyDown) ->
           rotateFinishUp()
   else
     switch inputMaterial
-      when '9' then menuContext.drawImage(ninetyDegreesLitUp, tH[tH.length - 1].menuImage.width - 223, 5)
-      when '1' then menuContext.drawImage(oneHundredAndEightyDegreesLitUp, tH[tH.length - 1].menuImage.width - 187, 5)
-      when '2' then menuContext.drawImage(twoHundredAndSeventyDegreesLitUp, tH[tH.length - 1].menuImage.width - 138, 5)
-      when 'n' then menuContext.drawImage(cancelLitUp, tH[tH.length - 1].menuImage.width - 89, 5)
+      when '9' 
+        menuContext.drawImage(ninetyDegreesLitUp, tH[tH.length - 1].menuImage.width - 223, 5)
+      when '1'
+        xPositionOfButton = tH[tH.length - 1].menuImage.width - 187
+        menuContext.drawImage(oneHundredAndEightyDegreesLitUp, xPositionOfButton, 5)
+      when '2' 
+        xPositionOfButton = tH[tH.length - 1].menuImage.width - 138
+        menuContext.drawImage(twoHundredAndSeventyDegreesLitUp, xPositionOfButton, 5)
+      when 'n' 
+        menuContext.drawImage(cancelLitUp, tH[tH.length - 1].menuImage.width - 89, 5)
 
 rotation = ( howManyDegrees ) ->
+  # Cover up the cursor pixel so that it doesnt become an artifact on the canvas
   coverUpOldCursor()
   if not areaSelected
+
     sWidth = ctContext.canvas.width
     sHeight = ctContext.canvas.height
     canvasCurrently = ctContext.getImageData(0, 0, sWidth, sHeight)
@@ -1515,12 +1573,15 @@ rotation = ( howManyDegrees ) ->
     canvasAsPixels = dataToPixels(canvasCurrently.data)
     switch howManyDegrees
       when '9'
+        # Rotate ninety degrees
         canvasAsPixels = axisFlip(canvasAsPixels, sWidth, sHeight)
         canvasAsPixels = horizontalFlip(canvasAsPixels[0], canvasAsPixels[1], canvasAsPixels[2])
       when '1'
+        # rotate 180 degrees
         canvasAsPixels = horizontalFlip(canvasAsPixels, sWidth, sHeight)
         canvasAsPixels = verticalFlip(canvasAsPixels[0], canvasAsPixels[1], canvasAsPixels[2])
       when '2'
+        # Rotate 270 degrees
         canvasAsPixels = horizontalFlip(canvasAsPixels, sWidth, sHeight)
         canvasAsPixels = axisFlip(canvasAsPixels[0], canvasAsPixels[1], canvasAsPixels[2])
 
@@ -1604,7 +1665,6 @@ rotation = ( howManyDegrees ) ->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      #ctContext.putImageData(selection, selectionX, selectionY)
       ctContext.drawImage(selectionImage, selectionX, selectionY)
       rightEdge = selectionX + selectionsWidth
       bottomEdge = selectionY + selectionsHeight
@@ -1620,6 +1680,7 @@ rotateFinishUp = ->
   normalCircumstance = true
   menuUp = false
 
+# Converts image data into an array of pixels
 dataToPixels = (imageData) ->
   convertedData = []
   datumIndex = 0
@@ -1632,6 +1693,20 @@ dataToPixels = (imageData) ->
     datumIndex++
   return convertedData
 
+###
+  The following three functions manipulate a canvas, 
+  given as an array of pixels, and its dimensions as arguments.
+
+  The following three functions, when done in sequence, can bring
+  the canvas to various states of rotation. Meaning, that though
+  a horizontal flip ( a mirroring ) nor an 'axis flip' count as a rotation,
+  horiontally flipping, and 'axis flipping' when done in a sequence
+  bring the canvas to a state the user would expect if they wanted
+  the canvas rotated 270 degrees.
+
+  'axis flip' is just a term I made up, I refer to switching the
+  x and y axes with each other.
+###
 horizontalFlip = (imageInPixels, itsWidth, itsHeight) ->
   flippedCanvas = []
   pixelIndex = 0
@@ -1888,96 +1963,105 @@ replaceDataSorting = ( inputMaterial, eventIsKeyDown ) ->
             drawReplaceMenu()
           when 'n' then replaceFinishUp()
           when 'enter'
-            if not areaSelected
-              colorToReplace = hexToRGB(menuDatum.substr(0,6))
-              replacement = hexToRGB(menuDatum.substr(6,6))
-              replacement.push 255
-
-              tWidth = ctContext.canvas.width
-              tHeight = ctContext.canvas.height
-              canvasAsWeFoundIt = ctContext.getImageData(0, 0, tWidth, tHeight)
-              canvasData = canvasAsWeFoundIt.data
-              canvasInPixels = []
-
-              canvasIndex = 0
-              colorAtDatum = []
-              while canvasIndex < canvasData.length
-                colorAtDatum.push canvasData[canvasIndex]
-                if canvasIndex % 4 is 3
-                  if sameColorCheck(colorAtDatum, colorToReplace)
-                    canvasInPixels.push replacement
-                  else
-                    canvasInPixels.push colorAtDatum
-                  colorAtDatum = []
-                canvasIndex++
-
-              pixelIndex = 0
-              while pixelIndex < canvasInPixels.length
-                colorIndex = 0
-                while colorIndex < 4
-                  datumIndex = pixelIndex * 4
-                  canvasAsWeFoundIt.data[datumIndex + colorIndex] = 
-                    canvasInPixels[pixelIndex][colorIndex]
-                  colorIndex++
-                pixelIndex++
-
-              ctContext.putImageData(canvasAsWeFoundIt, 0, 0)
-              cH.push ctCanvas.toDataURL()
-              cH.shift()
-              cF = []
-
-              $('#menuDiv').css('top',(window.innerHeight).toString())
-              normalCircumstance = true
-              menuUp = false
-              tH.pop()
-              drawToolbars()
-            else
-              colorToReplace = hexToRGB(menuDatum.substr(0,6))
-              replacement = hexToRGB(menuDatum.substr(6,6))
-              replacement.push 255
-
-              selectionData = selection.data
-              selectionInPixels = []
-
-              selectionIndex = 0
-              colorAtDatum = []
-              while selectionIndex < selectionData.length
-                colorAtDatum.push selectionData[selectionIndex]
-                if selectionIndex % 4 is 3
-                  if sameColorCheck(colorAtDatum, colorToReplace)
-                    selectionInPixels.push replacement
-                  else
-                    selectionInPixels.push colorAtDatum
-                  colorAtDatum = []
-                selectionIndex++
-
-              pixelIndex = 0
-              while pixelIndex < selectionInPixels.length
-                colorIndex = 0
-                while colorIndex < 4
-                  datumIndex = pixelIndex * 4
-                  selection.data[datumIndex + colorIndex] = 
-                    selectionInPixels[pixelIndex][colorIndex]
-                  colorIndex++
-                pixelIndex++
-
-              selectionImage = new Image()
-              selectionImage.src = imageDataToURL(selection)
-              canvasDataAsImage = new Image()
-              canvasDataAsImage.onload = ->
-                ctContext.drawImage(canvasDataAsImage,0,0)
-                #ctContext.putImageData(selection, selectionX, selectionY)
-                ctContext.drawImage(selectionImage, selectionX, selectionY)
-                rightEdge = selectionX + selectionsWidth - 1
-                bottomEdge = selectionY + selectionsHeight - 1
-                drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
-              canvasDataAsImage.src = canvasHoldover
-              replaceFinishUp()
+            replace()
     else
       switch inputMaterial
         when 'enter' then menuContext.drawImage(enterLitUp, tH[tH.length - 1].menuImage.width - 162, 5)
         when 'n' then menuContext.drawImage(cancelLitUp, tH[tH.length - 1].menuImage.width - 89, 5)
     updateOldCursor()
+
+replace = ->
+  if not areaSelected
+    # Figure out what color is being replaced, and what color
+    # its getting replaced by
+    colorToReplace = hexToRGB(menuDatum.substr(0,6))
+    replacement = hexToRGB(menuDatum.substr(6,6))
+    replacement.push 255
+
+    tWidth = ctContext.canvas.width
+    tHeight = ctContext.canvas.height
+    canvasAsWeFoundIt = ctContext.getImageData(0, 0, tWidth, tHeight)
+    canvasData = canvasAsWeFoundIt.data
+
+    # convert the canvas into an array of pixels
+    canvasInPixels = []
+    canvasIndex = 0
+    colorAtDatum = []
+    while canvasIndex < canvasData.length
+      colorAtDatum.push canvasData[canvasIndex]
+      if canvasIndex % 4 is 3
+        # If the pixel is the one we are replacing, dont pass
+        # it on into the array of pixels
+        if sameColorCheck(colorAtDatum, colorToReplace)
+          # instead pass its replacement
+          canvasInPixels.push replacement
+        else
+          canvasInPixels.push colorAtDatum
+        colorAtDatum = []
+      canvasIndex++
+
+    # Now turn it back into data
+    pixelIndex = 0
+    while pixelIndex < canvasInPixels.length
+      colorIndex = 0
+      while colorIndex < 4
+        datumIndex = pixelIndex * 4
+        canvasAsWeFoundIt.data[datumIndex + colorIndex] = 
+          canvasInPixels[pixelIndex][colorIndex]
+        colorIndex++
+      pixelIndex++
+
+    ctContext.putImageData(canvasAsWeFoundIt, 0, 0)
+    cH.push ctCanvas.toDataURL()
+    cH.shift()
+    cF = []
+
+    $('#menuDiv').css('top',(window.innerHeight).toString())
+    normalCircumstance = true
+    menuUp = false
+    tH.pop()
+    drawToolbars()
+  else
+    colorToReplace = hexToRGB(menuDatum.substr(0,6))
+    replacement = hexToRGB(menuDatum.substr(6,6))
+    replacement.push 255
+
+    selectionData = selection.data
+    selectionInPixels = []
+
+    selectionIndex = 0
+    colorAtDatum = []
+    while selectionIndex < selectionData.length
+      colorAtDatum.push selectionData[selectionIndex]
+      if selectionIndex % 4 is 3
+        if sameColorCheck(colorAtDatum, colorToReplace)
+          selectionInPixels.push replacement
+        else
+          selectionInPixels.push colorAtDatum
+        colorAtDatum = []
+      selectionIndex++
+
+    pixelIndex = 0
+    while pixelIndex < selectionInPixels.length
+      colorIndex = 0
+      while colorIndex < 4
+        datumIndex = pixelIndex * 4
+        selection.data[datumIndex + colorIndex] = 
+          selectionInPixels[pixelIndex][colorIndex]
+        colorIndex++
+      pixelIndex++
+
+    selectionImage = new Image()
+    selectionImage.src = imageDataToURL(selection)
+    canvasDataAsImage = new Image()
+    canvasDataAsImage.onload = ->
+      ctContext.drawImage(canvasDataAsImage,0,0)
+      ctContext.drawImage(selectionImage, selectionX, selectionY)
+      rightEdge = selectionX + selectionsWidth - 1
+      bottomEdge = selectionY + selectionsHeight - 1
+      drawSelectBox(ctContext, selectionX, selectionY, rightEdge, bottomEdge)
+    canvasDataAsImage.src = canvasHoldover
+    replaceFinishUp()
 
 replaceFinishUp = ->
   $('#menuDiv').css('top',(window.innerHeight).toString())
@@ -1998,7 +2082,7 @@ replaceMouseListening = ( coordinates, eventIsMouseDown ) ->
     if eventIsMouseDown
       menuContext.drawImage(enterLitUp, tH[tH.length - 1].menuImage.width - 162, 5)
     else
-      replaceFinishUp()
+      replace()
 
   #Check if mouse event was in cancel button region
   notTooFarLeft = (tH[tH.length - 1].menuImage.width - 89) < coordinates[0]
@@ -2295,7 +2379,6 @@ resizeDataSortingInitialize = (width, height) ->
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage,0,0)
-      #ctContext.putImageData(selection, selectionX, selectionY)
       historyUpdate()
     canvasDataAsImage.src = cH[cH.length - 1]
   menuDatum = zeroPadder(width, 4) + zeroPadder(height, 4)
@@ -2330,8 +2413,10 @@ resizeDataSorting = ( inputMaterial, eventIsKeyDown ) ->
       drawResizeMenu()
     else
       switch inputMaterial
-        when 'enter' then menuContext.drawImage(enterLitUp, tH[tH.length - 1].menuImage.width - 162, 5)
-        when 'n' then menuContext.drawImage(cancelLitUp, tH[tH.length - 1].menuImage.width - 89, 5)
+        when 'enter' 
+          menuContext.drawImage(enterLitUp, tH[tH.length - 1].menuImage.width - 162, 5)
+        when 'n' 
+          menuContext.drawImage(cancelLitUp, tH[tH.length - 1].menuImage.width - 89, 5)
 
 resize = ->
   $('#menuDiv').css('top',(window.innerHeight).toString())
@@ -2382,7 +2467,7 @@ resizeMouseListening = ( coordinates, eventIsMouseDown ) ->
     if eventIsMouseDown
       menuContext.drawImage(enterLitUp, tH[tH.length - 1].menuImage.width - 162, 5)
     else
-      resizeFinishUp()
+      resize()
 
   #Check if mouse event was in cancel button region
   notTooFarLeft = (tH[tH.length - 1].menuImage.width - 89) < coordinates[0]
@@ -2498,7 +2583,6 @@ pasteAction = ->
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
 
-        #ctContext.putImageData(selection, selectionX, selectionY)
         ctContext.drawImage(selectionImage, selectionX, selectionY)
         canvasHoldover = ctCanvas.toDataURL()
         cH.push ctCanvas.toDataURL()
@@ -2556,8 +2640,6 @@ pasteTheSelection = ->
       # Draw the canvas as we know it to be
       ctContext.drawImage(canvasDataAsImage,0,0)
       # Then draw the selection
-     
-      #ctContext.putImageData(selection, selectionX, selectionY)
       ctContext.drawImage(selectionImage, selectionX, selectionY)
       # Then draw that little box around the selection
       originX = selectionX
@@ -2617,6 +2699,10 @@ cutAction = ->
   ,20)
 
   
+###
+  This function changes the color of the pixel
+  that the cursor hovers over.
+###
 cursorColorAction = ->
   tH.push ctPaintTools[toolsToNumbers['cursorColor']]
   drawToolbars()
@@ -2674,6 +2760,7 @@ redoAction = ->
   # queue, replace our current canvas with it.
   if cF.length > 0
     cH.push cF.pop()
+    cH.shift()
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       # Figure out what to do if the replacing canvas
@@ -2744,11 +2831,14 @@ zoomAction = (xCor, yCor) ->
   drawToolbars()
 
 
+###
+  This function selects the whole canvas, much like what would
+  happen if you pressed cmd + a in any image software
+###
 allAction = (event) ->
-  tH.push ctPaintTools[toolsToNumbers['all']]
-  drawToolbars()
-
   if not zoomActivate
+    tH.push ctPaintTools[toolsToNumbers['all']]
+    drawToolbars()
     if areaSelected
       areaSelected = false
 
@@ -2756,7 +2846,6 @@ allAction = (event) ->
       canvasDataAsImage.onload = ->
         ctContext.drawImage(canvasDataAsImage, 0, 0)
 
-        #ctContext.putImageData(selection, selectionX, selectionY)
         ctContext.drawImage(selectionImage, selectionX, selectionY)
 
         cH.push ctCanvas.toDataURL()
@@ -2777,19 +2866,19 @@ selectAll = ->
   tCanvasHeight = ctContext.canvas.height
   selection = ctContext.getImageData(0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
   selectionImage = new Image()
-  selectionImage.src = imageToDataURL(selection)
-  squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
-  canvasHoldover = ctCanvas.toDataURL()
+  selectionImage.onload = ->
+    squareAction(ctContext, colorSwatches[1], 0, 0, tCanvasWidth - 1, tCanvasHeight - 1, true)
+    canvasHoldover = ctCanvas.toDataURL()
 
-  #ctContext.putImageData(selection, 0, 0)
+    ctContext.drawImage(selectionImage, 0, 0)
+    selectionsWidth = tCanvasWidth
+    selectionsHeight = tCanvasHeight
+    selectionX = 0
+    selectionY = 0
+    drawSelectBox( ctContext, 0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
+    areaSelected = true
 
-  ctContext.drawImage(selectionImage, 0, 0)
-  selectionsWidth = tCanvasWidth
-  selectionsHeight = tCanvasHeight
-  selectionX = 0
-  selectionY = 0
-  drawSelectBox( ctContext, 0, 0, tCanvasWidth - 1, tCanvasHeight - 1)
-  areaSelected = true
+  selectionImage.src = imageDataToURL(selection)
 
   setTimeout( ()->
     tH.pop()
@@ -2799,6 +2888,9 @@ selectAll = ->
   ,20)
 
 
+###
+  Change the mode from true to false, or from false to true.
+###
 modeChangeAction = ->
   tH.push ctPaintTools[toolsToNumbers['modeChange']]
   drawToolbars()
@@ -2824,6 +2916,8 @@ magnitudeUpAction = ->
         tH[tH.length - 1].magnitude++
     drawToolbars()
   ,20)
+
+  
 magnitudeDownAction = ->
   tH.push ctPaintTools[toolsToNumbers['magnitudeDown']]
   drawToolbars()
@@ -2835,6 +2929,8 @@ magnitudeDownAction = ->
         tH[tH.length - 1].magnitude--
     drawToolbars()
   ,20)
+
+  
 ###
   Figure out where to put the canvas
 ###
@@ -2918,7 +3014,7 @@ drawToolbars = ->
 
   ###
     The following code looks at the condition of the state-sensitive tool icons (fancy and 
-    solid-capable tools). The relevant tools are square, circle, line, and point.
+    solid-capable tools). The relevant tools are square, circle, line, zoom, and point.
 
     Each section, for square, circle, line and point, is identical. So I have therefore
     only commented the square section. The comments should be equally explainatory for the 
@@ -3068,6 +3164,7 @@ drawToolbars = ->
     toolbar1Context.fillRect(52 + (17 * (paletteIndex // 2)), 4 + (17 * (paletteIndex % 2)), 14, 14)
     paletteIndex++
 
+# Put the color of the cursor pixel, where the cursor pixel is currently located
 updateCursor = (event)->
   coverUpOldCursor()
   if not zoomActivate
@@ -3088,19 +3185,26 @@ updateCursor = (event)->
   oldCursorY = cursorY
   putPixel( ctContext, colorOfCursorPixel, cursorX, cursorY)
 
+# Put the color of the canvas at the cursor pixels location, over the cursor pixel
 coverUpOldCursor = ->
   if oldCursorsColor isnt undefined
     putPixel( ctContext, oldCursorsColor.data, oldCursorX, oldCursorY )
 
+# Update the stored memory of the canvass color at the cursors location
 updateOldCursor = ->
   oldCursorsColor = ctContext.getImageData(cursorX, cursorY, 1, 1)
 
+# Redraw the cursor at its location
 refreshCursor = ( particularColor ) ->
   if particularColor isnt undefined
     putPixel( ctContext, particularColor, cursorX, cursorY )
   else
     putPixel( ctContext, colorOfCursorPixel, cursorX, cursorY )
 
+# This function draws the information in the information bar in the bottom horizontal
+# tool bar. The information drawn could be, for example the radius of the circle
+# being drawn. The mouses position, and the color at that position, are always
+# drawn. 
 drawInformation = ( event, extraInformation ) ->
   toolbar1Context.drawImage(toolbar1sImage1, toolbar1sImage0.width + 5, 3) 
   if extraInformation is undefined
@@ -3131,42 +3235,59 @@ drawInformation = ( event, extraInformation ) ->
     toolbar1sImage0.width + toolbar1sImage1.width + 19, 
     12) 
 
+# get rid of the oldest remembered canvas, and add the most recent canvas
+# set the 'future canvas' to an empty array (no available canvass to 'redo'
+# to)
 historyUpdate = ->
   cH.push ctCanvas.toDataURL()
   cH.shift()
   cF = []
 
+# If there is a selection, put it back down onto the canvas
+# This function is used when ever the select tool is deviated
+# from, but there remains a selection.
 copeWithSelection = ()->
   copeX = selectionX
   copeY = selectionY
   if areaSelected
     areaSelected = false
+    ctPaintTools[toolsToNumbers['select']].mode = false
+    drawToolbars()
     canvasDataAsImage = new Image()
     canvasDataAsImage.onload = ->
       ctContext.drawImage(canvasDataAsImage, 0, 0)
-      #ctContext.putImageData(selection, copeX, copeY)
       ctContext.drawImage(selectionImage, copeX, copeY)
       cH.push ctCanvas.toDataURL()
       cH.shift()
       cF = []
-    canvasDataAsImage.src = cH[cH.length - 1]
+    canvasDataAsImage.src = canvasHoldover
 
+# Make every instance of the second swatch color, transparent,
+# within the selection
 makeTransparent = () ->
+  # If transparency is already turned on
   if ctPaintTools[toolsToNumbers['select']].mode
     datumIndex = 0
+    # For every datum
     while datumIndex < selection.data.length
+      # If its an alpha channel
       if (datumIndex % 4) is 3
+        # and its not opaque (level 255)
         if selection.data[datumIndex] isnt 255
+          # make it so
           selection.data[datumIndex] = 255
       datumIndex++
     ctPaintTools[toolsToNumbers['select']].mode = false
   else
     datumIndex = 0
+    # Presume the pixel is already the color we are making transparent
     isSameColor = true
     while datumIndex < selection.data.length
       switch (datumIndex%4)
         when 0
+          # if its the same color we are making transparent their red channels will be identical
           if selection.data[datumIndex] isnt colorSwatches[1][0]
+            # and if they arent, we have falsified our hypothesis (presumption)
             isSameColor = false
         when 1
           if selection.data[datumIndex] isnt colorSwatches[1][1]
@@ -3175,9 +3296,14 @@ makeTransparent = () ->
           if selection.data[datumIndex] isnt colorSwatches[1][2]
             isSameColor = false
         when 3
+          # If we have checked all three color channels, and our hypothesis that the colors
+          # are the same has not been falsified, then we go ahead and set the alpha channel
+          # to 0, ie, it is now transparent.
           if isSameColor
             selection.data[datumIndex] = 0
           else
+            # if we falsified the hypothesis, move onto the next pixel, with the presumption 
+            # that it is the color to make transparent.
             isSameColor = true
       datumIndex++
     ctPaintTools[toolsToNumbers['select']].mode = true
@@ -3215,70 +3341,92 @@ keyListeningUnderNormalCircumstance = [
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['2']
       coverUpOldCursor()
       tH.push ctPaintTools[1]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['3']
       tH.push ctPaintTools[2]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['4']
       tH.push ctPaintTools[3]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['5']
       tH.push ctPaintTools[4]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['6']
       tH.push ctPaintTools[5]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['7']
       tH.push ctPaintTools[6]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['8']
       tH.push ctPaintTools[7]
       tH.shift()
       drawToolbars()
       copeWithSelection()
+
     if event.keyCode is keysToKeyCodes['a']
       allAction()
+
     if event.keyCode is keysToKeyCodes['b']
       verticalColorSwap()
+
     if event.keyCode is keysToKeyCodes['c']
       copyAction()
+
     if event.keyCode is keysToKeyCodes['d']
       replaceAction()
+
     if event.keyCode is keysToKeyCodes['e']
       resizeAction()
+
     if event.keyCode is keysToKeyCodes['f']
       flipAction()
+
     if event.keyCode is keysToKeyCodes['g']
       cursorColorAction()
+
     if event.keyCode is keysToKeyCodes['i']
       invertAction()
+
     if event.keyCode is keysToKeyCodes['q']
       horizontalColorSwap()
+
     if event.keyCode is keysToKeyCodes['r']
       rotateAction()
+
     if event.keyCode is keysToKeyCodes['v']
       pasteAction()
+
     if event.keyCode is keysToKeyCodes['w']
       scaleAction()
+
     if event.keyCode is keysToKeyCodes['x']
       cutAction()
+
     if event.keyCode is keysToKeyCodes['y']
       redoAction()
+
     if event.keyCode is keysToKeyCodes['z']
       undoAction()
 
@@ -3462,8 +3610,6 @@ selectPosture = [
           ctContext.drawImage(canvasDataAsImage, 0, 0)
           ctContext.drawImage(selectionImage, gripX, gripY)
           drawSelectBox(ctContext, gripX, gripY, rightEdge, bottomEdge)
-          #ctContext.putImageData(selection, gripX, gripY)
-          #drawSelectBox(ctContext, gripX, gripY, rightEdge, bottomEdge)
         canvasDataAsImage.src = canvasHoldover
       else
         drawInformation( event, boxInformation )
@@ -3488,6 +3634,8 @@ selectPosture = [
       withinYBoundaries = notTooLow and notTooHigh
 
       if not (withinXBoundaries and withinYBoundaries)
+        ctPaintTools[toolsToNumbers['select']].mode = false
+        drawToolbars()
         areaSelected = false
         boxInformation = undefined
         canvasDataAsImage = new Image()
@@ -3495,7 +3643,6 @@ selectPosture = [
           ctContext.drawImage(canvasDataAsImage, 0, 0)
           ctContext.drawImage(selectionImage, selectionX, selectionY)
           historyUpdate()
-          #ctContext.putImageData(selection, selectionX, selectionY)
         canvasDataAsImage.src = canvasHoldover
 
   # Mouse up
@@ -3534,9 +3681,6 @@ selectPosture = [
             ctContext.drawImage(selectionImage, selectionX, selectionY)
             drawSelectBox(ctContext, originX, originY, otherSideX, otherSideY)
           selectionImage.src = imageDataToURL(selection)
-
-          #ctContext.putImageData(selection, selectionX, selectionY)
-          #drawSelectBox(ctContext, originX, originY, otherSideX, otherSideY)
 
         canvasDataAsImage.src = cH[cH.length - 1]
         areaSelected = true
@@ -3578,20 +3722,27 @@ samplePosture = [
 
 
 fillPosture = [
+  # Mouse move
   (event) ->
     setCasualPosition(event)
     coverUpOldCursor()
     drawInformation(event)
     updateCursor(event)
+
+  # Mouse down
   (event) ->
     mousePressed = true
     getMousePositionOnCanvas(event)
     coverUpOldCursor()
     floodFill(ctCanvas, ctContext, colorSwatches[0], xSpot, ySpot)
     updateOldCursor()
+
+  # Mouse Up
   (event) ->
     mousePressed = false
     historyUpdate()
+
+  # Mouse exit
   (event) ->
 ]
 
@@ -3779,32 +3930,6 @@ emptyPosture = [
 ]
 
 
-horizontalColorSwapPosture = [
-  (event) ->
-    setCasualPosition(event)
-    drawInformation(event)
-  (event) ->
-    mousePressed = true
-  (event) ->
-    mousePressed = false
-    drawToolbars()
-  (event) ->
-]
-
-
-verticalColorSwapPosture = [
-  (event) ->
-    drawInformation(event)
-    setCasualPosition(event)
-  (event) ->
-    mousePressed = true
-  (event) ->
-    mousePressed = false
-    drawToolbars()
-  (event) ->
-]
-
-
 # organized as they are in the 2 x 11 tool bar grid
 toolNames = [
   'zoom', 'select'
@@ -3873,6 +3998,7 @@ toolMenuImages = [
 
 ctPaintTools = {}
 
+# Declare every tool
 iteration = 0
 while iteration < toolNames.length
   thisIteration = iteration
@@ -3893,6 +4019,7 @@ while iteration < toolNames.length
   ctPaintTools[iteration].pressedImage[1].src = 'assets/v'+zeroPadder(iteration,2)+'000.PNG'
   iteration++
 
+# Set the posture for each tool
 ctPaintTools[0].posture = zoomPosture
 ctPaintTools[1].posture = selectPosture
 ctPaintTools[2].posture = samplePosture
@@ -3907,21 +4034,28 @@ ctPaintTools[10].posture = emptyPosture
 ctPaintTools[11].posture = emptyPosture
 ctPaintTools[12].posture = emptyPosture
 ctPaintTools[13].posture = emptyPosture
-ctPaintTools[14].posture = horizontalColorSwapPosture
-ctPaintTools[15].posture = verticalColorSwapPosture
+ctPaintTools[14].posture = emptyPosture
+ctPaintTools[15].posture = emptyPosture
 ctPaintTools[16].posture = emptyPosture
 ctPaintTools[17].posture = emptyPosture
 ctPaintTools[18].posture = emptyPosture
 ctPaintTools[19].posture = emptyPosture
 ctPaintTools[20].posture = emptyPosture
 ctPaintTools[21].posture = emptyPosture
+ctPaintTools[22].posture = emptyPosture
+ctPaintTools[23].posture = emptyPosture
+ctPaintTools[24].posture = emptyPosture
+ctPaintTools[25].posture = emptyPosture
 
+# Set the action for each tool
 ctPaintTools[8].toolsAction = flipAction
 ctPaintTools[9].toolsAction = rotateAction
 ctPaintTools[10].toolsAction = invertAction
 ctPaintTools[11].toolsAction = replaceAction
 ctPaintTools[12].toolsAction = scaleAction
 ctPaintTools[13].toolsAction = resizeAction
+ctPaintTools[14].toolsAction = horizontalColorSwap
+ctPaintTools[15].toolsAction = verticalColorSwap
 ctPaintTools[16].toolsAction = copyAction
 ctPaintTools[17].toolsAction = pasteAction
 ctPaintTools[18].toolsAction = cutAction
@@ -3930,27 +4064,31 @@ ctPaintTools[20].toolsAction = undoAction
 ctPaintTools[21].toolsAction = redoAction
 ctPaintTools[22].toolsAction = cursorColorAction
 ctPaintTools[23].toolsAction = modeChangeAction
-ctPaintTools[24].toolsAction = magnitudeUpAction
-ctPaintTools[25].toolsAction = magnitudeDownAction
+ctPaintTools[24].toolsAction = magnitudeDownAction
+ctPaintTools[25].toolsAction = magnitudeUpAction
 
+# If it has a menu, set the source of the image
 ctPaintTools[8].menuImage.src = 'assets/t01.png'
 ctPaintTools[11].menuImage.src = 'assets/t02.png'
 ctPaintTools[9].menuImage.src = 'assets/t04.png'
 ctPaintTools[12].menuImage.src = 'assets/t05.png'
 ctPaintTools[13].menuImage.src = 'assets/t03.png'
 
+# enter and cancel are buttons that appear on many menus
 enterLitUp = new Image()
 cancelLitUp = new Image()
 
 enterLitUp.src = 'assets/tEnter.png'
 cancelLitUp.src = 'assets/tCancel.png'
 
+# 'X' and 'Y' are buttons on the flip menu
 xLitUp = new Image()
 yLitUp = new Image()
 
 xLitUp.src = 'assets/t11.png'
 yLitUp.src = 'assets/t21.png'
 
+# Buttons labeled with 90, 180, and 270 degrees are on the rotate menu
 ninetyDegreesLitUp = new Image()
 oneHundredAndEightyDegreesLitUp = new Image()
 twoHundredAndSeventyDegreesLitUp = new Image()
@@ -3959,6 +4097,9 @@ ninetyDegreesLitUp.src = 'assets/t14.png'
 oneHundredAndEightyDegreesLitUp.src = 'assets/t24.png'
 twoHundredAndSeventyDegreesLitUp.src = 'assets/t34.png'
 
+# This dictionary is useful for when I want to reference a tool in the CtPaintTools object
+# but dont want to rely on my memory of the tools order. It also makes the code more readable
+# since I type 'do this to tool Zoom', instead of 'do this to tool at index 4'.
 toolsToNumbers =
   'zoom':0
   'select':1
@@ -4056,16 +4197,26 @@ while solidToolIndex < toolsWhichCanBeSolid.length
 
 $(document).ready (event)->
   setTimeout( (event)->
+    # Get rid of the loading image
+    $('#loadingImage').remove()
+    # Set up the canvases and tool bars
     setCanvasSizes()
     prepareCanvas()
     placeToolbars()
+    # Fill the tool history with the point tool
     tH.push ctPaintTools[toolsToNumbers['point']]
     tH.shift()
     tH.push ctPaintTools[toolsToNumbers['point']]
     tH.shift()
+    # Draw the tool bars, which will reflect the status of the tools
     drawToolbars()
+    # Position the menu outside of the visible area
     positionMenu()
+    # Fill the canvas history with the current state
     clearOutCanvasHistoryIndex = 0
+
+    ctContext.drawImage(instructions, 0, 0)
+
     while clearOutCanvasHistoryIndex < 10
       cH.push ctCanvas.toDataURL()
       cH.shift()
@@ -4085,10 +4236,14 @@ $(document).ready (event)->
       drawToolbars()
 
     if event.keyCode is keysToKeyCodes['single quote']
-      modeChangeAction()
+      if tH[tH.length - 1].name is 'select'
+        makeTransparent()
+      else
+        modeChangeAction()
 
     if event.keyCode is keysToKeyCodes['space']
-      makeTransparent()
+      if tH[tH.length - 1].name is 'select'
+        makeTransparent()
 
     if event.keyCode is keysToKeyCodes['equals'] or event.keyCode is 61
       if zoomActivate
@@ -4158,6 +4313,12 @@ $(document).ready (event)->
     if event.keyCode is keysToKeyCodes['tab']
       swatchColorPicked = true
 
+    if event.keyCode is keysToKeyCodes['t']
+      if zoomActivate
+        zoomAction()
+        viewMode = true
+
+
   $('body').keyup (event) ->
     event.preventDefault()
     if normalCircumstance
@@ -4170,6 +4331,12 @@ $(document).ready (event)->
 
     if event.keyCode is keysToKeyCodes['tab']
       swatchColorPicked = false
+
+    if event.keyCode is keysToKeyCodes['t']
+      if not zoomActivate
+        if viewMode
+          if casualX isnt undefined and casualY isnt undefined
+            zoomAction(casualX, casualY)
 
   $('#menuDiv').mousedown (event) ->
     whatSortOfMouseListening( mouseListeningUnderAbnormalCircumstance[0]( event ), true)
@@ -4187,7 +4354,6 @@ $(document).ready (event)->
       $('#menuDiv').css('left', (toolbarWidth + 10).toString())
     else
       $('#menuDiv').css('top', (window.innerHeight).toString())
-    #$('#wayWideDiv').css('left', (window.innerWidth + 100).toString())
     positionCanvas()
     setCanvasSizes()
     placeToolbars()
@@ -4295,6 +4461,8 @@ $(document).ready (event)->
     withinYBoundaries = notTooHigh and notTooLow
     if withinXBoundaries and withinYBoundaries
       swatchColorPicked = true
+    if (window.innerWidth - toolbarWidth) < toolbar1X
+      window.open('http://i.imgur.com/AV5qeD8.jpg')
 
   $('#toolbar1').mouseup (event)->
     toolbar1X = event.clientX
@@ -4328,18 +4496,24 @@ $(document).ready (event)->
   )
 
   $('#dragAndDrop').on('drop', (event)->
+    # Dont let the browser just load up the image in the tab
     event.stopPropagation()
     event.preventDefault()
     filesType = event.originalEvent.dataTransfer.files[0].type.substr(0,5)
     if filesType is 'image'
       imageLoaded = new FileReader()
       theFile = event.originalEvent.dataTransfer.files[0]
+      # when the file is loaded
       imageLoaded.onload = ->
+        # create a new image
         imageToOpen = new Image()
+        # and when that image is loaded
         imageToOpen.onload = ->
+          # check if its bigger than the canvas
           widthExceedsCanvas = canvasWidth < imageToOpen.width
           heightExceedsCanvas = canvasHeight < imageToOpen.height
           if not widthExceedsCanvas and not heightExceedsCanvas
+            # If it isnt just put it in the canvas as a selection
             ctContext.drawImage(imageToOpen, 0, 0)
             copyMemory = ctContext.getImageData(0, 0, imageToOpen.width, imageToOpen.height)
             canvasDataAsImage = new Image()
@@ -4350,6 +4524,7 @@ $(document).ready (event)->
               pasteAction()
             canvasDataAsImage.src = cH[cH.length - 1]
           else
+            # otherwise replace the canvas with the image loaded
             newWidth = imageToOpen.width
             newHeight = imageToOpen.height
             ctContext.canvas.width = parseInt(newWidth)

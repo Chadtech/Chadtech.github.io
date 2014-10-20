@@ -66,6 +66,7 @@ toolMenuImages = [
 
 ctPaintTools = {}
 
+# Declare every tool
 iteration = 0
 while iteration < toolNames.length
   thisIteration = iteration
@@ -86,6 +87,7 @@ while iteration < toolNames.length
   ctPaintTools[iteration].pressedImage[1].src = 'assets/v'+zeroPadder(iteration,2)+'000.PNG'
   iteration++
 
+# Set the posture for each tool
 ctPaintTools[0].posture = zoomPosture
 ctPaintTools[1].posture = selectPosture
 ctPaintTools[2].posture = samplePosture
@@ -100,21 +102,28 @@ ctPaintTools[10].posture = emptyPosture
 ctPaintTools[11].posture = emptyPosture
 ctPaintTools[12].posture = emptyPosture
 ctPaintTools[13].posture = emptyPosture
-ctPaintTools[14].posture = horizontalColorSwapPosture
-ctPaintTools[15].posture = verticalColorSwapPosture
+ctPaintTools[14].posture = emptyPosture
+ctPaintTools[15].posture = emptyPosture
 ctPaintTools[16].posture = emptyPosture
 ctPaintTools[17].posture = emptyPosture
 ctPaintTools[18].posture = emptyPosture
 ctPaintTools[19].posture = emptyPosture
 ctPaintTools[20].posture = emptyPosture
 ctPaintTools[21].posture = emptyPosture
+ctPaintTools[22].posture = emptyPosture
+ctPaintTools[23].posture = emptyPosture
+ctPaintTools[24].posture = emptyPosture
+ctPaintTools[25].posture = emptyPosture
 
+# Set the action for each tool
 ctPaintTools[8].toolsAction = flipAction
 ctPaintTools[9].toolsAction = rotateAction
 ctPaintTools[10].toolsAction = invertAction
 ctPaintTools[11].toolsAction = replaceAction
 ctPaintTools[12].toolsAction = scaleAction
 ctPaintTools[13].toolsAction = resizeAction
+ctPaintTools[14].toolsAction = horizontalColorSwap
+ctPaintTools[15].toolsAction = verticalColorSwap
 ctPaintTools[16].toolsAction = copyAction
 ctPaintTools[17].toolsAction = pasteAction
 ctPaintTools[18].toolsAction = cutAction
@@ -123,27 +132,31 @@ ctPaintTools[20].toolsAction = undoAction
 ctPaintTools[21].toolsAction = redoAction
 ctPaintTools[22].toolsAction = cursorColorAction
 ctPaintTools[23].toolsAction = modeChangeAction
-ctPaintTools[24].toolsAction = magnitudeUpAction
-ctPaintTools[25].toolsAction = magnitudeDownAction
+ctPaintTools[24].toolsAction = magnitudeDownAction
+ctPaintTools[25].toolsAction = magnitudeUpAction
 
+# If it has a menu, set the source of the image
 ctPaintTools[8].menuImage.src = 'assets/t01.png'
 ctPaintTools[11].menuImage.src = 'assets/t02.png'
 ctPaintTools[9].menuImage.src = 'assets/t04.png'
 ctPaintTools[12].menuImage.src = 'assets/t05.png'
 ctPaintTools[13].menuImage.src = 'assets/t03.png'
 
+# enter and cancel are buttons that appear on many menus
 enterLitUp = new Image()
 cancelLitUp = new Image()
 
 enterLitUp.src = 'assets/tEnter.png'
 cancelLitUp.src = 'assets/tCancel.png'
 
+# 'X' and 'Y' are buttons on the flip menu
 xLitUp = new Image()
 yLitUp = new Image()
 
 xLitUp.src = 'assets/t11.png'
 yLitUp.src = 'assets/t21.png'
 
+# Buttons labeled with 90, 180, and 270 degrees are on the rotate menu
 ninetyDegreesLitUp = new Image()
 oneHundredAndEightyDegreesLitUp = new Image()
 twoHundredAndSeventyDegreesLitUp = new Image()
@@ -152,6 +165,9 @@ ninetyDegreesLitUp.src = 'assets/t14.png'
 oneHundredAndEightyDegreesLitUp.src = 'assets/t24.png'
 twoHundredAndSeventyDegreesLitUp.src = 'assets/t34.png'
 
+# This dictionary is useful for when I want to reference a tool in the CtPaintTools object
+# but dont want to rely on my memory of the tools order. It also makes the code more readable
+# since I type 'do this to tool Zoom', instead of 'do this to tool at index 4'.
 toolsToNumbers =
   'zoom':0
   'select':1
