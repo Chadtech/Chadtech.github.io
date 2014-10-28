@@ -18,80 +18,59 @@ body {
   font-family: commandPrompt;
   color: #c0c0c0;
 }
-a {
-  transition: color 4s;
-  text-decoration: none;
-  color: #d96e71;
-}
-a:hover {
+.hoveredOver,
+.general .menu p.hoveredOver,
+.general .menu p:hover {
   color: #fff;
 }
-.active,
-.general .title li.active,
-.general .title li:hover,
-.general .title p.active,
-.general .title p:hover {
-  color: #c0c0c0;
-}
-.invisible {
-  color: rgba(192,192,192,0);
-}
 .spacer {
-  height: 100px;
+  height: 50px;
 }
 .general {
   width: 100%;
-  transition: all 1s;
+  transition: all 0.5s;
 }
-.general .title {
-  transition: all 2s;
-  width: 100%;
-  height: 50px;
+.general .menu {
+  transition: all 0.5s;
+  width: 400px;
+  height: 100%;
   position: fixed;
   top: 0px;
-  left: 0;
+  left: -400px;
   right: 0;
   display: inline-block;
   padding-top: 20px;
   overflow: hidden;
-  color: #404040;
 }
-.general .title .left {
-  position: absolute;
-  top: 0px;
-  height: 50px;
-  padding-top: 25px;
-  left: 50px;
+.general .menu .indent {
+  margin-left: 50px;
 }
-.general .title li {
-  transition: all 4s;
-  display: inline-block;
-  padding: 10px;
+.general .menu p {
+  color: #c0c0c0;
+  transition: all 0.5s;
 }
-.general .title p {
-  transition: all 2s;
-}
-.general .title.scrolled {
-  top: -200px;
+.general .menu.revealed {
+  left: 0px;
   position: fixed;
-  color: rgba(255,255,255,0);
-}
-.general .title.scrolled .left {
-  top: 0px;
-}
-.general .title.scrolled .right {
-  top: 0px;
 }
 .general .content {
-  margin-top: 100px;
+  margin-top: 50px;
   margin-left: 100px;
   margin-right: 100px;
   text-alight: left;
   font-weight: 200;
   line-height: 120%;
+  transition: all 0.5s;
+}
+.general .content.revealed {
+  -webkit-filter: blur(8px);
 }
 .general .content .indent {
   margin-left: 50px;
+}
+.general .content .title {
+  margin-left: -50px;
+  color: #404040;
 }
 .general .content .heading {
   color: #808080;

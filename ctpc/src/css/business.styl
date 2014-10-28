@@ -6,12 +6,13 @@
   -webkit-box-sizing border-box
   box-sizing border-box
 
-oneHalfRed = rgba(217, 110, 113, 1)
-highlight = rgba(217, 214, 110, 1)
-windowsGray = rgba(192, 192, 192, 1)
+windowsGrayLight = rgba(192, 192, 192, 1)
 windowsGrayMedium = rgba(128, 128, 128, 1)
 windowsGrayDark = rgba(64, 64, 64, 1)
-colorOfForgotten = rgba(255, 255, 255, 0)
+colorOfMenu = rgba(0, 0, 0, 0.75)
+maximumWhite = rgba(255, 255, 255, 1)
+
+transitionTime = 0.5s
 
 @font-face
   font-family commandPrompt
@@ -20,88 +21,68 @@ colorOfForgotten = rgba(255, 255, 255, 0)
 body
   background rgba(0, 0, 0, 1)
   font-size 1em
-  //font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
   font-family commandPrompt
-  color windowsGray
-  
-a
-  transition color 4s
-  text-decoration none
-  color oneHalfRed
-  &:hover
-    color rgba(255, 255, 255, 1)
-    
-.active
-  color windowsGray
-  
-.invisible
-  color rgba(192, 192, 192, 0)
+  color windowsGrayLight
+      
+.hoveredOver
+  color maximumWhite
   
 .spacer 
-  height 100px
+  height 50px
 
 .general
   width 100%
-  transition all 1s
+  transition all transitionTime
 
 .general 
-  .title 
-    transition all 2s
-    width 100%
-    height 50px
+  .menu
+    transition all transitionTime
+    width 400px
+    height 100%
     position fixed
     top 0px
-    left 0
+    left -400px
     right 0
     display inline-block
     padding-top 20px
     overflow hidden
-    color windowsGrayDark
     
-    .left
-      position absolute
-      top 0px
-      height 50px
-      padding-top 25px
-      left 50px
-      
-    //.heading
-    
-    li
-      transition all 4s
-      display inline-block
-      padding 10px
-      &.active, &:hover
-        @extend .active
-        
+    .indent
+      margin-left 50px
+            
     p
-      transition all 2s
-      &.active, &:hover
-        @extend .active
+      color windowsGrayLight
+      transition all transitionTime
+      &.hoveredOver, &:hover
+        @extend .hoveredOver
 
-        
-    &.scrolled
-      top: -200px
+    &.revealed
+      left: 0px
       position fixed
-      color colorOfForgotten
-      & .left
-        top 0px
-      & .right
-        top 0px
         
   .content
-    margin-top 100px
+    margin-top 50px
     margin-left 100px
     margin-right 100px
     text-alight left
     font-weight 200
-    line-height: 120%
+    line-height 120%
+    transition all transitionTime
+    
+    &.revealed
+      -webkit-filter blur(8px)
     
     .indent
       margin-left 50px
+      
+    .title
+      margin-left -50px
+      color windowsGrayDark
     
     .heading
       color windowsGrayMedium
+      
+
         
 
 
