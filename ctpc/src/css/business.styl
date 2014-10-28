@@ -1,0 +1,113 @@
+*
+  margin 0
+  padding 0
+
+*, *:before, *:after
+  -webkit-box-sizing border-box
+  box-sizing border-box
+
+oneHalfRed = rgba(217, 110, 113, 1)
+highlight = rgba(217, 214, 110, 1)
+windowsGray = rgba(192, 192, 192, 1)
+windowsGrayMedium = rgba(128, 128, 128, 1)
+windowsGrayDark = rgba(64, 64, 64, 1)
+colorOfForgotten = rgba(255, 255, 255, 0)
+
+@font-face
+  font-family commandPrompt
+  src url("Command-Prompt-12x16.ttf")
+
+body
+  background rgba(0, 0, 0, 1)
+  font-size 1em
+  //font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-family commandPrompt
+  color windowsGray
+  
+a
+  transition color 4s
+  text-decoration none
+  color oneHalfRed
+  &:hover
+    color rgba(255, 255, 255, 1)
+    
+.active
+  color windowsGray
+  
+.invisible
+  color rgba(192, 192, 192, 0)
+  
+.spacer 
+  height 100px
+
+.general
+  width 100%
+  transition all 1s
+
+.general 
+  .title 
+    transition all 2s
+    width 100%
+    height 50px
+    position fixed
+    top 0px
+    left 0
+    right 0
+    display inline-block
+    padding-top 20px
+    overflow hidden
+    color windowsGrayDark
+    
+    .left
+      position absolute
+      top 0px
+      height 50px
+      padding-top 25px
+      left 50px
+      
+    //.heading
+    
+    li
+      transition all 4s
+      display inline-block
+      padding 10px
+      &.active, &:hover
+        @extend .active
+        
+    p
+      transition all 2s
+      &.active, &:hover
+        @extend .active
+
+        
+    &.scrolled
+      top: -200px
+      position fixed
+      color colorOfForgotten
+      & .left
+        top 0px
+      & .right
+        top 0px
+        
+  .content
+    margin-top 100px
+    margin-left 100px
+    margin-right 100px
+    text-alight left
+    font-weight 200
+    line-height: 120%
+    
+    .indent
+      margin-left 50px
+    
+    .heading
+      color windowsGrayMedium
+        
+
+
+
+
+
+
+  
+  
