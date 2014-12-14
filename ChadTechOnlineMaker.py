@@ -49,10 +49,10 @@ chadtechOnline =  '''
 archiveSideBar=''
 archiveSideBar+='<div style="position:absolute; left:1008px; top:54px;">\n'
 
-numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
+numberOfEntries = len(os.listdir(os.getcwd()+'/entries')) - 1
 for directoryNumber in range(numberOfEntries):
 	thisEntryNumber = numberOfEntries-directoryNumber-1
-	thisTitle = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\title.txt','r')
+	thisTitle = open(os.getcwd()+'/entries/'+str(thisEntryNumber)+'/title.txt','r')
 	thisTitle = thisTitle.read()
 
 
@@ -64,15 +64,16 @@ archiveSideBar+='</div>'
 chadtechOnline+=archiveSideBar
 
 
-os.chdir(os.getcwd()+'//entries')
+os.chdir(os.getcwd()+'/entries')
 
 nextXPos, nextYPos = 0,208
 
-beginin = '<img src='+'"/entries/'+str(len(os.listdir(os.getcwd()))-1)
-os.chdir(os.getcwd()+'\\'+str(len(os.listdir(os.getcwd()))-1))
+beginin = '<img src='+'/entries/'+str(len(os.listdir(os.getcwd()))-2)
+os.chdir(os.getcwd()+'/'+str(len(os.listdir(os.getcwd())) - 2))
 imX,imY=0,0
 
 for entryInDir in os.listdir(os.getcwd()):
+	print 'INDEX DIR', os.getcwd(), entryInDir
 	if entryInDir.endswith('.PNG'):
 		if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
 			chadtechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
@@ -85,12 +86,12 @@ for entryInDir in os.listdir(os.getcwd()):
 		if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
 			fileNumber = ord(entryInDir[5])-48
 
-			linkFile = open(os.getcwd()+'\\zfile'+str(fileNumber)+'.txt','r')
+			linkFile = open(os.getcwd()+'/zfile'+str(fileNumber)+'.txt','r')
 			link = linkFile.read()
 
 			if not link.startswith('http'):
 
-				chadtechOnline+='<a href="'+os.getcwd()+'\\'+link+'"">'
+				chadtechOnline+='<a href="'+os.getcwd()+'/'+link+'"">'
 				chadtechOnline+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>'
 				chadtechOnline+='</a>'
 
@@ -125,11 +126,14 @@ mainpage.close()
 #########################################################################################################
 #########################################################################################################
 
-numberOfEntries = len(os.listdir(os.getcwd()+'\\entries'))
+numberOfEntries = len(os.listdir(os.getcwd()+'/entries'))
 
-for directoryNumber in range(numberOfEntries):
+print '9', range(numberOfEntries - 1)
+for directoryNumber in range(numberOfEntries - 1):
+	print 'A', directoryNumber
 
-	thisEntryNumber = numberOfEntries-directoryNumber-1
+	#thisEntryNumber = numberOfEntries-directoryNumber-1
+	thisEntryNumber = directoryNumber
 	thisPage = '''
 		<html>
 		<head>
@@ -177,7 +181,7 @@ for directoryNumber in range(numberOfEntries):
 		'''
 	else:
 		thisPage+=	'''
-		<a href="'''+str(thisEntryNumber-1)+'''.html">
+		<a href="'''+str(thisEntryNumber - 1)+'''.html">
 		<img src="prevbutton.PNG" style= "position:absolute; top: 156px; left: 646px;"/>
 		</a>
 		'''
@@ -193,25 +197,27 @@ for directoryNumber in range(numberOfEntries):
 	beginin = '<img src='+'"./entries/'+str(str(thisEntryNumber))
 	imX,imY=0,0
 
-	for entryInDir in os.listdir(os.getcwd()+'\\entries\\'+str(thisEntryNumber)):
+	for entryInDir in os.listdir(os.getcwd()+'/entries/'+str(thisEntryNumber)):
 		if entryInDir.endswith('.PNG'):
 			if entryInDir!='title.PNG' and not entryInDir.startswith('zfile'):
 				thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
-				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
+				im = Image.open('entries/'+str(thisEntryNumber)+'/'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
 				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>\n'
 				nextYPos+=4
 
+			print 'A.1', entryInDir, thisEntryNumber
 			if entryInDir.startswith('zfile') and entryInDir.endswith('.PNG'):
 				fileNumber = ord(entryInDir[5])-48
 
-				linkFile = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\zfile'+str(fileNumber)+'.txt','r')
+				print 'B', entryInDir
+				linkFile = open(os.getcwd()+'/entries/'+str(thisEntryNumber)+'/zfile'+str(fileNumber)+'.txt','r')
 				link = linkFile.read()
 
 				if not link.startswith('http'):
 
-					thisPage+='<a href="'+'\\entries\\'+str(thisEntryNumber)+'\\'+link+'"">'
+					thisPage+='<a href="'+'/entries/'+str(thisEntryNumber)+'/'+link+'"">'
 					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
 					thisPage+='</a>'
 
@@ -220,7 +226,7 @@ for directoryNumber in range(numberOfEntries):
 					thisPage+=beginin+'/'+entryInDir+'" style= "position:absolute; top:'+str(nextYPos)+'px;left: 4px;"/>\n'
 					thisPage+='</a>'
 
-				im = Image.open('entries\\'+str(thisEntryNumber)+'\\'+entryInDir)
+				im = Image.open('entries/'+str(thisEntryNumber)+'/'+entryInDir)
 				imX,imY = im.size
 				nextYPos+=imY
 				thisPage+='<img src="onebar.PNG" style= "position:absolute; top:'+str(nextYPos)+ 'px;left: 4px;"/>\n'
@@ -272,9 +278,9 @@ archiveHTML = '''
 	'''
 
 
-for directoryNumber in range(numberOfEntries):
-	thisEntryNumber = numberOfEntries-directoryNumber-1
-	thisTitle = open(os.getcwd()+'\\entries\\'+str(thisEntryNumber)+'\\title.txt','r')
+for directoryNumber in range(numberOfEntries - 1):
+	thisEntryNumber = directoryNumber
+	thisTitle = open(os.getcwd()+'/entries/'+str(thisEntryNumber)+'/title.txt','r')
 	thisTitle = thisTitle.read()
 
 	archiveHTML+='''<a href="'''+str(numberOfEntries-directoryNumber-1)+'''.html" class="customfont" > '''+'#'+str(numberOfEntries-directoryNumber-1).zfill(2)+' '+str(thisTitle)+'''</a><br>'''
