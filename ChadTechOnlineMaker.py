@@ -68,7 +68,7 @@ os.chdir(os.getcwd()+'/entries')
 
 nextXPos, nextYPos = 0,208
 
-beginin = '<img src='+'/entries/'+str(len(os.listdir(os.getcwd()))-2)
+beginin = '<img src='+'http://chadtech.github.io/entries/16/bs0.PNG'
 os.chdir(os.getcwd()+'/'+str(len(os.listdir(os.getcwd())) - 2))
 imX,imY=0,0
 
