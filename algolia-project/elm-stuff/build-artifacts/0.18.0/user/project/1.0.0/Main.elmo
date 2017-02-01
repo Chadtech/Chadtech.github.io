@@ -1,0 +1,27 @@
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: _user$project$Ports$records(_user$project$Types$GetSearchResults),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Ports$searchTime(_user$project$Types$GetSearchTime),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Main$init = {
+	searchBarField: '',
+	searchTime: 0,
+	restaurants: {ctor: '[]'},
+	cuisineFilters: _elm_lang$core$Set$empty,
+	paymentFilters: _elm_lang$core$Set$empty,
+	showMore: false
+};
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{
+		init: {ctor: '_Tuple2', _0: _user$project$Main$init, _1: _elm_lang$core$Platform_Cmd$none},
+		view: _user$project$View$view,
+		update: _user$project$Update$update,
+		subscriptions: _user$project$Main$subscriptions
+	})();

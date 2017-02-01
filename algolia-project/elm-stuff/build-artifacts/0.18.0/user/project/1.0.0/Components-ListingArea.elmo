@@ -1,0 +1,17 @@
+var _user$project$Components_ListingArea$render = function (model) {
+	return _elm_lang$core$List$isEmpty(model.restaurants) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('restaurants-listings'),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'}) : A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('restaurants-listings'),
+			_1: {ctor: '[]'}
+		},
+		_user$project$Components_Restaurant_Listings$from(model));
+};

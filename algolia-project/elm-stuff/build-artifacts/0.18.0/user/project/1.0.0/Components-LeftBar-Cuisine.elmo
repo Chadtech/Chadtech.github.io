@@ -1,0 +1,133 @@
+var _user$project$Components_LeftBar_Cuisine$addIf = F3(
+	function (cuisine, restaurant, count) {
+		return _elm_lang$core$Native_Utils.eq(cuisine, restaurant.foodType) ? (count + 1) : count;
+	});
+var _user$project$Components_LeftBar_Cuisine$countRestaurantsOf = F2(
+	function (cuisine, restaurants) {
+		return A3(
+			_elm_lang$core$List$foldr,
+			_user$project$Components_LeftBar_Cuisine$addIf(cuisine),
+			0,
+			restaurants);
+	});
+var _user$project$Components_LeftBar_Cuisine$pairWithCount = F2(
+	function (restaurants, cuisine) {
+		return {
+			ctor: '_Tuple2',
+			_0: A2(_user$project$Components_LeftBar_Cuisine$countRestaurantsOf, cuisine, restaurants),
+			_1: cuisine
+		};
+	});
+var _user$project$Components_LeftBar_Cuisine$getCuisines = function (_p0) {
+	var _p1 = _p0;
+	var _p3 = _p1.restaurants;
+	return _elm_lang$core$List$reverse(
+		A2(
+			_elm_lang$core$List$sortBy,
+			_elm_lang$core$Tuple$first,
+			A2(
+				_elm_lang$core$List$map,
+				_user$project$Components_LeftBar_Cuisine$pairWithCount(_p3),
+				_elm_lang$core$Set$toList(
+					A3(
+						_elm_lang$core$List$foldr,
+						function (_p2) {
+							return _elm_lang$core$Set$insert(
+								function (_) {
+									return _.foodType;
+								}(_p2));
+						},
+						_elm_lang$core$Set$empty,
+						_p3)))));
+};
+var _user$project$Components_LeftBar_Cuisine$trim = function (cuisine) {
+	return (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$String$length(cuisine),
+		16) > 0) ? A2(
+		_elm_lang$core$Basics_ops['++'],
+		A3(_elm_lang$core$String$slice, 0, 16, cuisine),
+		'..') : cuisine;
+};
+var _user$project$Components_LeftBar_Cuisine$title = A2(
+	_elm_lang$html$Html$p,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('left-bar-header'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Cuisine/Food Type'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Components_LeftBar_Cuisine$selectedClass = F2(
+	function (cuisine, filters) {
+		return A2(_elm_lang$core$Set$member, cuisine, filters) ? _elm_lang$html$Html_Attributes$class('left-bar-option selected') : _elm_lang$html$Html_Attributes$class('left-bar-option');
+	});
+var _user$project$Components_LeftBar_Cuisine$option = F2(
+	function (_p5, _p4) {
+		var _p6 = _p5;
+		var _p7 = _p4;
+		var _p8 = _p7._1;
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: A2(_user$project$Components_LeftBar_Cuisine$selectedClass, _p8, _p6.cuisineFilters),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$Types$ToggleCuisineFilter(_p8)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Components_LeftBar_Cuisine$trim(_p8)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$p,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('option-count'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_elm_lang$core$Basics$toString(_p7._0)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Components_LeftBar_Cuisine$toOptions = function (model) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Components_LeftBar_Cuisine$option(model),
+		_user$project$Components_LeftBar_Cuisine$getCuisines(model));
+};
+var _user$project$Components_LeftBar_Cuisine$render = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('left-bar-section'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_LeftBar_Cuisine$title,
+			_1: _user$project$Components_LeftBar_Cuisine$toOptions(model)
+		});
+};

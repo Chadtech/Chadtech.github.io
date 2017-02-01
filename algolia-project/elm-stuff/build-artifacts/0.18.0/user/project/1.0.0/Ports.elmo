@@ -1,0 +1,9 @@
+var _user$project$Ports$search = _elm_lang$core$Native_Platform.outgoingPort(
+	'search',
+	function (v) {
+		return v;
+	});
+var _user$project$Ports$records = _elm_lang$core$Native_Platform.incomingPort(
+	'records',
+	_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string));
+var _user$project$Ports$searchTime = _elm_lang$core$Native_Platform.incomingPort('searchTime', _elm_lang$core$Json_Decode$float);

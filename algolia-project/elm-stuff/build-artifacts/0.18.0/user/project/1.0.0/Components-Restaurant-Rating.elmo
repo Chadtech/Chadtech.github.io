@@ -1,0 +1,59 @@
+var _user$project$Components_Restaurant_Rating$formatReviewsCount = function (count) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'(',
+		A2(_elm_lang$core$Basics_ops['++'], count, ') reviews'));
+};
+var _user$project$Components_Restaurant_Rating$reviewsCount = function (count) {
+	return A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('listing-reviews-count'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Components_Restaurant_Rating$formatReviewsCount(count)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Components_Restaurant_Rating$starsCount = function (count) {
+	return A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('listing-rating'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(count),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Components_Restaurant_Rating$from = function (restaurant) {
+	return _elm_lang$core$List$concat(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '::',
+				_0: _user$project$Components_Restaurant_Rating$starsCount(restaurant.starsCount),
+				_1: {ctor: '[]'}
+			},
+			_1: {
+				ctor: '::',
+				_0: _user$project$Components_Restaurant_Stars$from(restaurant),
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '::',
+						_0: _user$project$Components_Restaurant_Rating$reviewsCount(restaurant.reviewsCount),
+						_1: {ctor: '[]'}
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};

@@ -1,0 +1,22 @@
+{
+  "name": "csstest-restaurant-locator",
+  "version": "1.0.0",
+  "description": "Please refer to the README file for the test instructions",
+  "main": "index.html",
+  "scripts": {
+    "dev": "gulp dev",
+    "server": "gulp server"
+  },
+  "author": "Algolia",
+  "license": "Algolia",
+  "devDependencies": {
+    "browser-sync": "^2.12.10",
+    "gulp": "^3.9.1",
+    "gulp-less-sourcemap": "^1.4.3",
+    "gulp-sass": "^2.3.1"
+  },
+  "dependencies": {
+    "algoliasearch": "^3.20.4",
+    "lodash": "^4.17.4"
+  }
+}

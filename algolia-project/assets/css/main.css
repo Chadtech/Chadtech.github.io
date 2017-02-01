@@ -1,0 +1,230 @@
+/* line 1, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  padding: 0px;
+  margin: 0px;
+  background-image: url("../images/background.png");
+  background-repeat: repeat; }
+
+/* line 10, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+p {
+  padding: 0;
+  margin: 0; }
+
+/* line 15, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.main {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+  width: calc(100% - 200px);
+  height: calc(100vh - 100px);
+  overflow: hidden; }
+
+/* line 36, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.search-bar-container {
+  height: 84px;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  padding: 0;
+  background: #1c688e; }
+
+/* line 49, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.search-bar {
+  margin-top: 20px;
+  margin-left: 25px;
+  width: calc(100% - 65px);
+  height: 40px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  padding-left: 1em;
+  font-size: 15px;
+  outline: none; }
+
+/* line 62, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.left-bar {
+  width: 206px;
+  height: calc(100vh - 84px);
+  position: absolute;
+  left: 0px;
+  top: 84px;
+  background: white;
+  border-right: 2px solid #e6e6e6;
+  padding-top: 32px;
+  padding-left: 20px;
+  padding-bottom: 25px;
+  overflow: scroll; }
+
+/* line 77, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.left-bar-header {
+  font-size: 1.5em;
+  color: #333333;
+  margin-bottom: 0.75em; }
+
+/* line 84, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.left-bar-section {
+  padding-bottom: 25px; }
+
+/* line 95, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.left-bar-option {
+  border-radius: 4px;
+  padding: 4px;
+  padding-left: 15px;
+  cursor: pointer; }
+  /* line 98, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+  .left-bar-option p {
+    font-size: 1.25em;
+    display: inline; }
+  /* line 102, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+  .left-bar-option.selected {
+    background: #2897c5; }
+    /* line 104, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+    .left-bar-option.selected p {
+      color: white; }
+  /* line 108, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+  .left-bar-option:hover {
+    background: #2897c5; }
+    /* line 110, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+    .left-bar-option:hover p {
+      color: white; }
+
+/* line 117, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.star-row {
+  border-radius: 4px;
+  padding: 4px;
+  padding-left: 15px; }
+
+/* line 122, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.star {
+  height: 20px;
+  display: inline; }
+
+/* line 128, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.option-count {
+  color: #9a9a9a;
+  margin-right: 1em;
+  float: right; }
+
+/* line 135, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.restaurants-listings {
+  position: relative;
+  float: left;
+  margin-left: 228px;
+  margin-top: 84px;
+  width: calc(100% - 228px);
+  height: calc(100vh - 168px);
+  background: white;
+  text-align: center;
+  padding-top: 32px;
+  padding-left: 32px;
+  margin-bottom: 128px;
+  overflow: scroll; }
+
+/* line 151, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing {
+  height: 80px;
+  margin-bottom: 25px; }
+
+/* line 157, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-image {
+  border-radius: 4px;
+  width: 80px;
+  height: 80px;
+  float: left; }
+
+/* line 165, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-body {
+  float: left;
+  margin-left: 20px;
+  height: 80px; }
+
+/* line 172, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-name {
+  font-size: 1.5em;
+  float: left; }
+
+/* line 178, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-ratings {
+  margin-top: 2em;
+  height: auto; }
+
+/* line 184, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-rating {
+  font-size: 20px;
+  color: #ffab66;
+  float: left;
+  margin-right: 8px; }
+
+/* line 192, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-star {
+  height: 20px;
+  float: left; }
+
+/* line 198, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-reviews-count {
+  float: left;
+  font-size: 1.25em;
+  color: #9a9a9a;
+  margin-left: 8px; }
+
+/* line 206, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listing-info {
+  float: left;
+  font-size: 1.25em;
+  color: #9a9a9a;
+  margin-top: 4px; }
+
+/* line 214, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listings-count-container {
+  height: 25px;
+  margin-bottom: 32px; }
+
+/* line 219, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listings-count {
+  font-size: 1.5em;
+  font-weight: bold;
+  float: left;
+  color: #333333;
+  vertical-align: bottom; }
+
+/* line 228, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.listings-time {
+  font-size: 1.25em;
+  float: left;
+  color: #333333;
+  vertical-align: bottom;
+  margin-top: 2px;
+  margin-left: 0.25em; }
+
+/* line 238, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.show-more-button {
+  border-radius: 4px;
+  border: 1px solid #e6e6e6;
+  background: white;
+  color: #9a9a9a;
+  font-size: 1.5em;
+  padding-left: 55px;
+  padding-right: 55px;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+/* line 252, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.horizontal-gray-bar {
+  height: 20px;
+  float: left;
+  margin-left: 25px;
+  width: calc(100% - 400px);
+  border-bottom: 2px solid #e6e6e6; }
+
+/* line 261, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.left-bar-footer {
+  height: 128px; }
+
+/* line 265, /Users/Chadtech/Documents/code/algolia-project/assets/scss/main.scss */
+.main-area-footer {
+  height: 128px; }
+
+/*# sourceMappingURL=../../scss */

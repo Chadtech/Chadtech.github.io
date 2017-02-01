@@ -1,0 +1,79 @@
+var _user$project$Components_Restaurant_Count$formatCount = function (numberOfRestaurants) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(numberOfRestaurants),
+		' results found');
+};
+var _user$project$Components_Restaurant_Count$formatTime = function (time) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		' in ',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(time),
+			' seconds'));
+};
+var _user$project$Components_Restaurant_Count$toCount = function (_p0) {
+	return _elm_lang$html$Html$text(
+		_user$project$Components_Restaurant_Count$formatCount(
+			_elm_lang$core$List$length(_p0)));
+};
+var _user$project$Components_Restaurant_Count$countView = function (restaurants) {
+	return A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('listings-count'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_Restaurant_Count$toCount(restaurants),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Components_Restaurant_Count$timeView = function (time) {
+	return A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('listings-time'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_user$project$Components_Restaurant_Count$formatTime(time)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Components_Restaurant_Count$from = function (_p1) {
+	var _p2 = _p1;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('listings-count-container'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_Restaurant_Count$countView(_p2.restaurants),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Components_Restaurant_Count$timeView(_p2.searchTime),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('horizontal-gray-bar'),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};

@@ -1,0 +1,93 @@
+var _user$project$Components_Restaurant_Listings$slice = function (_p0) {
+	return _elm_lang$core$Array$toList(
+		A3(
+			_elm_lang$core$Array$slice,
+			0,
+			3,
+			_elm_lang$core$Array$fromList(_p0)));
+};
+var _user$project$Components_Restaurant_Listings$notIn = F2(
+	function (filter, _p1) {
+		var _p2 = _p1;
+		return A2(_elm_lang$core$Set$member, _p2.foodType, filter);
+	});
+var _user$project$Components_Restaurant_Listings$showMoreButton = A2(
+	_elm_lang$html$Html$input,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('show-more-button'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$type_('submit'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$value('Show More'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(_user$project$Types$ShowMore),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	},
+	{ctor: '[]'});
+var _user$project$Components_Restaurant_Listings$showMore = function (show) {
+	return show ? _elm_lang$html$Html$text('') : _user$project$Components_Restaurant_Listings$showMoreButton;
+};
+var _user$project$Components_Restaurant_Listings$toListingsHelper = F2(
+	function (show, restaurants) {
+		return (show || (_elm_lang$core$Native_Utils.cmp(
+			_elm_lang$core$List$length(restaurants),
+			3) < 0)) ? A2(_elm_lang$core$List$map, _user$project$Components_Restaurant_Listing$from, restaurants) : A2(
+			_elm_lang$core$List$map,
+			_user$project$Components_Restaurant_Listing$from,
+			_user$project$Components_Restaurant_Listings$slice(restaurants));
+	});
+var _user$project$Components_Restaurant_Listings$toListings = function (_p3) {
+	var _p4 = _p3;
+	var _p7 = _p4.showMore;
+	var _p6 = _p4.restaurants;
+	var _p5 = _p4.cuisineFilters;
+	return _elm_lang$core$Set$isEmpty(_p5) ? A2(_user$project$Components_Restaurant_Listings$toListingsHelper, _p7, _p6) : A2(
+		_user$project$Components_Restaurant_Listings$toListingsHelper,
+		_p7,
+		A2(
+			_elm_lang$core$List$filter,
+			_user$project$Components_Restaurant_Listings$notIn(_p5),
+			_p6));
+};
+var _user$project$Components_Restaurant_Listings$from = function (model) {
+	return _elm_lang$core$List$concat(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '::',
+				_0: _user$project$Components_Restaurant_Count$from(model),
+				_1: {ctor: '[]'}
+			},
+			_1: {
+				ctor: '::',
+				_0: _user$project$Components_Restaurant_Listings$toListings(model),
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '::',
+						_0: _user$project$Components_Restaurant_Listings$showMore(model.showMore),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('main-area-footer'),
+									_1: {ctor: '[]'}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};

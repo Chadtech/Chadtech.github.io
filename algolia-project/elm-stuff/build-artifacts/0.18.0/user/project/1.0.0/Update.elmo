@@ -1,0 +1,111 @@
+var _user$project$Update$decodeResult = F2(
+	function (str, restaurants) {
+		var _p0 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Util_Restaurants$decoder, str);
+		if (_p0.ctor === 'Ok') {
+			return {ctor: '::', _0: _p0._0, _1: restaurants};
+		} else {
+			return restaurants;
+		}
+	});
+var _user$project$Update$decode = A2(
+	_elm_lang$core$List$foldr,
+	_user$project$Update$decodeResult,
+	{ctor: '[]'});
+var _user$project$Update$updateSearchBar = F2(
+	function (str, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{searchBarField: str, showMore: false});
+	});
+var _user$project$Update$clearFiltersAndRestaurants = function (model) {
+	return _elm_lang$core$Native_Utils.update(
+		model,
+		{
+			restaurants: {ctor: '[]'},
+			cuisineFilters: _elm_lang$core$Set$empty
+		});
+};
+var _user$project$Update$onEmptyString = function (_p1) {
+	return _user$project$Update$clearFiltersAndRestaurants(
+		A2(_user$project$Update$updateSearchBar, '', _p1));
+};
+var _user$project$Update$update = F2(
+	function (message, model) {
+		var _p2 = message;
+		switch (_p2.ctor) {
+			case 'SearchBarUpdate':
+				var _p3 = _p2._0;
+				return _elm_lang$core$Native_Utils.eq(_p3, '') ? A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_user$project$Update$onEmptyString(model),
+					{
+						ctor: '::',
+						_0: _user$project$Ports$search(_p3),
+						_1: {ctor: '[]'}
+					}) : A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					A2(_user$project$Update$updateSearchBar, _p3, model),
+					{
+						ctor: '::',
+						_0: _user$project$Ports$search(_p3),
+						_1: {ctor: '[]'}
+					});
+			case 'ToggleCuisineFilter':
+				var _p4 = _p2._0;
+				return A2(_elm_lang$core$Set$member, _p4, model.cuisineFilters) ? A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							cuisineFilters: A2(_elm_lang$core$Set$remove, _p4, model.cuisineFilters)
+						}),
+					{ctor: '[]'}) : A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							cuisineFilters: A2(_elm_lang$core$Set$insert, _p4, model.cuisineFilters)
+						}),
+					{ctor: '[]'});
+			case 'TogglePaymentFilter':
+				var _p5 = _p2._0;
+				return A2(_elm_lang$core$Set$member, _p5, model.paymentFilters) ? A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							paymentFilters: A2(_elm_lang$core$Set$remove, _p5, model.paymentFilters)
+						}),
+					{ctor: '[]'}) : A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							paymentFilters: A2(_elm_lang$core$Set$insert, _p5, model.paymentFilters)
+						}),
+					{ctor: '[]'});
+			case 'GetSearchResults':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							restaurants: _user$project$Update$decode(_p2._0)
+						}),
+					{ctor: '[]'});
+			case 'GetSearchTime':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{searchTime: _p2._0}),
+					{ctor: '[]'});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{showMore: true}),
+					{ctor: '[]'});
+		}
+	});

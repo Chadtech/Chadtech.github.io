@@ -1,0 +1,38 @@
+var _user$project$Components_Restaurant_Stars$emptyStar = A2(
+	_elm_lang$html$Html$img,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('listing-star'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src('assets/images/star-empty.png'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
+var _user$project$Components_Restaurant_Stars$star = A2(
+	_elm_lang$html$Html$img,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('listing-star'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$src('assets/images/star-plain.png'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
+var _user$project$Components_Restaurant_Stars$from = function (restaurant) {
+	var numberOfStars = function () {
+		var _p0 = _elm_lang$core$String$toFloat(restaurant.starsCount);
+		if (_p0.ctor === 'Ok') {
+			return _elm_lang$core$Basics$round(_p0._0);
+		} else {
+			return 0;
+		}
+	}();
+	return A2(
+		_elm_lang$core$List$append,
+		A2(_elm_lang$core$List$repeat, numberOfStars, _user$project$Components_Restaurant_Stars$star),
+		A2(_elm_lang$core$List$repeat, 5 - numberOfStars, _user$project$Components_Restaurant_Stars$emptyStar));
+};

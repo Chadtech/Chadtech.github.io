@@ -1,0 +1,115 @@
+var _user$project$Components_LeftBar_PaymentOptions$getPaymentOptions = function (_p0) {
+	var _p1 = _p0;
+	return _elm_lang$core$Set$toList(
+		_elm_lang$core$Set$fromList(
+			_elm_lang$core$List$concat(
+				A2(
+					_elm_lang$core$List$map,
+					function (_) {
+						return _.paymentOptions;
+					},
+					_p1.restaurants))));
+};
+var _user$project$Components_LeftBar_PaymentOptions$addIf = F3(
+	function (paymentOption, _p2, count) {
+		var _p3 = _p2;
+		return A2(_elm_lang$core$List$member, paymentOption, _p3.paymentOptions) ? (count + 1) : count;
+	});
+var _user$project$Components_LeftBar_PaymentOptions$countRestaurantsOf = F2(
+	function (paymentOption, restaurants) {
+		return A3(
+			_elm_lang$core$List$foldr,
+			_user$project$Components_LeftBar_PaymentOptions$addIf(paymentOption),
+			0,
+			restaurants);
+	});
+var _user$project$Components_LeftBar_PaymentOptions$trim = function (paymentOption) {
+	return (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$String$length(paymentOption),
+		16) > 0) ? A2(
+		_elm_lang$core$Basics_ops['++'],
+		A3(_elm_lang$core$String$slice, 0, 16, paymentOption),
+		'..') : paymentOption;
+};
+var _user$project$Components_LeftBar_PaymentOptions$title = A2(
+	_elm_lang$html$Html$p,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('left-bar-header'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Payment Options'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Components_LeftBar_PaymentOptions$selectedClass = function (selected) {
+	return selected ? _elm_lang$html$Html_Attributes$class('left-bar-option selected') : _elm_lang$html$Html_Attributes$class('left-bar-option');
+};
+var _user$project$Components_LeftBar_PaymentOptions$option = F2(
+	function (_p4, paymentOption) {
+		var _p5 = _p4;
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Components_LeftBar_PaymentOptions$selectedClass(
+					A2(_elm_lang$core$Set$member, paymentOption, _p5.paymentFilters)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$Types$TogglePaymentFilter(paymentOption)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$Components_LeftBar_PaymentOptions$trim(paymentOption)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$p,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('option-count'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_elm_lang$core$Basics$toString(
+									A2(_user$project$Components_LeftBar_PaymentOptions$countRestaurantsOf, paymentOption, _p5.restaurants))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Components_LeftBar_PaymentOptions$toOptions = function (model) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Components_LeftBar_PaymentOptions$option(model),
+		_user$project$Components_LeftBar_PaymentOptions$getPaymentOptions(model));
+};
+var _user$project$Components_LeftBar_PaymentOptions$render = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('left-bar-section'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_LeftBar_PaymentOptions$title,
+			_1: _user$project$Components_LeftBar_PaymentOptions$toOptions(model)
+		});
+};

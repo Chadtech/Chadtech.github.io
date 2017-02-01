@@ -1,0 +1,268 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  padding: 0px;
+  margin: 0px;
+  background-image: url("../images/background.png");
+  background-repeat: repeat;
+}
+
+p { 
+  padding: 0;
+  margin: 0;
+}
+
+.main {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+  width: calc(100% - 200px);
+  height: calc(100vh - 100px);
+  overflow: hidden;
+
+}
+
+$blue: #1c688e;
+$lightGrayBorder: #e6e6e6;
+$darkGray: #9a9a9a;
+$darkerGray: #333333;
+
+
+$search-bar-height: 84px;
+$left-bar-height: calc(100vh - 84px);
+$left-bar-width: 206px;
+
+
+.search-bar-container {
+  height: $search-bar-height;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  padding: 0;
+  
+  background: $blue;
+}
+
+
+.search-bar {
+  margin-top: 20px;
+  margin-left: 25px;
+  width: calc(100% - 65px);
+  height: 40px;
+  border: 1px solid $lightGrayBorder;
+  border-radius: 4px;
+  padding-left: 1em;
+  font-size: 15px;
+  outline: none;
+}
+
+
+.left-bar {
+  width: $left-bar-width;
+  height: $left-bar-height;
+  position: absolute;
+  left: 0px;
+  top: 84px;
+  background: white;
+  border-right: 2px solid $lightGrayBorder;
+  padding-top: 32px;
+  padding-left: 20px;
+  padding-bottom: 25px;
+  overflow: scroll;
+}
+
+
+.left-bar-header {
+  font-size: 1.5em;
+  color: $darkerGray;
+  margin-bottom: 0.75em;
+}
+
+
+.left-bar-section {
+  padding-bottom: 25px;
+}
+
+
+@mixin left-bar-row() {
+  border-radius: 4px;
+  padding: 4px;
+  padding-left: 15px; 
+}
+$selected-blue: #2897c5;
+.left-bar-option {
+  @include left-bar-row();
+  cursor: pointer;
+  p {
+    font-size: 1.25em;
+    display: inline;
+  }
+  &.selected {
+    background: $selected-blue;
+    p {
+      color: white;
+    }
+  }
+  &:hover {
+    background: $selected-blue;
+    p {
+      color: white;
+    }
+  }
+}
+
+
+.star-row {
+  @include left-bar-row();
+}
+
+
+.star {
+  height: 20px;
+  display: inline; 
+}
+
+
+.option-count {
+  color: $darkGray;
+  margin-right: 1em;
+  float: right;
+}
+
+
+.restaurants-listings {
+  position: relative;
+  float: left;
+  margin-left: $left-bar-width + 22px;
+  margin-top: $search-bar-height;
+  width: calc(100% - 228px);
+  height: calc(100vh - 168px);
+  background: white;
+  text-align: center;
+  padding-top: 32px;
+  padding-left: 32px;
+  margin-bottom: 128px;
+  overflow: scroll;
+}
+
+
+.listing {
+  height: 80px;
+  margin-bottom: 25px;
+}
+
+
+.listing-image {
+  border-radius: 4px;
+  width: 80px;
+  height: 80px;
+  float: left;
+}
+
+
+.listing-body {
+  float: left;
+  margin-left: 20px;
+  height: 80px;
+}
+
+
+.listing-name {
+  font-size: 1.5em;
+  float: left;
+}
+
+
+.listing-ratings {
+  margin-top: 2em;
+  height: auto;
+}
+
+
+.listing-rating {
+  font-size: 20px;
+  color: #ffab66;
+  float: left;
+  margin-right: 8px;
+}
+
+
+.listing-star {
+  height: 20px;
+  float: left;
+}
+
+
+.listing-reviews-count {
+  float: left;
+  font-size: 1.25em;
+  color: $darkGray;
+  margin-left: 8px;
+}
+
+
+.listing-info {
+  float: left;
+  font-size: 1.25em;
+  color: $darkGray;
+  margin-top: 4px;
+}
+
+
+.listings-count-container  {
+  height: 25px;
+  margin-bottom: 32px;
+}
+
+.listings-count {
+  font-size: 1.5em;
+  font-weight: bold;
+  float: left;
+  color: $darkerGray;
+  vertical-align: bottom; 
+}
+
+
+.listings-time {
+  font-size: 1.25em;
+  float: left;
+  color: $darkerGray;
+  vertical-align: bottom;
+  margin-top: 2px;
+  margin-left: 0.25em;
+}
+
+
+.show-more-button {
+  border-radius: 4px;
+  border: 1px solid $lightGrayBorder;
+  background: white;
+  color: $darkGray;
+  font-size: 1.5em;
+  padding-left: 55px;
+  padding-right: 55px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+
+.horizontal-gray-bar {
+  height: 20px;
+  float: left;
+  margin-left: 25px;
+  width: calc(100% - 400px);
+  border-bottom: 2px solid $lightGrayBorder;
+}
+
+
+.left-bar-footer {
+  height: 128px;
+}
+
+.main-area-footer {
+  height: 128px;
+}
+

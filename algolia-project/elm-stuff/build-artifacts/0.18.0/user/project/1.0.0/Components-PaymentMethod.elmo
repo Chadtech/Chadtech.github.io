@@ -1,0 +1,24 @@
+var _user$project$Components_PaymentMethod$title = A2(
+	_elm_lang$html$Html$p,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('left-bar-header'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Payment Options'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Components_PaymentMethod$render = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('left-bar-section'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _user$project$Components_PaymentMethod$title,
+		_1: {ctor: '[]'}
+	});

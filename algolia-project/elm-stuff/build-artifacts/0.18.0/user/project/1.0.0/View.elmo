@@ -1,0 +1,88 @@
+var _user$project$View$searchBar = function (searchBarField) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('search-bar-container'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('search-bar'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Search for Restaurants by Name, Cuisine, Location'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Types$SearchBarUpdate),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$value(searchBarField),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$leftBar = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('left-bar'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Components_LeftBar_Cuisine$render(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Components_LeftBar_Rating$render,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Components_LeftBar_PaymentOptions$render(model),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('left-bar-footer'),
+								_1: {ctor: '[]'}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('main'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$View$searchBar(model.searchBarField),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$leftBar(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Components_ListingArea$render(model),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
