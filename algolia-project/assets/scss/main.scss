@@ -30,7 +30,7 @@ $darkerGray: #333333;
 
 $search-bar-height: 84px;
 $left-bar-height: calc(100vh - 84px);
-$left-bar-width: 206px;
+$left-bar-width: 226px;
 
 
 .search-bar-container {
@@ -69,6 +69,7 @@ $left-bar-width: 206px;
   border-right: 2px solid $lightGrayBorder;
   padding-top: 32px;
   padding-left: 20px;
+  padding-right: 20px;
   padding-bottom: 25px;
   overflow: scroll;
 }
@@ -135,7 +136,7 @@ $selected-blue: #2897c5;
 .restaurants-listings {
   position: relative;
   float: left;
-  margin-left: $left-bar-width + 22px;
+  margin-left: $left-bar-width + 42px;
   margin-top: $search-bar-height;
   width: calc(100% - 228px);
   height: calc(100vh - 168px);
